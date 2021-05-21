@@ -1,0 +1,9 @@
+.mv-main-app {
+    --bkgc: red;
+}
+
+.test {
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bkgc);
+}
