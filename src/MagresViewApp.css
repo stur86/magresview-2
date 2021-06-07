@@ -1,9 +1,11 @@
-.mv-main-app {
-    --bkgc: red;
+.theme-dark {
+  --bkg-color-1: #333333;
+  --bkg-color-2: #222222;
+  --bkg-color-3: #111111;
 }
 
 .test {
-    width: 100vw;
-    height: 100vh;
-    background-color: var(--bkgc);
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bkg-color-2);
 }
