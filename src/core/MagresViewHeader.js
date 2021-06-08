@@ -12,18 +12,16 @@ function ThemeSwitcher() {
 
     var mvc = useContext(MagresViewContext);
 
-    const icons = {
-        dark: faMoon,
-        light: faSun
-    };
-
     const other = {
         dark: 'light',
         light: 'dark'
     };
 
-    return (<div id='mv-themeswitch'>
-        <FontAwesomeIcon icon={icons[mvc.theme]} onClick={() => { mvc.setProperty('theme', other[mvc.theme]); }}/>
+    return (<div id='mv-themeswitch' onClick={() => { mvc.setProperty('theme', other[mvc.theme]); }}>
+        <div id='mv-themeicons' className={mvc.theme}>
+            <FontAwesomeIcon id='mv-themedark' icon={faMoon}/>
+            <FontAwesomeIcon id='mv-themelight' icon={faSun}/>
+        </div>
     </div>);
 }
 
