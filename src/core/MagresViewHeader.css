@@ -1,0 +1,70 @@
+.mv-header {
+  background-color: var(--bkg-color-3);
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 5em;
+  border-bottom: 1px solid var(--mid-color-1);
+}
+
+.mv-header-left {
+  float: left;
+  height: 100%;
+  padding-left: 1em;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.mv-header-right {
+  float: right;
+  height: 100%;
+  padding-right: 1em;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+#mv-header-logo {
+  height: 3.5em;
+  padding: 0.3em;
+  animation: logo-spin 1s ease 0s 1;
+  margin-right: 0.5em;
+}
+
+#mv-header-title {
+  font-weight: bold;
+  font-size: 2.5em;
+  margin: 0;
+}
+
+#mv-themeswitch {
+  font-size: 1.5em;
+  padding: 2px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8em;
+  height: 1.8em;
+  border-radius: 1.8em;
+  background-color: var(--bkg-color-2);
+  transition: background-color 0.2s;
+}
+
+#mv-themeswitch:hover {
+  background-color: var(--bkg-color-1);
+}
+
+@keyframes logo-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

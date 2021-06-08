@@ -1,0 +1,9 @@
+.mv-main-app {
+  color: var(--fwd-color-2);
+}
+
+.mv-background {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bkg-color-2);
+}

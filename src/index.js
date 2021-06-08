@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-import MagresViewApp from './MagresViewApp';
+import MagresViewApp from './core/MagresViewApp';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
