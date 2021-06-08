@@ -1,0 +1,23 @@
+.mv-main-app {
+  /* Defines variables that will be used app-wide */
+  --ctrl-border-width: 0;
+  --ctrl-border-radius: 5px;
+  --ctrl-padding: 8px;
+}
+
+/* Basic MVControl class */
+.mv-control {
+  font-size: 0.9em;
+
+  border-width: var(--ctrl-border-width);
+  border-radius: var(--ctrl-border-radius);
+  border-color: var(--fwd-color-1);
+
+  padding: var(--ctrl-padding);
+
+  font-family: "Open Sans", sans-serif;
+}
+
+.mv-control:focus {
+  outline: none;
+}

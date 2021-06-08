@@ -3,8 +3,14 @@
   position: fixed;
   top: 0;
   width: 100vw;
-  height: 5em;
+  height: var(--header-height);
   border-bottom: 1px solid var(--mid-color-1);
+  z-index: 999;
+
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
 }
 
 .mv-header-left {
@@ -30,28 +36,30 @@
 }
 
 #mv-header-logo {
-  height: 3.5em;
+  height: calc(var(--header-height) * 0.7);
   padding: 0.3em;
   animation: logo-spin 1s ease 0s 1;
   margin-right: 0.5em;
 }
 
 #mv-header-title {
-  font-weight: bold;
-  font-size: 2.5em;
+  font-family: Lato, sans-serif;
+  font-weight: var(--font-heavy);
+  font-size: calc(var(--header-height) * 0.5);
   margin: 0;
 }
 
 #mv-themeswitch {
-  font-size: 1.5em;
-  padding: 2px;
+  --switch-size: calc(var(--header-height) * 0.35);
 
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1.8em;
-  height: 1.8em;
-  border-radius: 1.8em;
+  font-size: calc(var(--header-height) * 0.3);
+  padding: 2px;
+  width: var(--switch-size);
+  height: var(--switch-size);
+  border-radius: var(--switch-size);
   background-color: var(--bkg-color-2);
   transition: background-color 0.2s;
 }

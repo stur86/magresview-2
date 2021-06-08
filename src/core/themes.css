@@ -21,13 +21,13 @@
 }
 
 .theme-light {
-  --bkg-color-1: #cccccc;
-  --bkg-color-2: #ededed;
-  --bkg-color-3: #fafafa;
+  --bkg-color-1: #a9a9a9;
+  --bkg-color-2: #bbbbbb;
+  --bkg-color-3: #dddddd;
 
-  --mid-color-1: #aaaaaa;
-  --mid-color-2: #9b9b9b;
-  --mid-color-3: #777777;
+  --mid-color-1: #777777;
+  --mid-color-2: #666666;
+  --mid-color-3: #555555;
 
   --fwd-color-1: #333333;
   --fwd-color-2: #222222;

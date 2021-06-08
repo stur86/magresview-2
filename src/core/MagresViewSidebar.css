@@ -1,0 +1,17 @@
+.mv-sidebar {
+  position: fixed;
+
+  top: 0;
+  height: 100vh;
+  width: var(--sidebar-width);
+  background: var(--bkg-color-3);
+  padding-top: calc(var(--header-height) + 20px);
+
+  /* Animate sliding in when opening */
+  right: calc(var(--sidebar-width) * (-1));
+  transition: right 0.2s;
+}
+
+.mv-sidebar.open {
+  right: 0;
+}

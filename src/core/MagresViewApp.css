@@ -1,9 +1,13 @@
 .mv-main-app {
   color: var(--fwd-color-2);
+
+  /* Shared variables */
+  --header-height: 5em;
+  --sidebar-width: 25em;
 }
 
 .mv-background {
   width: 100vw;
   height: 100vh;
-  background-color: var(--bkg-color-2);
+  background-color: #000000;
 }

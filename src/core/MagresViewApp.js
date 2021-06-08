@@ -1,9 +1,11 @@
 import './themes.css';
+import '../controls/controls.css';
 import './MagresViewApp.css';
 import { useState } from 'react';
 import { chainClasses } from '../utils';
 import MagresViewContext from './MagresViewContext';
 import MagresViewHeader from './MagresViewHeader';
+import MagresViewSidebar from './MagresViewSidebar';
 
 const defaultState = {
     theme: 'dark',
@@ -28,6 +30,7 @@ function MagresViewApp() {
         <MagresViewContext.Provider value={contextValue}>
             <div className={chainClasses('mv-main-app', 'theme-' + state.theme)}>
                 <MagresViewHeader />
+                <MagresViewSidebar show={state.panel === 'test'}></MagresViewSidebar>
                 <div className='mv-background'>
                     
                 </div>
