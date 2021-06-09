@@ -1,0 +1,38 @@
+.mv-cselect {
+  --cselect-opt-height: 40px;
+}
+
+.mv-cselect-main {
+  padding: 0;
+  display: grid;
+  grid-template-columns: auto 40px;
+  align-items: center;
+  background-color: var(--fwd-color-3);
+}
+
+.mv-cselect-main-caret {
+  color: var(--bkg-color-3);
+  padding-left: 15px;
+}
+
+.mv-cselect-ddown {
+  padding: 0;
+  background-color: var(--fwd-color-3);
+}
+
+.mv-cselect-opt {
+  height: var(--cselect-opt-height);
+  font-size: 1.1em;
+  box-sizing: border-box;
+  min-width: 150px;
+  color: var(--bkg-color-3);
+  background-color: var(--fwd-color-3);
+  transition: background-color 0.2s;
+
+  display: grid;
+  align-items: center;
+}
+
+.mv-cselect-opt:hover {
+  background-color: var(--fwd-color-2);
+}

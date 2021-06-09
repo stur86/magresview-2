@@ -7,6 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from 'react';
 import  MagresViewContext from './MagresViewContext';
 import MVButton from '../controls/MVButton';
+import MVCustomSelect from '../controls/MVCustomSelect';
+import { MVCustomSelectOption } from '../controls/MVCustomSelect';
 
 function ThemeSwitcher() {
 
@@ -36,7 +38,11 @@ function MagresViewHeader() {
             </h3>
         </div>
         <div className='mv-header-right'>
-            <MVButton onClick={() => {mvc.setProperty('panel', mvc.panel == 'test'? null : 'test')}}>Switch panel</MVButton>
+            {/* <MVButton onClick={() => {mvc.setProperty('panel', mvc.panel == 'test'? null : 'test')}}>Switch panel</MVButton> */}
+            <MVCustomSelect>
+                <MVCustomSelectOption>Thing</MVCustomSelectOption>
+                <MVCustomSelectOption>Thing 2</MVCustomSelectOption>
+            </MVCustomSelect>
             <span style={{marginRight: '50px'}}></span>
             <ThemeSwitcher />
             {/* <button onClick={() => {mvc.setProperty('panel', mvc.panel == 'test'? null : 'test')}}>Switch panel</button>
