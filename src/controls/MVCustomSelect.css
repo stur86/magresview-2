@@ -17,6 +17,7 @@
 
 .mv-cselect-ddown {
   padding: 0;
+  padding-right: 40px;
   background-color: var(--fwd-color-3);
 }
 
@@ -31,6 +32,7 @@
 
   display: grid;
   align-items: center;
+  grid-template-columns: 30px auto;
 }
 
 .mv-cselect-opt:hover {

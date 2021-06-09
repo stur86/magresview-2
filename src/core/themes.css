@@ -18,6 +18,14 @@
   --efg-color-1: #2299ff;
   --efg-color-2: #0080ff;
   --efg-color-3: #0060df;
+
+  --dip-color-1: #22ff99;
+  --dip-color-2: #00ff80;
+  --dip-color-3: #00df60;
+
+  --jcoup-color-1: #ff2299;
+  --jcoup-color-2: #ff0080;
+  --jcoup-color-3: #df0060;
 }
 
 .theme-light {
@@ -33,11 +41,19 @@
   --fwd-color-2: #222222;
   --fwd-color-3: #111111;
 
-  --ms-color-1: #ff9922;
+  --ms-color-3: #ff9922;
   --ms-color-2: #ff8000;
-  --ms-color-3: #df6000;
+  --ms-color-1: #df6000;
 
-  --efg-color-1: #2299ff;
+  --efg-color-3: #2299ff;
   --efg-color-2: #0080ff;
-  --efg-color-3: #0060df;
+  --efg-color-1: #0060df;
+
+  --dip-color-3: #22ff99;
+  --dip-color-2: #00ff80;
+  --dip-color-1: #00df60;
+
+  --jcoup-color-3: #ff2299;
+  --jcoup-color-2: #ff0080;
+  --jcoup-color-1: #df0060;
 }

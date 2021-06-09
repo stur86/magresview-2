@@ -30,7 +30,7 @@ function MagresViewApp() {
         <MagresViewContext.Provider value={contextValue}>
             <div className={chainClasses('mv-main-app', 'theme-' + state.theme)}>
                 <MagresViewHeader />
-                <MagresViewSidebar show={state.panel === 'test'}></MagresViewSidebar>
+                <MagresViewSidebar show={state.panel === 'ms'}></MagresViewSidebar>
                 <div className='mv-background'>
                     
                 </div>

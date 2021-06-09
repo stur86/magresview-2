@@ -1,12 +1,11 @@
 import './MagresViewHeader.css';
-import logo from '../logo.svg';
+import logo from '../icons/logo.svg';
 import { faMoon } from "@fortawesome/free-solid-svg-icons";
 import { faSun } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { useContext } from 'react';
 import  MagresViewContext from './MagresViewContext';
-import MVButton from '../controls/MVButton';
 import MVCustomSelect from '../controls/MVCustomSelect';
 import { MVCustomSelectOption } from '../controls/MVCustomSelect';
 
@@ -38,15 +37,14 @@ function MagresViewHeader() {
             </h3>
         </div>
         <div className='mv-header-right'>
-            {/* <MVButton onClick={() => {mvc.setProperty('panel', mvc.panel == 'test'? null : 'test')}}>Switch panel</MVButton> */}
-            <MVCustomSelect>
-                <MVCustomSelectOption>Thing</MVCustomSelectOption>
-                <MVCustomSelectOption>Thing 2</MVCustomSelectOption>
+            <MVCustomSelect onSelect={(v) => {mvc.setProperty('panel', v)}}>
+                <MVCustomSelectOption value='ms' icon='ms' iconColor='var(--ms-color-3)'>Magnetic Shielding</MVCustomSelectOption>
+                <MVCustomSelectOption value='efg' icon='efg' iconColor='var(--efg-color-3)'>Electric Field Gradient</MVCustomSelectOption>
+                <MVCustomSelectOption value='dip' icon='dip' iconColor='var(--dip-color-3)'>Dipolar Couplings</MVCustomSelectOption>
+                <MVCustomSelectOption value='jcoup' icon='jcoup' iconColor='var(--jcoup-color-3)'>J Couplings</MVCustomSelectOption>
             </MVCustomSelect>
             <span style={{marginRight: '50px'}}></span>
             <ThemeSwitcher />
-            {/* <button onClick={() => {mvc.setProperty('panel', mvc.panel == 'test'? null : 'test')}}>Switch panel</button>
-             */}
         </div>
     </header>);
 }
