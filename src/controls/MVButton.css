@@ -17,3 +17,7 @@
 .mv-button:disabled {
   color: var(--mid-color-2);
 }
+
+.mv-button:disabled:hover {
+  background-color: var(--fwd-color-3);
+}

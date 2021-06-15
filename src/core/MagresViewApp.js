@@ -34,7 +34,7 @@ function MagresViewApp() {
                 <MagresViewHeader />
                 <MagresViewSidebar show={state.panel === 'ms'}>
                     <p>
-                        <MVButton>Enabled button</MVButton>
+                        <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
                     </p>
                     <MVButton disabled>Disabled button</MVButton>
                 </MagresViewSidebar>

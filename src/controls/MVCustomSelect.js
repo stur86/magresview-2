@@ -1,18 +1,17 @@
 import './MVCustomSelect.css';
 import _ from 'lodash';
 import { useState, cloneElement, useEffect } from 'react';
-import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import MVIcon from '../icons/MVIcon';
+import { FaCaretDown } from 'react-icons/fa';
+
+import { chainClasses } from '../utils';
 
 function MVCustomSelectOption(props) {
 
     const onClick = props.onClick || (() => {});
-    const ic = props.iconColor || '#ffffff';
 
     return (
         <div className='mv-control mv-cselect-opt' onClick={onClick}>
-            {props.icon? <MVIcon icon={props.icon} color={ic}/> : <span></span>}
+            {props.icon? props.icon : <span></span>}
             {props.children}
         </div>
     );
@@ -49,15 +48,16 @@ function MVCustomSelect(props) {
     // On creation, select first element
     useEffect(() => {
         onSelect(values[state.index]);
-    });
+    }, []);
 
     return (
-        <div style={tstyle} className='mv-control mv-cselect' onMouseLeave={() => { setState({...state, showdrop: false})}}>
+        <div style={tstyle} className={chainClasses('mv-control', 'mv-cselect', state.showdrop? null : 'mv-cselect-closed')} 
+            onMouseLeave={() => { setState({...state, showdrop: false})}}>
             <div className='mv-control mv-cselect-main' onClick={() => { setState({...state, showdrop: true})}}>
                 {options[state.index]}
-                <span className='mv-cselect-main-caret'><FontAwesomeIcon icon={faCaretDown}/></span>
+                <span className='mv-cselect-main-caret'><FaCaretDown /></span>
             </div>
-            <div className='mv-control mv-cselect-ddown' style={{visibility: (state.showdrop? 'visible' : 'hidden')}}>
+            <div className='mv-control mv-cselect-ddown'>
                 {options.map((o, i) => {
                     return cloneElement(o, {key: i, onClick: () => { setIndex(i)}});
                 })}

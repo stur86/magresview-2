@@ -2,12 +2,17 @@
   --cselect-opt-height: 40px;
 }
 
+.mv-cselect-closed {
+  pointer-events: none;
+}
+
 .mv-cselect-main {
   padding: 0;
   display: grid;
   grid-template-columns: auto 40px;
   align-items: center;
   background-color: var(--fwd-color-3);
+  pointer-events: all;
 }
 
 .mv-cselect-main-caret {
@@ -19,6 +24,11 @@
   padding: 0;
   padding-right: 40px;
   background-color: var(--fwd-color-3);
+}
+
+.mv-cselect-closed .mv-cselect-ddown {
+  visibility: hidden;
+  z-index: -9999;
 }
 
 .mv-cselect-opt {

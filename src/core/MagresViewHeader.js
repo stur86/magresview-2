@@ -1,13 +1,12 @@
 import './MagresViewHeader.css';
 import logo from '../icons/logo.svg';
-import { faMoon } from "@fortawesome/free-solid-svg-icons";
-import { faSun } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FaSun, FaMoon } from 'react-icons/fa';
 
 import { useContext } from 'react';
 import  MagresViewContext from './MagresViewContext';
 import MVCustomSelect from '../controls/MVCustomSelect';
 import { MVCustomSelectOption } from '../controls/MVCustomSelect';
+import MVIcon from '../icons/MVIcon';
 
 function ThemeSwitcher() {
 
@@ -20,8 +19,8 @@ function ThemeSwitcher() {
 
     return (<div id='mv-themeswitch' onClick={() => { mvc.setProperty('theme', other[mvc.theme]); }}>
         <div id='mv-themeicons' className={mvc.theme}>
-            <FontAwesomeIcon id='mv-themedark' icon={faMoon}/>
-            <FontAwesomeIcon id='mv-themelight' icon={faSun}/>
+            <FaMoon id='mv-themedark'/>
+            <FaSun id='mv-themelight'/>
         </div>
     </div>);
 }
@@ -38,10 +37,10 @@ function MagresViewHeader() {
         </div>
         <div className='mv-header-right'>
             <MVCustomSelect onSelect={(v) => {mvc.setProperty('panel', v)}}>
-                <MVCustomSelectOption value='ms' icon='ms' iconColor='var(--ms-color-3)'>Magnetic Shielding</MVCustomSelectOption>
-                <MVCustomSelectOption value='efg' icon='efg' iconColor='var(--efg-color-3)'>Electric Field Gradient</MVCustomSelectOption>
-                <MVCustomSelectOption value='dip' icon='dip' iconColor='var(--dip-color-3)'>Dipolar Couplings</MVCustomSelectOption>
-                <MVCustomSelectOption value='jcoup' icon='jcoup' iconColor='var(--jcoup-color-3)'>J Couplings</MVCustomSelectOption>
+                <MVCustomSelectOption value='ms' icon={<MVIcon icon='ms' color='var(--ms-color-3)'/>}>Magnetic Shielding</MVCustomSelectOption>
+                <MVCustomSelectOption value='efg' icon={<MVIcon icon='efg' color='var(--efg-color-3)'/>}>Electric Field Gradient</MVCustomSelectOption>
+                <MVCustomSelectOption value='dip' icon={<MVIcon icon='dip' color='var(--dip-color-3)'/>}>Dipolar Couplings</MVCustomSelectOption>
+                <MVCustomSelectOption value='jcoup' icon={<MVIcon icon='jcoup' color='var(--jcoup-color-3)'/>}>J Couplings</MVCustomSelectOption>
             </MVCustomSelect>
             <span style={{marginRight: '50px'}}></span>
             <ThemeSwitcher />
