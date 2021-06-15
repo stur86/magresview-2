@@ -8,6 +8,7 @@ import MagresViewHeader from './MagresViewHeader';
 import MagresViewSidebar from './MagresViewSidebar';
 
 import MVButton from '../controls/MVButton';
+import MVCheckBox from '../controls/MVCheckBox';
 
 const defaultState = {
     theme: 'dark',
@@ -32,11 +33,18 @@ function MagresViewApp() {
         <MagresViewContext.Provider value={contextValue}>
             <div className={chainClasses('mv-main-app', 'theme-' + state.theme)}>
                 <MagresViewHeader />
-                <MagresViewSidebar show={state.panel === 'ms'}>
-                    <p>
+                <MagresViewSidebar show={state.panel === 'load'}>
+                    Thing
+                </MagresViewSidebar>
+                <MagresViewSidebar title='Magnetic Shielding' show={state.panel === 'ms'}>
+                    <div className='mv-flex-vgrid'>
                         <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
-                    </p>
-                    <MVButton disabled>Disabled button</MVButton>
+                        <div className='mv-flex-hgrid'>
+                            <MVButton disabled>Disabled button 1</MVButton>
+                            <MVButton disabled>Disabled button 2</MVButton>
+                        </div>
+                        <MVCheckBox>Click me</MVCheckBox>
+                    </div>
                 </MagresViewSidebar>
                 <div className='mv-background'>
                 </div>

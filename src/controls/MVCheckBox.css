@@ -1,0 +1,31 @@
+.mv-checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  --check-color: var(--ms-color-2);
+}
+
+.mv-checkbox input {
+  opacity: 0;
+  width: 0px;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.mv-checkbox label {
+  width: 6px;
+  height: 6px;
+
+  margin-right: 8px;
+  padding: 5px;
+  border-radius: 5px;
+
+  border: 3px solid var(--fwd-color-2);
+  background-color: var(--fwd-color-2);
+  transition: background-color 0.2s;
+}
+
+.mv-checkbox :checked + label {
+  background-color: var(--check-color);
+}

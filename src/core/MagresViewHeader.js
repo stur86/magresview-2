@@ -1,6 +1,6 @@
 import './MagresViewHeader.css';
 import logo from '../icons/logo.svg';
-import { FaSun, FaMoon } from 'react-icons/fa';
+import { FaSun, FaMoon, FaRegFolderOpen } from 'react-icons/fa';
 
 import { useContext } from 'react';
 import  MagresViewContext from './MagresViewContext';
@@ -37,12 +37,13 @@ function MagresViewHeader() {
         </div>
         <div className='mv-header-right'>
             <MVCustomSelect onSelect={(v) => {mvc.setProperty('panel', v)}}>
+                <MVCustomSelectOption value='load' icon={<FaRegFolderOpen />}>Load file</MVCustomSelectOption>
                 <MVCustomSelectOption value='ms' icon={<MVIcon icon='ms' color='var(--ms-color-3)'/>}>Magnetic Shielding</MVCustomSelectOption>
                 <MVCustomSelectOption value='efg' icon={<MVIcon icon='efg' color='var(--efg-color-3)'/>}>Electric Field Gradient</MVCustomSelectOption>
                 <MVCustomSelectOption value='dip' icon={<MVIcon icon='dip' color='var(--dip-color-3)'/>}>Dipolar Couplings</MVCustomSelectOption>
                 <MVCustomSelectOption value='jcoup' icon={<MVIcon icon='jcoup' color='var(--jcoup-color-3)'/>}>J Couplings</MVCustomSelectOption>
-            </MVCustomSelect>
-            <span style={{marginRight: '50px'}}></span>
+            </MVCustomSelect>            
+            <span className='mv-hor-sep-3'></span>
             <ThemeSwitcher />
         </div>
     </header>);
