@@ -49,7 +49,7 @@ function MVCustomSelect(props) {
     // On creation, select first element
     useEffect(() => {
         onSelect(values[state.index]);
-    }, []);
+    });
 
     return (
         <div style={tstyle} className='mv-control mv-cselect' onMouseLeave={() => { setState({...state, showdrop: false})}}>

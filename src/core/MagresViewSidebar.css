@@ -6,6 +6,7 @@
   width: var(--sidebar-width);
   background: var(--bkg-color-3);
   padding-top: calc(var(--header-height) + 20px);
+  padding-left: calc(var(--sidebar-width) * (0.05));
 
   /* Animate sliding in when opening */
   right: calc(var(--sidebar-width) * (-1));

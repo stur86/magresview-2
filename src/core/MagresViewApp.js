@@ -7,6 +7,8 @@ import MagresViewContext from './MagresViewContext';
 import MagresViewHeader from './MagresViewHeader';
 import MagresViewSidebar from './MagresViewSidebar';
 
+import MVButton from '../controls/MVButton';
+
 const defaultState = {
     theme: 'dark',
     panel: null
@@ -30,9 +32,13 @@ function MagresViewApp() {
         <MagresViewContext.Provider value={contextValue}>
             <div className={chainClasses('mv-main-app', 'theme-' + state.theme)}>
                 <MagresViewHeader />
-                <MagresViewSidebar show={state.panel === 'ms'}></MagresViewSidebar>
+                <MagresViewSidebar show={state.panel === 'ms'}>
+                    <p>
+                        <MVButton>Enabled button</MVButton>
+                    </p>
+                    <MVButton disabled>Disabled button</MVButton>
+                </MagresViewSidebar>
                 <div className='mv-background'>
-                    
                 </div>
             </div>
         </MagresViewContext.Provider>
