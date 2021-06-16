@@ -10,6 +10,7 @@ import MagresViewSidebar from './MagresViewSidebar';
 import MVButton from '../controls/MVButton';
 import MVCheckBox from '../controls/MVCheckBox';
 import MVRadioButton, { MVRadioGroup } from '../controls/MVRadioButton';
+import MVText from '../controls/MVText';
 
 const defaultState = {
     theme: 'dark',
@@ -49,6 +50,7 @@ function MagresViewApp() {
                             <MVRadioButton id='t1' value='The thing'>Thing</MVRadioButton>
                             <MVRadioButton id='t2' value='The other thing'>Other thing</MVRadioButton>
                         </MVRadioGroup>
+                        <MVText filter='[a-zA-Z]*' onSubmit={(v) => {console.log(v);}}>Insert a word here</MVText>
                     </div>
                 </MagresViewSidebar>
                 <div className='mv-background'>

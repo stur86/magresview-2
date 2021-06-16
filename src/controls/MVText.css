@@ -1,0 +1,18 @@
+.mv-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.mv-textlabel {
+  margin-bottom: 0.5rem;
+}
+
+.mv-textfield {
+  --outline-color: var(--ms-color-2);
+  box-sizing: border-box;
+  border: 2px solid rgba(0, 0, 0, 0);
+}
+
+.mv-textfield.mv-submit-wait {
+  border: 2px solid var(--outline-color);
+}
