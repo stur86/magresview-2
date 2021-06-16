@@ -9,6 +9,7 @@
   padding-left: calc(var(--sidebar-width) * (0.05));
   border-left: 1px solid var(--mid-color-1);
   box-sizing: border-box;
+  overflow-y: auto;
 
   /* Animate sliding in when opening */
   right: calc(var(--sidebar-width) * (-1));
@@ -25,4 +26,14 @@
   font-size: 1.2rem;
   padding-bottom: 0.3rem;
   border-bottom: 1px solid var(--mid-color-1);
+}
+
+.mv-sidebar::-webkit-scrollbar {
+  width: 15px;
+  margin-top: var(--header-height);
+}
+
+.mv-sidebar::-webkit-scrollbar-track-piece:start {
+  background: transparent;
+  margin-top: var(--header-height);
 }

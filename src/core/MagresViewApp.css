@@ -11,3 +11,26 @@
   height: 100vh;
   background-color: #000000;
 }
+
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--bkg-color-1);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border: 3px var(--bkg-color-1) solid;
+  background-clip: padding-box;
+  background: var(--fwd-color-1);
+  border-radius: 9999px;
+  width: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fwd-color-3);
+}

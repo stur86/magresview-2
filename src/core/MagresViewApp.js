@@ -51,6 +51,25 @@ function MagresViewApp() {
                             <MVRadioButton id='t2' value='The other thing'>Other thing</MVRadioButton>
                         </MVRadioGroup>
                         <MVText filter='[a-zA-Z]*' onSubmit={(v) => {console.log(v);}}>Insert a word here</MVText>
+                        <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
+                        <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
+                        <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
+                        <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
+                        <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
+                        <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
+                        <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
+                        <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
+                        <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
+                        <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
+                        <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
+                        <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
+                        <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
+                        <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
+                        <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
+                        <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
+                        <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
+                        <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
+                        <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
                     </div>
                 </MagresViewSidebar>
                 <div className='mv-background'>
