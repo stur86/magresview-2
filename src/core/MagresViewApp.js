@@ -39,9 +39,9 @@ function MagresViewApp() {
                     Thing
                 </MagresViewSidebar>
                 <MagresViewSidebar title='Magnetic Shielding' show={state.panel === 'ms'}>
-                    <div className='mv-flex-vgrid'>
+                    <div className='mv-flex-vgrid-3'>
                         <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
-                        <div className='mv-flex-hgrid'>
+                        <div className='mv-flex-hgrid-1'>
                             <MVButton disabled>Disabled button 1</MVButton>
                             <MVButton disabled>Disabled button 2</MVButton>
                         </div>

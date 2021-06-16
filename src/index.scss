@@ -1,0 +1,49 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Open+Sans:wght@300;400;700&display=swap");
+
+body {
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Font weights */
+  --font-light: 300;
+  --font-regular: 400;
+  --font-bold: 700;
+  --font-heavy: 900;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+/* Some utility classes */
+@for $i from 1 through 5 {
+  .mv-hor-sep-#{$i} {
+    margin-right: ($i * 1rem);
+  }
+  .mv-vert-sep-#{$i} {
+    margin-bottom: ($i * 1rem);
+  }
+
+  .mv-flex-vgrid-#{$i} {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .mv-flex-vgrid-#{$i} > * {
+    margin-bottom: ($i * 0.5rem);
+  }
+
+  .mv-flex-hgrid-#{$i} {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .mv-flex-hgrid-#{$i} > * {
+    margin-right: ($i * 0.5rem);
+  }
+}

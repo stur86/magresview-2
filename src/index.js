@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './index.scss';
 
 import MagresViewApp from './core/MagresViewApp';
 import reportWebVitals from './reportWebVitals';

@@ -25,7 +25,7 @@ function MVRadioGroup(props) {
         );
 
     return(<span className='mv-control mv-radiogroup' title={props.title}>
-        <span className="mv-radiogroup-label">{props.label}</span>
+        {props.label? <span className="mv-radiogroup-label" style={props.labelStyle}>{props.label}</span> : null}
         {children}
     </span>);
 }
