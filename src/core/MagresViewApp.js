@@ -9,6 +9,7 @@ import MagresViewSidebar from './MagresViewSidebar';
 
 import MVButton from '../controls/MVButton';
 import MVCheckBox from '../controls/MVCheckBox';
+import MVRadioButton, { MVRadioGroup } from '../controls/MVRadioButton';
 
 const defaultState = {
     theme: 'dark',
@@ -44,6 +45,10 @@ function MagresViewApp() {
                             <MVButton disabled>Disabled button 2</MVButton>
                         </div>
                         <MVCheckBox>Click me</MVCheckBox>
+                        <MVRadioGroup label='Selection' onSelect={(v, i) => {console.log(i + ' ' + v)}}>
+                            <MVRadioButton id='t1' value='The thing'>Thing</MVRadioButton>
+                            <MVRadioButton id='t2' value='The other thing'>Other thing</MVRadioButton>
+                        </MVRadioGroup>
                     </div>
                 </MagresViewSidebar>
                 <div className='mv-background'>
