@@ -11,6 +11,7 @@ import MVButton from '../controls/MVButton';
 import MVCheckBox from '../controls/MVCheckBox';
 import MVRadioButton, { MVRadioGroup } from '../controls/MVRadioButton';
 import MVText from '../controls/MVText';
+import MVFile from '../controls/MVFile';
 
 const defaultState = {
     theme: 'dark',
@@ -36,7 +37,7 @@ function MagresViewApp() {
             <div className={chainClasses('mv-main-app', 'theme-' + state.theme)}>
                 <MagresViewHeader />
                 <MagresViewSidebar show={state.panel === 'load'}>
-                    Thing
+                    <MVFile filetypes='.pdf' onSelect={(f) => {console.log(f[0]);}}/>
                 </MagresViewSidebar>
                 <MagresViewSidebar title='Magnetic Shielding' show={state.panel === 'ms'}>
                     <div className='mv-flex-vgrid-3'>

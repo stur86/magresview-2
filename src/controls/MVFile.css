@@ -1,0 +1,38 @@
+.mv-file::file-selector-button {
+  min-width: 70px;
+
+  color: var(--bkg-color-3);
+  background-color: var(--fwd-color-3);
+  transition: background-color 0.2s;
+
+  font-size: 0.9rem;
+
+  border-width: var(--ctrl-border-width);
+  border-radius: var(--ctrl-border-radius);
+  border-color: var(--fwd-color-1);
+  margin-right: 0.5rem;
+
+  padding: var(--ctrl-padding);
+
+  font-family: "Open Sans", sans-serif;
+}
+
+.mv-file::file-selector-button:focus {
+  outline: none;
+}
+
+.mv-file::file-selector-button:hover {
+  background-color: var(--fwd-color-2);
+}
+
+.mv-file::file-selector-button:active {
+  background-color: var(--fwd-color-3);
+}
+
+.mv-file::file-selector-button:disabled {
+  color: var(--mid-color-2);
+}
+
+.mv-file::file-selector-button:disabled:hover {
+  background-color: var(--fwd-color-3);
+}
