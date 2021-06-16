@@ -22,6 +22,9 @@ function MVText(props) {
         if (filter) 
             v = filter.exec(v)[0];
         setState(s => ({...s, submitted: false, text: v}));
+        if(props.onChange) {
+            props.onChange(v);
+        }
     }
 
     function onKeyDown(e) {
