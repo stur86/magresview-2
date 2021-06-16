@@ -7,9 +7,6 @@
   --check-color: var(--ms-color-2);
 }
 
-.mv-radiogroup > .mv-radiogroup-label {
-}
-
 .mv-radiogroup > .mv-radio {
   margin-left: 1rem;
 }

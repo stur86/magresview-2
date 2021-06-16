@@ -18,7 +18,7 @@ function MVIcon(props) {
     const color = (props.color || '#ffffff');
 
     return (
-        <Icon className='mv-icon' style={{'--path-fill': color}}/>
+        <Icon className='mv-icon' style={{'--path-fill': color}} {...props}/>
         );
 }
 

@@ -1,6 +1,6 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import MVCheckBox from './MVCheckBox';
-import userEvent from '@testing-library/user-event'
+import userEvent from '@testing-library/user-event';
 
 test('renders MVCheckBox', () => {
 
@@ -25,4 +25,6 @@ test('renders MVCheckBox', () => {
     expect(inputElement).toHaveProperty('checked', true);
 
     expect(count).toBe(2);
+
+    cleanup();
 });
