@@ -1,6 +1,6 @@
 import './MVCustomSelect.css';
 import _ from 'lodash';
-import { useState, cloneElement, useEffect } from 'react';
+import { useState, cloneElement, useEffect, useRef } from 'react';
 import { FaCaretDown } from 'react-icons/fa';
 
 import { chainClasses } from '../utils';
@@ -36,10 +36,10 @@ function MVCustomSelect(props) {
     };
 
     const onSelect = props.onSelect || (() => {});    
+    const effectCallback = useRef((i) => { onSelect(values[i]);});
 
     useEffect(() => {
-        onSelect(values[state.index]);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        effectCallback.current(state.index);
     }, [state.index]);
 
     return (
