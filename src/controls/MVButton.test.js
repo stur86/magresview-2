@@ -1,6 +1,6 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import MVButton from './MVButton';
-import userEvent from '@testing-library/user-event'
+import userEvent from '@testing-library/user-event';
 
 test('renders MVButton', () => {    
     var tvar = 0;

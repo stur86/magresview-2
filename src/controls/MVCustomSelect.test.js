@@ -1,6 +1,5 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import MVCustomSelect, { MVCustomSelectOption } from './MVCustomSelect';
-import MVIcon from '../icons/MVIcon';
 import userEvent from '@testing-library/user-event';
 
 test('render MVCustomSelect', () => {
