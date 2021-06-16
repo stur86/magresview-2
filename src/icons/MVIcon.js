@@ -14,6 +14,10 @@ const icons = {
 
 function MVIcon(props) {
 
+    if (!(props.icon in icons)) {
+        throw new Error('Invalid icon in MVIcon');
+    }
+
     const Icon = icons[props.icon];
     const color = (props.color || '#ffffff');
 
