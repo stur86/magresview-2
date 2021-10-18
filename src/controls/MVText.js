@@ -1,7 +1,9 @@
 import './MVText.css';
-import { useState } from 'react';
-import { chainClasses } from '../utils';
 import _ from 'lodash';
+
+import React, { useState } from 'react';
+
+import { chainClasses } from '../utils';
 
 function MVText(props) {
 

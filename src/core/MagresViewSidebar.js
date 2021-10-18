@@ -1,4 +1,7 @@
 import './MagresViewSidebar.css';
+
+import React from 'react';
+
 import { chainClasses } from '../utils';
 
 function MagresViewSidebar(props) {

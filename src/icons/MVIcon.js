@@ -1,5 +1,7 @@
 import './MVIcon.css';
 
+import React from 'react';
+
 import { ReactComponent as MSIcon } from './ms.svg';
 import { ReactComponent as EFGIcon } from './efg.svg';
 import { ReactComponent as DipIcon } from './dip.svg';

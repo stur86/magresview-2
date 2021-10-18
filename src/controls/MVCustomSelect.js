@@ -1,7 +1,8 @@
 import './controls.css';
 import './MVCustomSelect.css';
 import _ from 'lodash';
-import { useState, cloneElement, useEffect, useRef } from 'react';
+
+import React, { useState, cloneElement, useEffect, useRef } from 'react';
 import { FaCaretDown } from 'react-icons/fa';
 
 import { chainClasses } from '../utils';

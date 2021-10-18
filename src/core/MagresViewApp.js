@@ -1,7 +1,7 @@
 import './themes.css';
 import '../controls/controls.css';
 import './MagresViewApp.css';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { chainClasses } from '../utils';
 import MagresViewContext from './MagresViewContext';
 import MagresViewHeader from './MagresViewHeader';

@@ -2,7 +2,7 @@ import './MagresViewHeader.css';
 import logo from '../icons/logo.svg';
 import { FaSun, FaMoon, FaRegFolderOpen } from 'react-icons/fa';
 
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import  MagresViewContext from './MagresViewContext';
 import MVCustomSelect from '../controls/MVCustomSelect';
 import { MVCustomSelectOption } from '../controls/MVCustomSelect';
