@@ -1,7 +1,9 @@
 import './themes.css';
 import '../controls/controls.css';
 import './MagresViewApp.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import CrystVis from 'crystvis-js';
+
 import { chainClasses } from '../utils';
 import MagresViewContext from './MagresViewContext';
 import MagresViewHeader from './MagresViewHeader';
@@ -12,18 +14,21 @@ import MVCheckBox from '../controls/MVCheckBox';
 import MVRadioButton, { MVRadioGroup } from '../controls/MVRadioButton';
 import MVText from '../controls/MVText';
 import MVFile from '../controls/MVFile';
+import viewerSingleton from './viewer/ViewerSingleton';
 
 const defaultState = {
     theme: 'dark',
     panel: null
 };
 
+// Accepted file formats
+const file_formats = ['.cif', '.xyz', '.magres', '.cell'];
+
 function MagresViewApp() {
 
     var [state, setState] = useState(defaultState);
 
     var contextValue = {
-        app: null,
         setProperty: (name, value) => {
             var newstate = {...state};
             newstate[name] = value;
@@ -32,12 +37,16 @@ function MagresViewApp() {
         ...state
     };
 
+    useEffect(() => {
+        viewerSingleton.initialise('#mv-appwindow');
+    }, []);
+
     return (
         <MagresViewContext.Provider value={contextValue}>
             <div className={chainClasses('mv-main-app', 'theme-' + state.theme)}>
                 <MagresViewHeader />
                 <MagresViewSidebar show={state.panel === 'load'}>
-                    <MVFile filetypes='.pdf' onSelect={(f) => {console.log(f[0]);}}/>
+                    <MVFile filetypes={file_formats.join(',')} onSelect={viewerSingleton.loadFile}/>
                 </MagresViewSidebar>
                 <MagresViewSidebar title='Magnetic Shielding' show={state.panel === 'ms'}>
                     <div className='mv-flex-vgrid-3'>
@@ -73,7 +82,7 @@ function MagresViewApp() {
                         <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
                     </div>
                 </MagresViewSidebar>
-                <div className='mv-background'>
+                <div id='mv-appwindow' className='mv-background'>
                 </div>
             </div>
         </MagresViewContext.Provider>
