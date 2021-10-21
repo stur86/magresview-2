@@ -20,8 +20,6 @@ function MVSidebarLoad(props) {
         current: null,
     });
 
-    const visIco = (<AiFillEye size={22}/>);
-    const invisIco = (<AiOutlineEyeInvisible size={22}/>);
     const viewer = viewerSingleton.instance;
 
     let models = [];
@@ -54,7 +52,7 @@ function MVSidebarLoad(props) {
         viewerSingleton.instance.deleteModel(m);
 
         var models = viewerSingleton.instance.model_list;
-        if (state.current == m && models.length > 0) {
+        if (state.current === m && models.length > 0) {
             // Display a different one
             viewerSingleton.instance.displayModel(models[0]);
         }
@@ -67,7 +65,7 @@ function MVSidebarLoad(props) {
     function makeModelOption(m, i) {
 
         var model_icon;
-        if (m == state.current) {
+        if (m === state.current) {
             model_icon = <AiFillEye size={22}/>;
         }
         else {
