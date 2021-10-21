@@ -1,4 +1,5 @@
 import './MVFile.css';
+import { chainClasses } from '../utils';
 
 import React from 'react';
 
@@ -11,10 +12,11 @@ function MVFile(props) {
                 props.onSelect(files);
             }
         }
+        e.target.value = null;
     }
 
     return (
-        <input className='mv-control mv-file' type='file' accept={props.filetypes} onChange={onChange}/>
+        <input className={chainClasses('mv-control', 'mv-file', props.notext? 'hide-text' : null)} type='file' accept={props.filetypes} onChange={onChange}/>
     );
 }
 

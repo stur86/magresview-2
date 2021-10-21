@@ -4,6 +4,7 @@ import { AiFillEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { MdDeleteForever } from 'react-icons/md';
 
 import MVFile from '../../controls/MVFile';
+import MVCheckBox from '../../controls/MVCheckBox';
 import MVListSelect, { MVListSelectOption } from '../../controls/MVListSelect';
 import viewerSingleton from '../viewer/ViewerSingleton';
 
@@ -15,6 +16,7 @@ const file_formats = ['.cif', '.xyz', '.magres', '.cell'];
 function MVSidebarLoad(props) {
 
     const [ state, setState ] = useState({
+        load_as_mol: false,
         current: null,
     });
 
@@ -29,7 +31,10 @@ function MVSidebarLoad(props) {
 
     // Methods
     function loadModel(f) {
-        viewerSingleton.loadFile(f, (success) => {
+        var params = {
+            molecularCrystal: state.load_as_mol
+        };
+        viewerSingleton.loadFile(f, params, (success) => {
             setState({
                 ...state,
                 current: viewerSingleton.instance._current_mname
@@ -76,7 +81,10 @@ function MVSidebarLoad(props) {
     }
 
     return (<MagresViewSidebar show={props.show} title='Load file'>
-        <MVFile filetypes={file_formats.join(',')} onSelect={loadModel}/>
+        <p>
+            <MVFile filetypes={file_formats.join(',')} onSelect={loadModel} notext='true'/>
+            <MVCheckBox onCheck={(v) => {setState({...state, load_as_mol: v})}}>Load as molecular crystal</MVCheckBox>
+        </p>
         <h4>Models:</h4>
         <MVListSelect>
             {models.map(makeModelOption)}

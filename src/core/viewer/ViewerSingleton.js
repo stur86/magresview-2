@@ -28,7 +28,7 @@ class Viewer {
         _cvis_app = null;
     }
 
-    loadFile(f, cback) {
+    loadFile(f, params={}, cback=null) {
         if (f.length > 1) {
             // We don't support multiple files for now
             throw new Error('Multiple file loading is not supported');
@@ -40,7 +40,7 @@ class Viewer {
         var extension = f[0].name.split('.').pop();
 
         reader.onload = function(e) {
-            var success = _cvis_app.loadModels(reader.result, extension, name);
+            var success = _cvis_app.loadModels(reader.result, extension, name, params);
             _cvis_app.displayModel(Object.keys(success)[0]);
 
             if (cback) {

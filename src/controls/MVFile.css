@@ -36,3 +36,7 @@
 .mv-file::file-selector-button:disabled:hover {
   background-color: var(--fwd-color-3);
 }
+
+.mv-file.hide-text {
+  color: #00000000;
+}

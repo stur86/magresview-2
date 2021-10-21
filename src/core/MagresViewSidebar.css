@@ -29,6 +29,13 @@
   border-bottom: 1px solid var(--mid-color-1);
 }
 
+.mv-sidebar p {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+
 .mv-sidebar::-webkit-scrollbar {
   width: 15px;
   margin-top: var(--header-height);
@@ -38,3 +45,4 @@
   background: transparent;
   margin-top: var(--header-height);
 }
+
