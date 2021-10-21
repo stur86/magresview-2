@@ -26,6 +26,10 @@
   --jcoup-color-1: #ff2299;
   --jcoup-color-2: #ff0080;
   --jcoup-color-3: #df0060;
+
+  --err-color-1: #ff3322;
+  --err-color-2: #cc2200;
+  --err-color-3: #aa1000;
 }
 
 .theme-light {
@@ -56,4 +60,8 @@
   --jcoup-color-3: #ff2299;
   --jcoup-color-2: #ff0080;
   --jcoup-color-1: #df0060;
+
+  --err-color-3: #ff3322;
+  --err-color-2: #cc2200;
+  --err-color-1: #aa1000;
 }

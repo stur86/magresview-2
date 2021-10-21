@@ -7,6 +7,7 @@
   background: var(--bkg-color-3);
   padding-top: calc(var(--header-height) + 20px);
   padding-left: calc(var(--sidebar-width) * (0.05));
+  padding-right: calc(var(--sidebar-width) * (0.03));
   border-left: 1px solid var(--mid-color-1);
   box-sizing: border-box;
   overflow-y: auto;

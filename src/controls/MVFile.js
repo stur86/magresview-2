@@ -6,7 +6,10 @@ function MVFile(props) {
 
     function onChange(e) {
         if (props.onSelect) {
-            props.onSelect(e.target.files);
+            var files = e.target.files;
+            if (files.length > 0) {
+                props.onSelect(files);
+            }
         }
     }
 

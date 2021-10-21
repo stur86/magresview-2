@@ -2,7 +2,6 @@ import './themes.css';
 import '../controls/controls.css';
 import './MagresViewApp.css';
 import React, { useState, useEffect } from 'react';
-import CrystVis from 'crystvis-js';
 
 import { chainClasses } from '../utils';
 import MagresViewContext from './MagresViewContext';
@@ -13,16 +12,15 @@ import MVButton from '../controls/MVButton';
 import MVCheckBox from '../controls/MVCheckBox';
 import MVRadioButton, { MVRadioGroup } from '../controls/MVRadioButton';
 import MVText from '../controls/MVText';
-import MVFile from '../controls/MVFile';
+
+import MVSidebarLoad from './sidebars/MVSidebarLoad';
+
 import viewerSingleton from './viewer/ViewerSingleton';
 
 const defaultState = {
     theme: 'dark',
     panel: null
 };
-
-// Accepted file formats
-const file_formats = ['.cif', '.xyz', '.magres', '.cell'];
 
 function MagresViewApp() {
 
@@ -45,9 +43,7 @@ function MagresViewApp() {
         <MagresViewContext.Provider value={contextValue}>
             <div className={chainClasses('mv-main-app', 'theme-' + state.theme)}>
                 <MagresViewHeader />
-                <MagresViewSidebar show={state.panel === 'load'}>
-                    <MVFile filetypes={file_formats.join(',')} onSelect={viewerSingleton.loadFile}/>
-                </MagresViewSidebar>
+                <MVSidebarLoad show={state.panel === 'load'} />
                 <MagresViewSidebar title='Magnetic Shielding' show={state.panel === 'ms'}>
                     <div className='mv-flex-vgrid-3'>
                         <MVButton onClick={() => {alert('Clicked');}}>Enabled button</MVButton>
