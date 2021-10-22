@@ -37,8 +37,9 @@ function MVCustomSelect(props) {
         transform: 'translateY(calc(var(--cselect-opt-height)*' + options.length/2.0 + '))'
     };
 
-    const onSelect = props.onSelect || (() => {});    
-    const effectCallback = useRef((i) => { onSelect(values[i]);});
+    const onSelect = props.onSelect || (() => {});
+    const effectCallback = useRef();
+    effectCallback.current = ((i) => { onSelect(values[i]);});
 
     useEffect(() => {
         effectCallback.current(state.index);

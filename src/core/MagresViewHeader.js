@@ -12,12 +12,14 @@ function ThemeSwitcher() {
 
     var mvc = useContext(MagresViewContext);
 
+    console.log('[ThemeSwitcher]: ', mvc);
+
     const other = {
         dark: 'light',
         light: 'dark'
     };
 
-    return (<div id='mv-themeswitch' onClick={() => { mvc.setProperty('theme', other[mvc.theme]); }}>
+    return (<div id='mv-themeswitch' onClick={() => {console.log(mvc); mvc.setProperty('theme', other[mvc.theme]); }}>
         <div id='mv-themeicons' className={mvc.theme}>
             <FaMoon id='mv-themedark'/>
             <FaSun id='mv-themelight'/>
@@ -26,7 +28,15 @@ function ThemeSwitcher() {
 }
 
 function MagresViewHeader() {
-    var mvc = useContext(MagresViewContext);
+
+    let mvc = useContext(MagresViewContext);
+
+    console.log('[MagresViewHeader]: ', mvc);
+
+    function switchPanel(v) {
+        console.log(v, mvc);
+        mvc.setProperty('panel', v);
+    }
 
     return (<header className='mv-header'>
         <div className='mv-header-left'>
@@ -36,7 +46,7 @@ function MagresViewHeader() {
             </h3>
         </div>
         <div className='mv-header-right'>
-            <MVCustomSelect onSelect={(v) => {mvc.setProperty('panel', v)}}>
+            <MVCustomSelect onSelect={switchPanel}>
                 <MVCustomSelectOption value='load' icon={<FaRegFolderOpen />}>Load file</MVCustomSelectOption>
                 <MVCustomSelectOption value='ms' icon={<MVIcon icon='ms' color='var(--ms-color-3)'/>}>Magnetic Shielding</MVCustomSelectOption>
                 <MVCustomSelectOption value='efg' icon={<MVIcon icon='efg' color='var(--efg-color-3)'/>}>Electric Field Gradient</MVCustomSelectOption>

@@ -51,9 +51,9 @@
   --mid-color-2: #666666;
   --mid-color-3: #555555;
 
-  --light-color-1: #a9a9a9;
-  --light-color-2: #bbbbbb;
-  --light-color-3: #dddddd;
+  --light-color-1: #bbbbcc;
+  --light-color-2: #dadae5;
+  --light-color-3: #ffffff;
 
   --bkg-color-1: var(--light-color-1);
   --bkg-color-2: var(--light-color-2);

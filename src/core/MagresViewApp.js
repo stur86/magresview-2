@@ -17,23 +17,27 @@ import MVSidebarLoad from './sidebars/MVSidebarLoad';
 
 import viewerSingleton from './viewer/ViewerSingleton';
 
-const defaultState = {
-    theme: 'dark',
-    panel: null
-};
 
 function MagresViewApp() {
 
-    var [state, setState] = useState(defaultState);
+    var [state, setState] = useState({
+        theme: 'dark', 
+        panel: 'load'
+    });
+
+    console.log('MagresViewApp refresh state: ', state);
 
     var contextValue = {
         setProperty: (name, value) => {
-            var newstate = {...state};
-            newstate[name] = value;
-            setState(newstate);
+            console.log('setProperty: ', state);
+            setState({...state,
+                [name]: value
+            });
         },
         ...state
     };
+
+    console.log('MagresViewApp refresh contextValue: ', contextValue);
 
     useEffect(() => {
         viewerSingleton.initialise('#mv-appwindow');
