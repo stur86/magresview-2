@@ -1,8 +1,9 @@
 .mv-file::file-selector-button {
   min-width: 70px;
 
-  color: var(--bkg-color-3);
-  background-color: var(--fwd-color-3);
+  color: var(--dark-color-3);
+  background-color: var(--light-color-3);
+  border-color: var(--fwd-color-3);
   transition: background-color 0.2s;
 
   font-size: 0.9rem;
@@ -22,11 +23,11 @@
 }
 
 .mv-file::file-selector-button:hover {
-  background-color: var(--fwd-color-2);
+  background-color: var(--light-color-2);
 }
 
 .mv-file::file-selector-button:active {
-  background-color: var(--fwd-color-3);
+  background-color: var(--light-color-3);
 }
 
 .mv-file::file-selector-button:disabled {
@@ -34,7 +35,7 @@
 }
 
 .mv-file::file-selector-button:disabled:hover {
-  background-color: var(--fwd-color-3);
+  background-color: var(--light-color-3);
 }
 
 .mv-file.hide-text {

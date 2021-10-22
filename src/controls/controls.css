@@ -1,6 +1,6 @@
 .mv-main-app {
   /* Defines variables that will be used app-wide */
-  --ctrl-border-width: 0;
+  --ctrl-border-width: 1px;
   --ctrl-border-radius: 5px;
   --ctrl-padding: 8px;
 }

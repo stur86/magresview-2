@@ -11,7 +11,7 @@
 .mv-textfield {
   --outline-color: var(--ms-color-2);
   box-sizing: border-box;
-  border: 2px solid rgba(0, 0, 0, 0);
+  border: 2px solid var(--fwd-color-3);
 }
 
 .mv-textfield.mv-submit-wait {

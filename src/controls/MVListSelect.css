@@ -1,6 +1,9 @@
 .mv-lselect {
-    background-color: var(--fwd-color-3);
-    color: var(--bkg-color-3);
+
+    background-color: var(--light-color-3);
+    color: var(--dark-color-3);
+    border: 1px solid var(--fwd-color-3);
+
     --lselect-opt-height: 40px;
 
     height: calc(var(--lselect-opt-height)*5);
@@ -13,7 +16,7 @@
   font-size: 1.1em;
   box-sizing: border-box;
   min-width: 150px;
-  color: var(--bkg-color-3);
+  color: var(--dark-color-3);
   background-color: var(--fwd-color-3);
   transition: background-color 0.2s;
 
@@ -24,13 +27,13 @@
 }
 
 .mv-lselect-opt:hover {
-  background-color: var(--fwd-color-2);
+  background-color: var(--light-color-2);
 }
 
 .mv-lselected {
-  background-color: var(--fwd-color-1);    
+  background-color: var(--light-color-1);    
 }
 
 .mv-lselected:hover {
-  background-color: var(--fwd-color-1);    
+  background-color: var(--light-color-1);    
 }

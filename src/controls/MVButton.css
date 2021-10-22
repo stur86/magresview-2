@@ -1,17 +1,18 @@
 .mv-button {
   min-width: 70px;
 
-  color: var(--bkg-color-3);
-  background-color: var(--fwd-color-3);
+  color: var(--dark-color-3);
+  background-color: var(--light-color-3);
+  border-color: var(--fwd-color-3);
   transition: background-color 0.2s;
 }
 
 .mv-button:hover {
-  background-color: var(--fwd-color-2);
+  background-color: var(--light-color-2);
 }
 
 .mv-button:active {
-  background-color: var(--fwd-color-3);
+  background-color: var(--light-color-3);
 }
 
 .mv-button:disabled {
@@ -19,5 +20,5 @@
 }
 
 .mv-button:disabled:hover {
-  background-color: var(--fwd-color-3);
+  background-color: var(--light-color-3);
 }
