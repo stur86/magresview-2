@@ -35,6 +35,10 @@
   align-items: flex-start;
 }
 
+.mv-sidebar .sep-1 {
+  display: block;
+  margin-bottom: 1em;
+}
 
 .mv-sidebar::-webkit-scrollbar {
   width: 15px;

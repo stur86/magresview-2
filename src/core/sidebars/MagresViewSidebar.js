@@ -2,7 +2,7 @@ import './MagresViewSidebar.css';
 
 import React from 'react';
 
-import { chainClasses } from '../utils';
+import { chainClasses } from '../../utils';
 
 function MagresViewSidebar(props) {
     return (<div className={chainClasses('mv-sidebar', props.show? 'open' : '')}>

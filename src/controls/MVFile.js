@@ -16,7 +16,11 @@ function MVFile(props) {
     }
 
     return (
-        <input className={chainClasses('mv-control', 'mv-file', props.notext? 'hide-text' : null)} type='file' accept={props.filetypes} onChange={onChange}/>
+        <input className={chainClasses('mv-control', 'mv-file', props.notext? 'hide-text' : null)} type='file' 
+            accept={props.filetypes} 
+            onChange={onChange} 
+            multiple={props.multiple}
+        />
     );
 }
 

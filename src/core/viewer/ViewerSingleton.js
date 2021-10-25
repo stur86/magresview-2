@@ -4,6 +4,9 @@
  */
 
 import CrystVis from 'crystvis-js';
+import _ from 'lodash';
+
+import { CallbackMerger } from '../../utils';
 
 var _cvis_app = null;
 
@@ -28,26 +31,42 @@ class Viewer {
         _cvis_app = null;
     }
 
-    loadFile(f, params={}, cback=null) {
-        if (f.length > 1) {
-            // We don't support multiple files for now
-            throw new Error('Multiple file loading is not supported');
-        }
+    loadFile(files, params={}, cback=null) {
 
-        const reader = new FileReader();
-        // Extension and file name
-        var name = f[0].name.split('.')[0];
-        var extension = f[0].name.split('.').pop();
+        let cbm = new CallbackMerger(files.length, cback);
 
-        reader.onload = function(e) {
-            var success = _cvis_app.loadModels(reader.result, extension, name, params);
-            _cvis_app.displayModel(Object.keys(success)[0]);
+        function onLoad(contents, name, extension) {
+            var success = _cvis_app.loadModels(contents, extension, name, params);
+
+            // Find a valid one to load
+            var to_display = null;
+            _.map(success, (v, n) => {
+                if (v === 0) {
+                    to_display = n;
+                }
+            });
+
+            if (to_display) {
+                _cvis_app.displayModel(to_display);
+            }
 
             if (cback) {
-                cback(success);
+                cbm.call(success);
             }
-        }        
-        reader.readAsText(f[0]);
+        }
+
+        function parseOne(f) {
+            
+            let reader = new FileReader();
+            // Extension and file name
+            let name = f.name.split('.')[0];
+            let extension = f.name.split('.').pop();
+
+            reader.onload = ((e) => { onLoad(e.target.result, name, extension) });
+            reader.readAsText(f);            
+        }
+
+        _.forEach(files, parseOne);
     }
 
     get instance() {

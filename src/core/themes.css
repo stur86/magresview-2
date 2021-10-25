@@ -36,6 +36,10 @@
   --jcoup-color-2: #ff0080;
   --jcoup-color-3: #df0060;
 
+  --ok-color-1: #22ff33;
+  --ok-color-2: #00cc22;
+  --ok-color-3: #00aa10;
+
   --err-color-1: #ff3322;
   --err-color-2: #cc2200;
   --err-color-3: #aa1000;
@@ -79,7 +83,11 @@
   --jcoup-color-2: #ff0080;
   --jcoup-color-1: #df0060;
 
-  --err-color-3: #ff3322;
-  --err-color-2: #cc2200;
+  --ok-color-1: #00aa10;
+  --ok-color-2: #00cc22;
+  --ok-color-3: #22ff33;
+
   --err-color-1: #aa1000;
+  --err-color-2: #cc2200;
+  --err-color-3: #ff3322;
 }

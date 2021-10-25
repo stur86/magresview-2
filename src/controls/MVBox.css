@@ -1,0 +1,25 @@
+.mv-box {
+    display: none;
+    width: 100%;
+    box-sizing: border-box;
+    color: var(--bkg-color-3);
+}
+
+.mv-box-success {
+    display: block;
+    background-color: var(--ok-color-1);
+    box-shadow: 0 2px 5px var(--ok-color-3);
+}
+
+.mv-box-error {
+    display: block;
+    background-color: var(--err-color-1);
+    box-shadow: 0 2px 5px var(--err-color-3);
+}
+
+.mv-box .mv-box-header {
+    text-align: right;
+    cursor: pointer;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
