@@ -7,9 +7,9 @@ import MVFile from '../../controls/MVFile';
 import MVBox from '../../controls/MVBox';
 import MVCheckBox from '../../controls/MVCheckBox';
 import MVListSelect, { MVListSelectOption } from '../../controls/MVListSelect';
-import viewerSingleton from '../viewer/ViewerSingleton';
+import { MVStoreContext } from '../store';
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import _ from 'lodash';
 
@@ -25,19 +25,28 @@ function MVSidebarLoad(props) {
         load_message_status: null
     });
 
-    const viewer = viewerSingleton.instance;
+    const mvc = useContext(MVStoreContext);
+
+    console.log(mvc.app);
+
+    const viewer = mvc.app;
 
     let models = [];
     if (viewer) {
-        models = viewerSingleton.instance.model_list;
+        models = mvc.models;
     }
 
     // Methods
     function loadModel(f) {
+
+        console.log(f);
+        console.log(mvc.state);
+
         var params = {
             molecularCrystal: state.load_as_mol
         };
-        viewerSingleton.loadFile(f, params, (success) => {
+
+        mvc.load(f, params, (success) => {
             // Check success
             var msg = '';
             var err = false;
@@ -53,7 +62,7 @@ function MVSidebarLoad(props) {
 
             setState({
                 ...state,
-                current: viewerSingleton.instance._current_mname,
+                current: mvc.app._current_mname,
                 load_message: msg, 
                 load_message_status: err? 'error' : 'success'
             });
@@ -61,24 +70,24 @@ function MVSidebarLoad(props) {
     }
 
     function showModel(m) {
-        viewerSingleton.instance.displayModel(m);
+        mvc.app.displayModel(m);
         setState({
             ...state,
-            current: viewerSingleton.instance._current_mname
+            current: mvc.app._current_mname
         });
     }
 
     function deleteModel(m) {
-        viewerSingleton.instance.deleteModel(m);
+        mvc.app.deleteModel(m);
 
-        var models = viewerSingleton.instance.model_list;
+        var models = mvc.models;
         if (state.current === m && models.length > 0) {
             // Display a different one
-            viewerSingleton.instance.displayModel(models[0]);
+            mvc.app.displayModel(models[0]);
         }
         setState({
             ...state,
-            current: viewerSingleton.instance._current_mname
+            current: mvc.app._current_mname
         });
     }
 

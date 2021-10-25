@@ -4,21 +4,20 @@ import { FaSun, FaMoon, FaRegFolderOpen } from 'react-icons/fa';
 import { GrSelect } from 'react-icons/gr';
 
 import React, { useContext } from 'react';
-import  MagresViewContext from './MagresViewContext';
-import MVCustomSelect from '../controls/MVCustomSelect';
-import { MVCustomSelectOption } from '../controls/MVCustomSelect';
+import MVCustomSelect, { MVCustomSelectOption } from '../controls/MVCustomSelect';
+import { MVStoreContext } from './store';
 import MVIcon from '../icons/MVIcon';
 
 function ThemeSwitcher() {
 
-    var mvc = useContext(MagresViewContext);
+    var mvc = useContext(MVStoreContext);
 
     const other = {
         dark: 'light',
         light: 'dark'
     };
 
-    return (<div id='mv-themeswitch' onClick={() => { mvc.setProperty('theme', other[mvc.theme]); }}>
+    return (<div id='mv-themeswitch' onClick={() => { mvc.theme = other[mvc.theme]; }}>
         <div id='mv-themeicons' className={mvc.theme}>
             <FaMoon id='mv-themedark'/>
             <FaSun id='mv-themelight'/>
@@ -28,10 +27,10 @@ function ThemeSwitcher() {
 
 function MagresViewHeader() {
 
-    let mvc = useContext(MagresViewContext);
+    let mvc = useContext(MVStoreContext);
 
     function switchPanel(v) {
-        mvc.setProperty('panel', v);
+        mvc.panel = v;
     }
 
     return (<header className='mv-header'>

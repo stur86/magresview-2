@@ -1,9 +1,11 @@
 .mv-main-app {
-  color: var(--fwd-color-2);
-
   /* Shared variables */
   --header-height: 5em;
   --sidebar-width: 25em;
+}
+
+.mv-main-page {
+  color: var(--fwd-color-2);
 }
 
 .mv-background {
