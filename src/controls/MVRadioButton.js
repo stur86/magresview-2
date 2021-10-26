@@ -8,6 +8,7 @@ function MVRadioGroup(props) {
     const [ state, setState ] = useState({index: 0});
 
     function onChange(v, i) {
+        console.log(v, i);
         setState(s => ({...s, index: i}));
         if (props.onSelect) {
             props.onSelect(v, i);

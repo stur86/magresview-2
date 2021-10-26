@@ -3,11 +3,23 @@ import _ from 'lodash';
 import { CallbackMerger } from '../../utils';
 import CrystVis from 'crystvis-js';
 
+// Secondary interfaces
+import MVSelectInterface from './MVSelectInterface';
+
+/* This and secondary Interface classes serve as a useful way to hold a lot
+ * of methods that we'll use a lot. They also keep track of changes and 
+ * re-run plotting and such whenever something at a higher level has changed.
+ * They will be re-instanced often, so it's important that their constructor
+ * methods are very light and only work by reference!
+ */
 class MVInterface {
 
     constructor(state, dispatch) {
         this._state = state;
         this._dispatch = dispatch;
+
+        // Secondary interfaces
+        this._select = new MVSelectInterface(this);
     }
 
     // Basic access
@@ -44,11 +56,19 @@ class MVInterface {
         return this.app.model_list;
     }
 
+    // Sub interfaces
+    get select() {
+        return this._select;
+    }
+
     // Methods for easy dispatch
     init(elem) {
         console.log('Initialising CrystVis app on element ' + elem);
         // Initialise app but only if it's not already there
         var vis = new CrystVis(elem);
+
+        // Some other stuff
+        vis.highlight_selected = this.select.highlighted;
         if (this.app === null) {
             this._dispatch({type: 'initialise', visualizer: vis});
         }
