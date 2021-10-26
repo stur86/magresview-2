@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { CallbackMerger } from '../../utils';
+import CrystVis from 'crystvis-js';
 
 class MVInterface {
 
@@ -45,10 +46,11 @@ class MVInterface {
 
     // Methods for easy dispatch
     init(elem) {
-        console.log('Initialise CrystVis app');
+        console.log('Initialising CrystVis app on element ' + elem);
         // Initialise app but only if it's not already there
+        var vis = new CrystVis(elem);
         if (this.app === null) {
-            this._dispatch({type: 'initialise', element: elem});
+            this._dispatch({type: 'initialise', visualizer: vis});
         }
     }
 

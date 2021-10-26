@@ -1,5 +1,3 @@
-import CrystVis from 'crystvis-js';
-
 // Initial state
 const MVInitialState = {
     theme: 'dark',
@@ -11,10 +9,9 @@ const MVInitialState = {
 const MVReducer = (state, action) => {
     switch (action.type) {
         case 'initialise':
-            var vis = new CrystVis(action.element);
             return {
                 ...state, 
-                visualizer: vis
+                visualizer: action.visualizer
             };
         case 'set':
             return {

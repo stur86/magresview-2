@@ -27,8 +27,6 @@ function MVSidebarLoad(props) {
 
     const mvc = useContext(MVStoreContext);
 
-    console.log(mvc.app);
-
     const viewer = mvc.app;
 
     let models = [];
@@ -38,9 +36,6 @@ function MVSidebarLoad(props) {
 
     // Methods
     function loadModel(f) {
-
-        console.log(f);
-        console.log(mvc.state);
 
         var params = {
             molecularCrystal: state.load_as_mol

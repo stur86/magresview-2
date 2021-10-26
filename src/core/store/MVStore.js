@@ -8,8 +8,6 @@ function MVStore({children}) {
     const [state, dispatch] = useReducer(MVReducer, MVInitialState);
     const mvinterface = new MVInterface(state, dispatch);
 
-    console.log('Updated store: ' + state.visualizer);
-
     return (
         <MVStoreContext.Provider value={mvinterface}>
             {children}

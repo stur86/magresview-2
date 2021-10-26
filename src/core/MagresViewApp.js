@@ -17,7 +17,6 @@ function MagresViewPage() {
     mvcRef.current = mvc;
 
     useEffect(() => {
-        console.log('Initialising from MagresViewPage');
         mvcRef.current.init('#mv-appwindow');
     }, []);
 
