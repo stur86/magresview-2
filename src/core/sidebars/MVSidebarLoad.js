@@ -38,7 +38,8 @@ function MVSidebarLoad(props) {
     function loadModel(f) {
 
         var params = {
-            molecularCrystal: state.load_as_mol
+            molecularCrystal: state.load_as_mol,
+            supercell: [3,3,3]
         };
 
         mvc.load(f, params, (success) => {

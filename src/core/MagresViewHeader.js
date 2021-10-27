@@ -1,7 +1,6 @@
 import './MagresViewHeader.css';
 import logo from '../icons/logo.svg';
-import { FaSun, FaMoon, FaRegFolderOpen } from 'react-icons/fa';
-import { GrSelect } from 'react-icons/gr';
+import { FaSun, FaMoon, FaRegFolderOpen, FaMousePointer } from 'react-icons/fa';
 
 import React, { useContext } from 'react';
 import MVCustomSelect, { MVCustomSelectOption } from '../controls/MVCustomSelect';
@@ -43,7 +42,7 @@ function MagresViewHeader() {
         <div className='mv-header-right'>
             <MVCustomSelect onSelect={switchPanel}>
                 <MVCustomSelectOption value='load' icon={<FaRegFolderOpen />}>Load file</MVCustomSelectOption>
-                <MVCustomSelectOption value='select' icon={<GrSelect />}>Select and display</MVCustomSelectOption>
+                <MVCustomSelectOption value='select' icon={<FaMousePointer />}>Select and display</MVCustomSelectOption>
                 <MVCustomSelectOption value='ms' icon={<MVIcon icon='ms' color='var(--ms-color-3)'/>}>Magnetic Shielding</MVCustomSelectOption>
                 <MVCustomSelectOption value='efg' icon={<MVIcon icon='efg' color='var(--efg-color-3)'/>}>Electric Field Gradient</MVCustomSelectOption>
                 <MVCustomSelectOption value='dip' icon={<MVIcon icon='dip' color='var(--dip-color-3)'/>}>Dipolar Couplings</MVCustomSelectOption>

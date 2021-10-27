@@ -6,8 +6,6 @@
   border-color: var(--fwd-color-3);
   transition: background-color 0.2s;
 
-  font-size: 0.9rem;
-
   border-width: var(--ctrl-border-width);
   border-radius: var(--ctrl-border-radius);
   border-color: var(--fwd-color-1);

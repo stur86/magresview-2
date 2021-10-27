@@ -5,21 +5,25 @@ import React, { cloneElement, useState } from 'react';
 
 function MVRadioGroup(props) {
 
-    const [ state, setState ] = useState({index: 0});
+    // Which children are buttons?
+    var children = _.filter(props.children, (c) => {
+        return (c.type.name === 'MVRadioButton');
+    });
+
+    const [ state, setState ] = useState({index: 0, 
+        _uids: children.map((c, i) => c.props.id || _.uniqueId(props.name + '_radio_' + i))});
 
     function onChange(v, i) {
-        console.log(v, i);
         setState(s => ({...s, index: i}));
         if (props.onSelect) {
             props.onSelect(v, i);
         }
     }
 
-    // Separate specifically the MVRadioButton children
-    const children = _.filter(props.children, (c) => {
-        return (c.type.name === 'MVRadioButton');
-    }).map((c, i) => cloneElement(c, {key: i, 
+    // Clone the MVRadioButton children
+    children = children.map((c, i) => cloneElement(c, {key: i, 
                                       index: i, 
+                                      id: state._uids[i],
                                       name: props.name, 
                                       checked: (i === state.index),
                                       onChange: () => {onChange(c.props.value, i)}}
