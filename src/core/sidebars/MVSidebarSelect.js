@@ -4,6 +4,7 @@ import MagresViewSidebar from './MagresViewSidebar';
 import { MVStoreContext } from '../store';
 
 import MVCheckBox from '../../controls/MVCheckBox';
+import MVButton from '../../controls/MVButton';
 import MVRadioButton, { MVRadioGroup } from '../../controls/MVRadioButton';
 import MVText from '../../controls/MVText';
 
@@ -84,6 +85,11 @@ function MVSidebarSelect(props) {
                     <MVText size='3' value={state.n} filter='[0-9]*' onChange={setN} onSubmit={setN} />
                 </MVRadioButton>
             </MVRadioGroup>
+        </p>
+        <p>
+            <MVButton onClick={() => { mvc.select.set_display('selected'); }}>Display selected</MVButton>
+            <span className='sep-1' />
+            <MVButton onClick={() => { mvc.select.set_display(); }}>Reset displayed</MVButton>
         </p>
     </MagresViewSidebar>);
 }

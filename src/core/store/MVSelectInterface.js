@@ -76,6 +76,27 @@ class MVSelectInterface extends MVSubInterface {
         }
     }
 
+    set_display(mode) {
+
+        // App
+        var app = this.parent.app;
+        if (!app) 
+            return;
+
+        switch (mode) {
+            case 'selected':
+                app.displayed = app.selected;
+                break;
+            default:
+                // Restore original
+                let m = app.model;
+                if (m)
+                    app.displayed = m.view(m._queryCell([0,0,0]));
+                break;
+        }
+
+    }
+
 }
 
 export default MVSelectInterface;
