@@ -1,0 +1,7 @@
+.mv-warning-noms {
+    font-weight: bold;
+    font-size: 3rem;
+    text-align: center;
+    margin-top: 3rem;
+    color: var(--err-color-2);
+}

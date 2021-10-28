@@ -9,6 +9,7 @@ import MVStore, { MVStoreContext } from './store';
 
 import MVSidebarLoad from './sidebars/MVSidebarLoad';
 import MVSidebarSelect from './sidebars/MVSidebarSelect';
+import MVSidebarMS from './sidebars/MVSidebarMS';
 
 function MagresViewPage() {
 
@@ -24,6 +25,7 @@ function MagresViewPage() {
                 <MagresViewHeader />
                 <MVSidebarLoad show={mvc.panel === 'load'} />
                 <MVSidebarSelect show={mvc.panel === 'select'} />
+                <MVSidebarMS show={mvc.panel === 'ms'} />
                 <div id='mv-appwindow' className='mv-background'/>
             </div>);
 }
