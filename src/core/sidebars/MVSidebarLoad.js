@@ -20,7 +20,6 @@ function MVSidebarLoad(props) {
 
     const [ state, setState ] = useState({
         load_as_mol: false,
-        current: null,
         load_message: '',
         load_message_status: null
     });
@@ -58,48 +57,25 @@ function MVSidebarLoad(props) {
 
             setState({
                 ...state,
-                current: mvc.app._current_mname,
                 load_message: msg, 
                 load_message_status: err? 'error' : 'success'
             });
         });       
     }
 
-    function showModel(m) {
-        mvc.app.displayModel(m);
-        setState({
-            ...state,
-            current: mvc.app._current_mname
-        });
-    }
-
-    function deleteModel(m) {
-        mvc.app.deleteModel(m);
-
-        var models = mvc.models;
-        if (state.current === m && models.length > 0) {
-            // Display a different one
-            mvc.app.displayModel(models[0]);
-        }
-        setState({
-            ...state,
-            current: mvc.app._current_mname
-        });
-    }
-
     function makeModelOption(m, i) {
 
         var model_icon;
-        if (m === state.current) {
+        if (m === mvc.current_model_name) {
             model_icon = <AiFillEye size={22}/>;
         }
         else {
-            model_icon = <AiOutlineEyeInvisible size={22} onClick={() => {showModel(m);}} />
+            model_icon = <AiOutlineEyeInvisible size={22} onClick={() => { mvc.display(m);}} />
         }
 
         return (<MVListSelectOption key={i} value={m} icon={model_icon}>
             {m}
-            <MdDeleteForever style={{color: 'var(--err-color-2)'}} size={22} onClick={() => {deleteModel(m)}} />
+            <MdDeleteForever style={{color: 'var(--err-color-2)'}} size={22} onClick={() => { mvc.delete(m)}} />
         </MVListSelectOption>);
     }
 

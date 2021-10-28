@@ -29,10 +29,9 @@ class MVSelectInterface extends MVSubInterface {
         var selFunc = null; // Selector function (defined only in some cases)
         switch(mode) {
             case 'atom':
-                // We can use the CrystVis defaults
-                app.onAtomClick(null, LC);
-                app.onAtomClick(null, SLC);
-                app.onAtomClick(null, CLC);
+                selFunc = ((a, e) => {
+                    return app.model.view([a.img_index]); // Just the one
+                });
                 break;
             case 'element':
                 // Selector function
@@ -69,10 +68,15 @@ class MVSelectInterface extends MVSubInterface {
                 break;
         }
 
+        // We use this to guarantee that the selection still doesn't go out of
+        // the default display (e.g. the main cell). Everything else remains
+        // hidden or can be used as ghost for other purposes
+        var dd = this.parent.state.default_displayed;
+
         if (selFunc) {
-            app.onAtomClick((a, e) => { app.selected = selFunc(a, e); }, LC);
-            app.onAtomClick((a, e) => { app.selected = app.selected.or(selFunc(a, e)); }, SLC);
-            app.onAtomClick((a, e) => { app.selected = app.selected.xor(selFunc(a, e)); }, CLC);
+            app.onAtomClick((a, e) => { app.selected = dd.and(selFunc(a, e)); }, LC);
+            app.onAtomClick((a, e) => { app.selected = dd.and(app.selected.or(selFunc(a, e))); }, SLC);
+            app.onAtomClick((a, e) => { app.selected = dd.and(app.selected.xor(selFunc(a, e))); }, CLC);
         }
     }
 

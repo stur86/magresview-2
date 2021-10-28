@@ -10,35 +10,10 @@ import MVText from '../../controls/MVText';
 
 import React, { useState, useContext } from 'react';
 
-// function MVSelectTable(props) {
-// 
-//     // Create list of elements
-//     var atoms = props.atoms || [];
-//     var tab_elems = [];
-//     for (var i = 0; i < Math.min(atoms.length, 50); ++i) {
-//         tab_elems.push(<span key={i+'A'}>{atoms[i].element + ' ' + atoms[i].index + ' ' + atoms[i].ijk}</span>);
-//         tab_elems.push(<span key={i+'S'}>T</span>);
-//         tab_elems.push(<span key={i+'D'}>T</span>);
-//     }
-// 
-//     return (<div className='mv-atomselect-table mv-control'>
-//         <span key='hA' className='mv-at-header'>Atom</span>
-//         <span key='hS' className='mv-at-header'>S</span>
-//         <span key='hD' className='mv-at-header'>D</span>
-//         {tab_elems}
-//     </div>);
-// }
-
 function MVSidebarSelect(props) {
 
     const [ state, setState ] = useState({mode: 'atom', n: 1, r: 2.0});
     const mvc = useContext(MVStoreContext);
-
-    // Getting these for the selection table (only if sidebar is visible, 
-    // wasteful otherwise)
-    // var model_atoms = [];
-    // if (props.show && mvc.app && mvc.app.model)
-    //     model_atoms = mvc.app.model.atoms;
 
     function selectMode(v) {
         mvc.select.set_select(v, state);

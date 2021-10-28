@@ -2,7 +2,9 @@
 const MVInitialState = {
     theme: 'dark',
     panel: 'load',
-    visualizer: null
+    visualizer: null,
+    current_model_name: null,
+    default_displayed: null
 };
 
 // Reducer function
@@ -17,6 +19,11 @@ const MVReducer = (state, action) => {
             return {
                 ...state,
                 [action.key]: action.value
+            }
+        case 'update':
+            return {
+                ...state,
+                ...action.data
             }
         default:
             return state;

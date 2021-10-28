@@ -7,6 +7,10 @@ class MVSubInterface {
     get parent() {
         return this._parent;
     }
+
+    update() {
+        
+    }
 }
 
 export default MVSubInterface;

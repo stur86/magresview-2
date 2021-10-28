@@ -19,7 +19,9 @@ class MVInterface {
         this._dispatch = dispatch;
 
         // Secondary interfaces
-        this._select = new MVSelectInterface(this);
+        this._interfaces = {
+            select: new MVSelectInterface(this)
+        };
     }
 
     // Basic access
@@ -56,9 +58,20 @@ class MVInterface {
         return this.app.model_list;
     }
 
+    get current_model() {
+        if (!this.app)
+            return null;
+
+        return this.app.model;
+    }
+
+    get current_model_name() {
+        return this.state.current_model_name;
+    }
+
     // Sub interfaces
     get select() {
-        return this._select;
+        return this._interfaces.select;
     }
 
     // Methods for easy dispatch
@@ -75,10 +88,14 @@ class MVInterface {
     }
 
     load(files, params={}, cback=null) {
+        /* Load from a list of files, running a callback with the aggregate
+        dictionary that reports the success for each of them */
 
         let cbm = new CallbackMerger(files.length, cback);
         let app = this.app;
+        let intf = this;
 
+        // Callback for each file after the FileReader is done
         function onLoad(contents, name, extension) {
             var success = app.loadModels(contents, extension, name, params);
 
@@ -91,7 +108,7 @@ class MVInterface {
             });
 
             if (to_display) {
-                app.displayModel(to_display);
+                intf.display(to_display);
             }
 
             if (cback) {
@@ -99,6 +116,7 @@ class MVInterface {
             }
         }
 
+        // Function that loads each individual file
         function parseOne(f) {
             
             let reader = new FileReader();
@@ -111,6 +129,36 @@ class MVInterface {
         }
 
         _.forEach(files, parseOne);
+    }
+
+    display(m) {
+        // Display a model
+        this.app.displayModel(m);
+
+        this._dispatch({type: 'update',
+            data: {
+                current_model_name: this.app._current_mname,
+                default_displayed: this.app.displayed
+            }        
+        });
+    }
+
+    delete(m) {
+        // Delete a model
+        this.app.deleteModel(m);
+
+        var models = this.models;
+        if (!this.app.model && models.length > 0) {
+            // Let's display a different one
+            this.display(models[0]);
+        }
+
+        this._dispatch({type: 'update',
+            data: {
+                current_model_name: this.app._current_mname,
+                default_displayed: this.app.displayed
+            }        
+        });
     }
 
 }
