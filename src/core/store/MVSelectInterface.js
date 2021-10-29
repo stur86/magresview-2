@@ -18,6 +18,26 @@ class MVSelectInterface extends MVSubInterface {
         this.parent.app.highlight_selected = v;
     }
 
+    // Interfaces to selected and displayed. We use these so we can have
+    // callbacks when they change
+    get selected() {
+        return this.parent.app.selected;
+    }
+
+    set selected(v) {
+        this.parent.app.selected = v;
+        this.parent.onSelectChange();
+    }
+
+    get displayed() {
+        return this.parent.app.displayed;
+    }
+
+    set displayed(v) {
+        this.parent.app.displayed = v;
+        this.parent.onDisplayChange();
+    }
+
     set_select(mode, options={}) {
 
         // App
@@ -72,11 +92,12 @@ class MVSelectInterface extends MVSubInterface {
         // the default display (e.g. the main cell). Everything else remains
         // hidden or can be used as ghost for other purposes
         var dd = this.parent.state.default_displayed;
+        var intf = this;
 
         if (selFunc) {
-            app.onAtomClick((a, e) => { app.selected = dd.and(selFunc(a, e)); }, LC);
-            app.onAtomClick((a, e) => { app.selected = dd.and(app.selected.or(selFunc(a, e))); }, SLC);
-            app.onAtomClick((a, e) => { app.selected = dd.and(app.selected.xor(selFunc(a, e))); }, CLC);
+            app.onAtomClick((a, e) => { intf.selected = dd.and(selFunc(a, e)); }, LC);
+            app.onAtomClick((a, e) => { intf.selected = dd.and(intf.selected.or(selFunc(a, e))); }, SLC);
+            app.onAtomClick((a, e) => { intf.selected = dd.and(intf.selected.xor(selFunc(a, e))); }, CLC);
         }
     }
 
@@ -89,13 +110,13 @@ class MVSelectInterface extends MVSubInterface {
 
         switch (mode) {
             case 'selected':
-                app.displayed = app.selected;
+                this.displayed = this.selected;
                 break;
             default:
                 // Restore original
                 let m = app.model;
                 if (m)
-                    app.displayed = m.view(m._queryCell([0,0,0]));
+                    this.displayed = m.view(m._queryCell([0,0,0]));
                 break;
         }
 

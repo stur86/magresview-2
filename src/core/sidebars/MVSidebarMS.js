@@ -5,25 +5,33 @@ import { MVStoreContext } from '../store';
 
 import React, { useState, useContext } from 'react';
 
+import MVCheckBox from '../../controls/MVCheckBox';
+
 function MVSidebarMS(props) {
 
     const [ state, setState ] = useState({});
 
     const mvc = useContext(MVStoreContext);
 
-    var ms_data = null;
+    var has_ms = false;
     if (props.show) {
-        let m = mvc.current_model;
-        if (m) {
-            ms_data = m.getArray('ms');
+        has_ms = mvc.ms.hasData;
+    }
+
+    function showEllipsoids(v) {
+        if (v) {
+            mvc.ms.addEllipsoids(0.08);
+        }
+        else {
+            mvc.ms.removeEllipsoids();
         }
     }
 
-    console.log(ms_data);
-
     return (<MagresViewSidebar show={props.show} title='Magnetic Shielding'>
-        {ms_data? 
-         <span></span>: 
+        {has_ms? 
+         (<p>
+             <MVCheckBox onCheck={showEllipsoids} checked={mvc.ms.hasEllipsoids}>Ellipsoids</MVCheckBox>
+         </p>): 
          <div className='mv-warning-noms'>No MS data found</div>}
     </MagresViewSidebar>);
 }

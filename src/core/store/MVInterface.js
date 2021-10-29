@@ -5,6 +5,7 @@ import CrystVis from 'crystvis-js';
 
 // Secondary interfaces
 import MVSelectInterface from './MVSelectInterface';
+import MVMSInterface from './MVMSInterface';
 
 /* This and secondary Interface classes serve as a useful way to hold a lot
  * of methods that we'll use a lot. They also keep track of changes and 
@@ -20,7 +21,8 @@ class MVInterface {
 
         // Secondary interfaces
         this._interfaces = {
-            select: new MVSelectInterface(this)
+            select: new MVSelectInterface(this),
+            ms: new MVMSInterface(this)
         };
     }
 
@@ -72,6 +74,10 @@ class MVInterface {
     // Sub interfaces
     get select() {
         return this._interfaces.select;
+    }
+
+    get ms() {
+        return this._interfaces.ms;
     }
 
     // Methods for easy dispatch
@@ -132,6 +138,12 @@ class MVInterface {
     }
 
     display(m) {
+        // If any model is currently displayed, make sure to unselect everything
+        let cm = this.current_model;
+        if (cm) {
+            this.select.selected = cm.view([]);
+        }
+
         // Display a model
         this.app.displayModel(m);
 
@@ -159,6 +171,16 @@ class MVInterface {
                 default_displayed: this.app.displayed
             }        
         });
+    }
+
+    onSelectChange() {
+        // Triggers when selection changes
+        this.ms.update();
+    }
+
+    onDisplayChange() {
+        // Triggers when displayed atoms change
+        this.ms.update();
     }
 
 }
