@@ -23,7 +23,6 @@ function MVText(props) {
         var v = e.target.value;
         if (filter) {
             let m = filter.exec(v)
-            console.log(v + ' -- ' + m);
             v = m? m[0] : state.text;
         }
         setState(s => ({...s, submitted: false, text: v}));

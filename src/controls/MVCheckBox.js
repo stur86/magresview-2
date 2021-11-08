@@ -1,16 +1,11 @@
 import './MVCheckBox.css';
 import _ from 'lodash';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 function MVCheckBox(props) {
 
-    const [state, setState] = useState({id: null, checked: ('checked' in props? props.checked : false)});
-
-    useEffect(() => {
-        const id = _.uniqueId('checkbox');
-        setState((s) => ({...s, id: id}));
-    }, []);
+    const [state, setState] = useState({id: _.uniqueId('checkbox'), checked: ('checked' in props? props.checked : false)});
 
     var style = {};
     if (props.color) {

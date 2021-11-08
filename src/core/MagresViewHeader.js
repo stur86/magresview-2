@@ -9,7 +9,7 @@ import MVIcon from '../icons/MVIcon';
 
 function ThemeSwitcher() {
 
-    var mvc = useContext(MVStoreContext);
+    const [mvc] = useContext(MVStoreContext);
 
     const other = {
         dark: 'light',
@@ -26,7 +26,7 @@ function ThemeSwitcher() {
 
 function MagresViewHeader() {
 
-    let mvc = useContext(MVStoreContext);
+    const [mvc] = useContext(MVStoreContext);
 
     function switchPanel(v) {
         mvc.panel = v;

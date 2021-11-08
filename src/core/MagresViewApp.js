@@ -13,7 +13,7 @@ import MVSidebarMS from './sidebars/MVSidebarMS';
 
 function MagresViewPage() {
 
-    const mvc = useContext(MVStoreContext);
+    const [mvc] = useContext(MVStoreContext);
     const mvcRef = useRef();
     mvcRef.current = mvc;
 

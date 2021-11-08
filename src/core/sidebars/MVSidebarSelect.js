@@ -13,7 +13,7 @@ import React, { useState, useContext } from 'react';
 function MVSidebarSelect(props) {
 
     const [ state, setState ] = useState({mode: 'atom', n: 1, r: 2.0});
-    const mvc = useContext(MVStoreContext);
+    const [mvc] = useContext(MVStoreContext);
 
     function selectMode(v) {
         mvc.select.set_select(v, state);

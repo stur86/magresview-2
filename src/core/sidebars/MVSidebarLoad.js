@@ -7,6 +7,7 @@ import MVFile from '../../controls/MVFile';
 import MVBox from '../../controls/MVBox';
 import MVCheckBox from '../../controls/MVCheckBox';
 import MVListSelect, { MVListSelectOption } from '../../controls/MVListSelect';
+
 import { MVStoreContext } from '../store';
 
 import React, { useState, useContext } from 'react';
@@ -24,7 +25,7 @@ function MVSidebarLoad(props) {
         load_message_status: null
     });
 
-    const mvc = useContext(MVStoreContext);
+    const [mvc] = useContext(MVStoreContext);
 
     const viewer = mvc.app;
 

@@ -15,7 +15,7 @@ import MVMSInterface from './MVMSInterface';
  */
 class MVInterface {
 
-    constructor(state, dispatch) {
+    constructor(state=null, dispatch=null) {
         this._state = state;
         this._dispatch = dispatch;
 
@@ -80,6 +80,12 @@ class MVInterface {
         return this._interfaces.ms;
     }
 
+    // Used whenever the state and dispatch methods change
+    link(s, d) {
+        this._state = s;
+        this._dispatch = d;
+    }
+
     // Methods for easy dispatch
     init(elem) {
         console.log('Initialising CrystVis app on element ' + elem);
@@ -138,10 +144,11 @@ class MVInterface {
     }
 
     display(m) {
-        // If any model is currently displayed, make sure to unselect everything
+        // If any model is currently displayed, make sure to reset everything
         let cm = this.current_model;
         if (cm) {
             this.select.selected = cm.view([]);
+            this.ms.reset();
         }
 
         // Display a model

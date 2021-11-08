@@ -35,6 +35,12 @@
   align-items: flex-start;
 }
 
+.mv-sidebar .mv-sidebar-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;  
+}
+
 .mv-sidebar .sep-1 {
   display: block;
   margin-bottom: 1em;
