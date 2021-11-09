@@ -2,6 +2,8 @@
 const MVModelInitialState = {
     current_model_name: null,
     default_displayed: null,
+    // Selection
+    sel_highlight: true,
     // MS state
     ms_ellipsoid_view: null,
     ms_ellipsoid_scale: 0.05

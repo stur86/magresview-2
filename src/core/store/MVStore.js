@@ -39,4 +39,5 @@ function MVStore({children}) {
 };
 
 export const MVStoreContext = createContext(MVInitialState);
+export { mvinterface };
 export default MVStore;

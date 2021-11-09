@@ -19,9 +19,11 @@ function MVCheckBox(props) {
         }
     }    
 
+    var checked = props.noState? props.checked : state.checked;
+
     return (
         <span className='mv-control mv-checkbox' style={style} title={props.title}>
-            <input id={state.id} type='checkbox' checked={state.checked} onChange={(e) => onCheck(e.target.checked)}/>
+            <input id={state.id} type='checkbox' checked={checked} onChange={(e) => onCheck(e.target.checked)}/>
             <label htmlFor={state.id}/>{props.children}
         </span>
     );

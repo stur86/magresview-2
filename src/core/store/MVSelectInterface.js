@@ -7,15 +7,17 @@ const CLC = CrystVis.LEFT_CLICK + CrystVis.CTRL_BUTTON;
 
 class MVSelectInterface extends MVSubInterface {
 
-    _hlight = true
-
     get highlighted() {
-        return this._hlight;
+        return this.parent.state.sel_highlight;
     }
 
     set highlighted(v) {
-        this._hlight = v;
         this.parent.app.highlight_selected = v;
+        this.parent.dispatch({
+            type: 'set',
+            key: 'sel_highlight',
+            value: v
+        });
     }
 
     // Interfaces to selected and displayed. We use these so we can have

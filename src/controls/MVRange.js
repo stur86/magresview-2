@@ -14,7 +14,8 @@ function MVRange(props) {
 
     var in_val = ('value' in props? props.value : min);
 
-    const [state, setState] = useState({id: _.uniqueId('range'), 
+    const [state, setState] = useState({
+        id: _.uniqueId('range'), 
         value: in_val,
         text_value: in_val.toString()
     });
@@ -30,7 +31,6 @@ function MVRange(props) {
         v = Math.max(v, min);
         return v;
     }
-
 
     function onTextChange(e) {
         var v = e.target.value;
