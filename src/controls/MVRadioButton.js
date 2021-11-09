@@ -10,7 +10,13 @@ function MVRadioGroup(props) {
         return (c.type.name === 'MVRadioButton');
     });
 
-    const [ state, setState ] = useState({index: props.index, 
+    // Find the index of the one we want selected
+    let index = 0;
+    if (props.selected) {
+        index = _.findIndex(children, (c) => c.props.value === props.selected);
+    }
+
+    const [ state, setState ] = useState({index: index,
         _uids: children.map((c, i) => c.props.id || _.uniqueId(props.name + '_radio_' + i))});
 
     function onChange(v, i) {
@@ -20,7 +26,8 @@ function MVRadioGroup(props) {
         }
     }
 
-    var index = props.noState? props.index : state.index;
+    // Redefine
+    index = props.noState? index : state.index;
 
     // Clone the MVRadioButton children
     children = children.map((c, i) => cloneElement(c, {key: i, 

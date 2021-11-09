@@ -4,6 +4,9 @@ const MVModelInitialState = {
     default_displayed: null,
     // Selection
     sel_highlight: true,
+    sel_mode: 'none',
+    sel_sph_r: 2.0,
+    sel_bond_n: 1,
     // MS state
     ms_ellipsoid_view: null,
     ms_ellipsoid_scale: 0.05

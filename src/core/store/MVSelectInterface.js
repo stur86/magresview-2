@@ -31,6 +31,18 @@ class MVSelectInterface extends MVSubInterface {
         this.parent.onSelectChange();
     }
 
+    get selection_mode() {
+        return this.parent.state.sel_mode;
+    }
+
+    get selection_sphere_R() {
+        return this.parent.state.sel_sph_r;
+    }
+
+    get selection_bond_n() {
+        return this.parent.state.sel_bond_n;
+    }
+
     get displayed() {
         return this.parent.app.displayed;
     }
@@ -47,15 +59,20 @@ class MVSelectInterface extends MVSubInterface {
         if (!app) 
             return;
 
+
         // Set the selection callbacks for a certain mode on picking an atom
         var selFunc = null; // Selector function (defined only in some cases)
         switch(mode) {
             case 'atom':
+                if (this.selection_mode === mode)
+                    return;
                 selFunc = ((a, e) => {
                     return app.model.view([a.img_index]); // Just the one
                 });
                 break;
             case 'element':
+                if (this.selection_mode === mode)
+                    return;
                 // Selector function
                 selFunc = ((a, e) => {
                     var found = app.model._queryElements(a.element);
@@ -64,12 +81,16 @@ class MVSelectInterface extends MVSubInterface {
                 break;
             case 'sphere':
                 const r = options.r || 2.0; // Default 2 Angstroms
+                if (this.selection_mode === mode && this.selection_sphere_R === r)
+                    return;
                 selFunc = ((a, e) => {
                     var found = app.model._querySphere(a, r); 
                     return app.model.view(found);
                 });
                 break;
             case 'molecule': 
+                if (this.selection_mode === mode)
+                    return;
                 selFunc = ((a, e) => {
                     var found = app.model._queryMolecule(a);
                     return app.model.view(found);
@@ -77,12 +98,16 @@ class MVSelectInterface extends MVSubInterface {
                 break;
             case 'bonds':
                 const n = options.n || 1;
+                if (this.selection_mode === mode && this.selection_bond_n === n)
+                    return;
                 selFunc = ((a, e) => {
                     var found = app.model._queryBonded(a, n, false);
                     return app.model.view(found);
                 });
                 break;
             default:
+                if (this.selection_mode === mode)
+                    return;
                 // No selection at all
                 app.onAtomClick((a, e) => {}, LC);
                 app.onAtomClick((a, e) => {}, SLC);
@@ -101,6 +126,12 @@ class MVSelectInterface extends MVSubInterface {
             app.onAtomClick((a, e) => { intf.selected = dd.and(intf.selected.or(selFunc(a, e))); }, SLC);
             app.onAtomClick((a, e) => { intf.selected = dd.and(intf.selected.xor(selFunc(a, e))); }, CLC);
         }
+
+        this.parent.dispatch({type: 'update', data: {
+            sel_mode: mode, 
+            sel_sph_r: options.r || this.selection_sphere_R,
+            sel_bond_n: options.n || this.selection_bond_n
+        }});
     }
 
     set_display(mode) {

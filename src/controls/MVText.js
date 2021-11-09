@@ -19,11 +19,13 @@ function MVText(props) {
         style['--outline-color'] = props.color;
     }
 
+    var text = props.noState? props.value : state.text;
+
     function onChange(e) {
         var v = e.target.value;
         if (filter) {
             let m = filter.exec(v)
-            v = m? m[0] : state.text;
+            v = m? m[0] : text;
         }
         setState(s => ({...s, submitted: false, text: v}));
         if(props.onChange) {
@@ -34,7 +36,7 @@ function MVText(props) {
     function onKeyDown(e) {
         if (e.key === 'Enter') {
             if (props.onSubmit) {
-                props.onSubmit(state.text);
+                props.onSubmit(text);
             }
             setState(s => ({...s, submitted: true}));
         }
@@ -46,7 +48,7 @@ function MVText(props) {
     <span className='mv-text'>
         {props.children? <label htmlFor={state.id} className='mv-textlabel'>{props.children}</label> : <></>}
         <input type='text' id={state.id} className={chainClasses('mv-control mv-textfield', waitSubmit? 'mv-submit-wait' : '')} 
-            style={style} size={props.size} value={state.text}
+            style={style} size={props.size} value={text}
             onChange={onChange} onKeyDown={onKeyDown}
         />
     </span>);
