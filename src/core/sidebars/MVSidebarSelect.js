@@ -61,11 +61,11 @@ function MVSidebarSelect(props) {
                 <MVRadioButton value='atom'>Atom</MVRadioButton>
                 <MVRadioButton value='element'>Element</MVRadioButton>
                 <MVRadioButton value='sphere'>Sphere, radius =&nbsp;
-                    <MVText size='5' value={state.r} filter='[0-9]*(?:\.[0-9]*)?' onChange={setR} onSubmit={setR} noState />&nbsp;  &#8491;
+                    <MVText size='5' value={state.r} filter='[0-9]*(?:\.[0-9]*)?' onChange={setR} onSubmit={setR} />&nbsp;  &#8491;
                 </MVRadioButton>
                 <MVRadioButton value='molecule'>Molecule</MVRadioButton>
                 <MVRadioButton value='bonds'>Bonds, max distance = &nbsp;
-                    <MVText size='3' value={state.n} filter='[0-9]*' onChange={setN} onSubmit={setN} noState />
+                    <MVText size='3' value={state.n} filter='[0-9]*' onChange={setN} onSubmit={setN} />
                 </MVRadioButton>
             </MVRadioGroup>
         </p>

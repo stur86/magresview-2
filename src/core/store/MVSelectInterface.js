@@ -102,6 +102,7 @@ class MVSelectInterface extends MVSubInterface {
                     return;
                 selFunc = ((a, e) => {
                     var found = app.model._queryBonded(a, n, false);
+                    found = found.concat([a.img_index]); // Crystvis excludes the original atom
                     return app.model.view(found);
                 });
                 break;
