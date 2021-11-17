@@ -6,6 +6,8 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.4.1",
+    "color-scales": "^3.0.2",
+    "colormap": "^2.3.2",
     "crystvis-js": "file:.yalc/crystvis-js",
     "normalize.css": "^8.0.1",
     "react": "^17.0.2",

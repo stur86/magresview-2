@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import colormap from 'colormap';
+import ColorScale from 'color-scales';
 
 /*
  * Merges together all the outputs of multiple async processes into a single
@@ -27,4 +29,18 @@ class CallbackMerger {
     }
 }
 
-export { CallbackMerger };
+function getColorScale(min=0, max=1, scale='jet', shades=10) {
+    
+    let colors = colormap({
+        colormap: scale,
+        nshades: shades,
+        format: 'hex',
+        alpha: 1
+    });
+
+    let cscale = new ColorScale(min, max, colors, 1.0);
+
+    return cscale;
+}
+
+export { CallbackMerger, getColorScale };
