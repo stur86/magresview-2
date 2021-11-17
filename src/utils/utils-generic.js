@@ -38,6 +38,9 @@ function getColorScale(min=0, max=1, scale='jet', shades=10) {
         alpha: 1
     });
 
+    // If min and max are equal we get an error so fix that
+    max = (max === min)? max+1e-8 : max;
+
     let cscale = new ColorScale(min, max, colors, 1.0);
 
     return cscale;

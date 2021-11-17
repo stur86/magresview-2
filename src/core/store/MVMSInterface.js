@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import MVSubInterface from './MVSubInterface';
+import { getColorScale } from '../../utils';
 
 class MVMSInterface extends MVSubInterface {
 
@@ -24,6 +25,14 @@ class MVMSInterface extends MVSubInterface {
         return this.parent.state.ms_labels_content;
     }
 
+    get hasColorScale() {
+        return !(this.parent.state.ms_cscale_view == null);
+    }
+
+    get colorScaleContent() {
+        return this.parent.state.ms_cscale_content;
+    }
+
     update() {
         // Called when selection has changed
         if (this.hasEllipsoids) {
@@ -33,6 +42,13 @@ class MVMSInterface extends MVSubInterface {
         if (this.hasLabels) {
             this._removeLabels(false);
             this._addLabels(this.parent.state.ms_labels_content);
+        }
+
+        // Special case. We always want to "remove" the color scale to make 
+        // sure no atom is displayed in the wrong color
+        this._removeColorScale(false);
+        if (this.hasColorScale) {
+            this._addColorScale(this.parent.state.ms_cscale_content);
         }
     }
 
@@ -55,12 +71,18 @@ class MVMSInterface extends MVSubInterface {
             this._removeEllipsoids();
     }
 
-    setLabels(visible=false, content='iso') {
-        if (visible)
+    setLabels(content='iso') {
+        if (content !== 'none')
             this._addLabels(content);
         else
             this._removeLabels();
+    }
 
+    setColorScale(content='iso') {    
+        if (content !== 'none')
+            this._addColorScale(content);
+        else
+            this._removeColorScale();
     }
 
     _getTargetSelection() {
@@ -171,6 +193,68 @@ class MVMSInterface extends MVSubInterface {
                 }});
             }
         }
+    }
+
+    _addColorScale(content, dispatch=true) {
+
+        let sel = this._getTargetSelection();
+        let notsel = this.parent.select.displayed.xor(sel);
+
+        let ms = sel.map((a) => a.getArrayValue('ms'));
+        let values = null;
+
+        // Grab the right data based on content
+        switch(content) {
+            case 'iso': 
+                values = ms.map((T) => T.isotropy);
+                break;
+            case 'aniso':
+                values = ms.map((T) => T.anisotropy);
+                break;            
+            case 'asymm':
+                values = ms.map((T) => T.asymmetry);
+                break;
+            default:
+                // Actually nothing to display
+                this._removeLabels();
+                return;
+        }
+
+        // Find min and max
+        let minv = _.min(values);
+        let maxv = _.max(values);
+        let cs = getColorScale(minv, maxv, 'portland');
+        let colors = values.map((v) => cs.getColor(v).toHexString());
+
+        sel.setProperty('color', colors);
+        notsel.setProperty('color', '#888888');
+
+        if (dispatch)
+            this.parent.dispatch({type: 'update', data: {
+                ms_cscale_view: sel,
+                ms_cscale_content: content
+            }});
+    }
+
+    _removeColorScale(dispatch=true) {        
+
+        this.parent.select.displayed.setProperty('color', null);
+
+        let view = this.parent.state.ms_cscale_view;
+
+        if (view !== null) {
+            view.setProperty('color', null);
+
+            if (dispatch) {
+                // dispatch can be set to false when we know we won't need this,
+                // namely, when removeEllipsoids and addEllipsoids are called in 
+                // sequence.
+                this.parent.dispatch({type: 'update', data: {
+                    ms_cscale_view: null,
+                    ms_cscale_content: 'none'
+                }});
+            }
+        }    
     }
 
 }

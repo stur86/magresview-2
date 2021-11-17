@@ -11,7 +11,9 @@ const MVModelInitialState = {
     ms_ellipsoid_view: null,
     ms_ellipsoid_scale: 0.05,
     ms_labels_view: null,
-    ms_labels_content: 'none'
+    ms_labels_content: 'none',
+    ms_cscale_view: null,
+    ms_cscale_content: 'none'
 };
 
 // Initial state
