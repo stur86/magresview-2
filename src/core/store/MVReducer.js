@@ -9,7 +9,9 @@ const MVModelInitialState = {
     sel_bond_n: 1,
     // MS state
     ms_ellipsoid_view: null,
-    ms_ellipsoid_scale: 0.05
+    ms_ellipsoid_scale: 0.05,
+    ms_labels_view: null,
+    ms_labels_content: 'none'
 };
 
 // Initial state
@@ -37,12 +39,6 @@ const MVReducer = (state, action) => {
             return {
                 ...state,
                 ...action.data
-            };
-        case 'ms_ellipsoids':
-            return {
-                ...state,
-                ms_ellipsoid_view: action.view,
-                ms_ellipsoid_scale: action.scale
             };
         default:
             return state;

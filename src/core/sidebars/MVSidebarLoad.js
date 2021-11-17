@@ -81,10 +81,10 @@ function MVSidebarLoad(props) {
     }
 
     return (<MagresViewSidebar show={props.show} title='Load file'>
-        <p>
+        <div className='mv-sidebar-block'>
             <MVFile filetypes={file_formats.join(',')} onSelect={loadModel} notext={true} multiple={true}/>
             <MVCheckBox onCheck={(v) => {setState({...state, load_as_mol: v})}}>Load as molecular crystal</MVCheckBox>
-        </p>
+        </div>
         <h4>Models:</h4>
         <MVListSelect>
             {models.map(makeModelOption)}

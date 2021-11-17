@@ -54,7 +54,7 @@ function MVSidebarSelect(props) {
 
 
     return (<MagresViewSidebar show={props.show} title='Select and display'>
-        <p>
+        <div className='mv-sidebar-block'>
             <MVCheckBox checked={mvc.select.highlighted} onCheck={(v) => { mvc.select.highlighted = v }} noState>Highlight selected</MVCheckBox>        
             <span className='sep-1' />
             <MVRadioGroup label='Selection mode' onSelect={selectMode} selected={mvc.select.selection_mode} name='selec_mode_radio' noState>
@@ -68,12 +68,12 @@ function MVSidebarSelect(props) {
                     <MVText size='3' value={state.n} filter='[0-9]*' onChange={setN} onSubmit={setN} />
                 </MVRadioButton>
             </MVRadioGroup>
-        </p>
-        <p>
+        </div>
+        <div className='mv-sidebar-block'>
             <MVButton onClick={() => { mvc.select.set_display('selected'); }}>Display selected</MVButton>
             <span className='sep-1' />
             <MVButton onClick={() => { mvc.select.set_display(); }}>Reset displayed</MVButton>
-        </p>
+        </div>
     </MagresViewSidebar>);
 }
 

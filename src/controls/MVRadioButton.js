@@ -12,7 +12,7 @@ function MVRadioGroup(props) {
 
     // Find the index of the one we want selected
     let index = 0;
-    if (props.selected) {
+    if (props.selected != null) {
         index = _.findIndex(children, (c) => c.props.value === props.selected);
     }
 

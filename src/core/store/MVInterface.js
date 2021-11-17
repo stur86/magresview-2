@@ -158,7 +158,7 @@ class MVInterface {
             data: {
                 current_model_name: this.app._current_mname,
                 default_displayed: this.app.displayed
-            }        
+            }
         });
     }
 

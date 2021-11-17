@@ -1,11 +1,13 @@
 .mv-range {
   --track-color: var(--fwd-color-2);
   --thumb-color: var(--ms-color-2);
+  --outline-color: var(--ms-color-2);
 
   display: inline-flex;
   justify-content: space-between;
   width: 100%;
   box-sizing: border-box;
+  padding: var(--ctrl-padding) 0;
 }
 
 .mv-range-text {
@@ -13,6 +15,15 @@
   box-sizing: border-box;
   text-align: right;
   border: 2px solid var(--fwd-color-3);
+}
+
+.mv-range-text.mv-submit-wait {
+  border: 2px solid var(--outline-color);
+}
+
+.mv-range-text:disabled {
+  color: var(--mid-color-1);
+  background-color: var(--light-color-1);
 }
 
 /* CSS generated with the help of http://danielstern.ca/range.css/#/ */
