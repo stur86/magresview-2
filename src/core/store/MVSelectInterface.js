@@ -115,7 +115,7 @@ class MVSelectInterface extends MVSubInterface {
                 app.onAtomClick((a, e) => {}, CLC);
                 break;
         }
-
+        
         // We use this to guarantee that the selection still doesn't go out of
         // the default display (e.g. the main cell). Everything else remains
         // hidden or can be used as ghost for other purposes

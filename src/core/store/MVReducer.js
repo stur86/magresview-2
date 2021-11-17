@@ -4,7 +4,7 @@ const MVModelInitialState = {
     default_displayed: null,
     // Selection
     sel_highlight: true,
-    sel_mode: 'none',
+    sel_mode: null,
     sel_sph_r: 2.0,
     sel_bond_n: 1,
     // MS state

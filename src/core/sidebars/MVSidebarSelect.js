@@ -50,7 +50,7 @@ function MVSidebarSelect(props) {
             mvc.select.set_select(state.last_mode, {r: state.r, n: state.n});
         }
 
-    }, [props.show, state.last_mode, state.r, state.n]);
+    }, [props.show, state.last_mode, state.r, state.n, mvc.app]);
 
 
     return (<MagresViewSidebar show={props.show} title='Select and display'>
