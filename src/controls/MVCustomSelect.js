@@ -27,9 +27,14 @@ function MVCustomSelect(props) {
     });
 
     // Gather the options
-    const options = _.filter(props.children, (c, i) => {
-        return (c.type.name === 'MVCustomSelectOption');
-    });
+    var options = [];
+
+    for (let i = 0; i < props.children.length; ++i) {
+        let c = props.children[i];
+        if (c.type.name === 'MVCustomSelectOption') {
+            options.push(c);
+        }
+    }
     const values = options.map((o) => (o.props.value));
 
     // Translation?
