@@ -8,14 +8,16 @@
     "@testing-library/user-event": "^13.4.1",
     "color-scales": "^3.0.2",
     "colormap": "^2.3.2",
+    "core-js": "^3.19.1",
     "crystvis-js": "file:.yalc/crystvis-js",
     "normalize.css": "^8.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
+    "react-redux": "^7.2.6",
     "react-scripts": "4.0.3",
-    "web-vitals": "^2.1.2",
-    "core-js": "^3.19.1"
+    "redux": "^4.1.2",
+    "web-vitals": "^2.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
