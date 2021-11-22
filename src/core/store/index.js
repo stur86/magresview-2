@@ -1,4 +1,6 @@
-import MVStore, { MVStoreContext } from './MVStore';
+import magresStore from './store';
+import useAppInterface from './AppInterface';
 
-export default MVStore;
-export { MVStoreContext };
+export default magresStore;
+
+export { useAppInterface };

@@ -5,9 +5,14 @@ import './index.scss';
 import MagresViewApp from './core/MagresViewApp';
 import reportWebVitals from './reportWebVitals';
 
+import { Provider } from 'react-redux';
+import magresStore from './core/store';
+
 ReactDOM.render(
   <React.StrictMode>
-    <MagresViewApp />
+    <Provider store={magresStore}>
+      <MagresViewApp />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

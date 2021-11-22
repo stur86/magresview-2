@@ -5,27 +5,27 @@ import React, { useEffect, useRef, useContext } from 'react';
 
 import { chainClasses } from '../utils';
 import MagresViewHeader from './MagresViewHeader';
-import MVStore, { MVStoreContext } from './store';
+import { useAppInterface } from './store';
 
 import MVSidebarLoad from './sidebars/MVSidebarLoad';
-import MVSidebarSelect from './sidebars/MVSidebarSelect';
-import MVSidebarMS from './sidebars/MVSidebarMS';
+// import MVSidebarSelect from './sidebars/MVSidebarSelect';
+// import MVSidebarMS from './sidebars/MVSidebarMS';
 
 function MagresViewPage() {
 
-    const [mvc] = useContext(MVStoreContext);
-    const mvcRef = useRef();
-    mvcRef.current = mvc;
+    let appint = useAppInterface();
+
+    const appRef = useRef(appint);
 
     useEffect(() => {
-        mvcRef.current.init('#mv-appwindow');
+        appRef.current.initialise('#mv-appwindow');
     }, []);
 
-    return (<div className={chainClasses('mv-main-page', 'theme-' + mvc.theme)}>
+    return (<div className={chainClasses('mv-main-page', 'theme-' + appint.theme )}>
                 <MagresViewHeader />
-                <MVSidebarLoad show={mvc.panel === 'load'} />
-                <MVSidebarSelect show={mvc.panel === 'select'} />
-                <MVSidebarMS show={mvc.panel === 'ms'} />
+                <MVSidebarLoad show={appint.sidebar === 'load'} />
+                {/* <MVSidebarSelect show={appint.sidebar === 'select'} /> */}
+                {/* <MVSidebarMS show={appint.sidebar === 'ms'} /> */}
                 <div id='mv-appwindow' className='mv-background'/>
             </div>);
 }
@@ -34,9 +34,7 @@ function MagresViewApp() {
 
     return (
         <div className='mv-main-app'>
-            <MVStore>
-                <MagresViewPage />
-            </MVStore>
+            <MagresViewPage />
         </div>
     );
 }

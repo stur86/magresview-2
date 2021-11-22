@@ -8,6 +8,7 @@ test('render MVCustomSelect', () => {
     render(<MVCustomSelect title='mv-cselect' onSelect={(v) => {value = v;}}>
         <MVCustomSelectOption value='opt1'>Option 1</MVCustomSelectOption>
         <MVCustomSelectOption value='opt2'>Option 2</MVCustomSelectOption>
+        <div>Does not belong</div>
     </MVCustomSelect>);
 
     const cselElement = screen.getByTitle('mv-cselect');
@@ -18,6 +19,9 @@ test('render MVCustomSelect', () => {
 
     const ddownElement = mainElement.nextSibling;
     expect(ddownElement).toBeInTheDocument();
+
+    const undesiredElement = ddownElement.nextSibling;
+    expect(undesiredElement).not.toBeInTheDocument();
 
     // Now test selecting
     userEvent.click(mainElement);

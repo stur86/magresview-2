@@ -4,20 +4,20 @@ import { FaSun, FaMoon, FaRegFolderOpen, FaMousePointer } from 'react-icons/fa';
 
 import React, { useContext } from 'react';
 import MVCustomSelect, { MVCustomSelectOption } from '../controls/MVCustomSelect';
-import { MVStoreContext } from './store';
 import MVIcon from '../icons/MVIcon';
+import { useAppInterface } from './store';
 
 function ThemeSwitcher() {
 
-    const [mvc] = useContext(MVStoreContext);
+    const appint = useAppInterface();
 
     const other = {
         dark: 'light',
         light: 'dark'
     };
 
-    return (<div id='mv-themeswitch' onClick={() => { mvc.theme = other[mvc.theme]; }}>
-        <div id='mv-themeicons' className={mvc.theme}>
+    return (<div id='mv-themeswitch' onClick={() => { appint.theme = other[appint.theme]; }}>
+        <div id='mv-themeicons' className={appint.theme}>
             <FaMoon id='mv-themedark'/>
             <FaSun id='mv-themelight'/>
         </div>
@@ -26,11 +26,7 @@ function ThemeSwitcher() {
 
 function MagresViewHeader() {
 
-    const [mvc] = useContext(MVStoreContext);
-
-    function switchPanel(v) {
-        mvc.panel = v;
-    }
+    const appint = useAppInterface();
 
     return (<header className='mv-header'>
         <div className='mv-header-left'>
@@ -40,7 +36,7 @@ function MagresViewHeader() {
             </h3>
         </div>
         <div className='mv-header-right'>
-            <MVCustomSelect onSelect={switchPanel}>
+            <MVCustomSelect onSelect={(v) => { appint.sidebar = v; }} selected={appint.sidebar}>
                 <MVCustomSelectOption value='load' icon={<FaRegFolderOpen />}>Load file</MVCustomSelectOption>
                 <MVCustomSelectOption value='select' icon={<FaMousePointer />}>Select and display</MVCustomSelectOption>
                 <MVCustomSelectOption value='ms' icon={<MVIcon icon='ms' color='var(--ms-color-3)'/>}>Magnetic Shielding</MVCustomSelectOption>

@@ -1,0 +1,212 @@
+import _ from 'lodash';
+import { shallowEqual, useSelector, useDispatch } from 'react-redux';
+
+import { makeSelector } from './utils';
+import { CallbackMerger } from '../../utils';
+
+import CrystVis from 'crystvis-js';
+
+
+const initialAppState = {
+    app_viewer: null,
+    app_theme: 'dark',
+    app_sidebar: 'load',
+    app_default_displayed: null
+};
+
+// Functions meant to operate on the app alone.
+// These exist outside of the AppInterface because they will be invoked
+// directly from inside the reducer as special actions
+function appDisplayModel(state, m) {
+    let app = state.app_viewer;
+    let cm = app.model;
+    if (cm) {
+        // Do the stuff with resetting selection and such
+    }
+
+    app.displayModel(m);
+
+    // Return data for dispatch
+    return {
+        app_default_displayed: app.displayed
+    };
+}
+
+function appDeleteModel(state, m) {
+    
+    let app = state.app_viewer;
+    let data = {};
+
+    // Delete a model
+    app.deleteModel(m);
+
+    let models = app.model_list;
+
+    if (!app.model && models.length > 0) {
+        // Let's display a different one
+        data = appDisplayModel(state, models[0]);
+    }
+
+    return data;
+}
+
+class AppInterface {
+
+    constructor(state, dispatcher) {
+        this._state = state;
+        this._dispatcher = dispatcher;
+    }
+
+    get initialised() {
+        return this.viewer !== null;
+    }
+
+    get viewer() {
+        return this._state.app_viewer;
+    }
+
+    get models() {
+        let models = [];
+
+        if (this.initialised) {
+            models = this.viewer.model_list;
+        }
+
+        return models;
+    }
+
+    get current_model() {
+        let model = null;
+
+        if (this.initialised) {
+            model = this.viewer.model;
+        }
+
+        return model;
+    }
+
+    get current_model_name() {
+        let model_name = null;
+
+        if (this.initialised) {
+            model_name = this.viewer.model_name;
+        }
+
+        return model_name;
+    }
+
+    get theme() {
+        return this._state.app_theme;
+    }
+
+    set theme(v) {
+        this._dispatcher({
+            type: 'set',
+            key: 'app_theme',
+            value: v
+        });
+    }
+
+    get sidebar() {
+        return this._state.app_sidebar;
+    }
+
+    set sidebar(v) {
+        this._dispatcher({
+            type: 'set',
+            key: 'app_sidebar',
+            value: v
+        });
+    }
+
+    initialise(elem) {
+        console.log('Initialising CrystVis app on element ' + elem);
+        // Initialise app but only if it's not already there
+        var vis = new CrystVis(elem);
+
+        // Some other stuff
+        // vis.highlight_selected = this.select.highlighted;
+        if (!this.initialised) {
+            this._dispatcher({type: 'set', key: 'app_viewer', value: vis});
+        }
+    }
+
+    load(files, params={}, cback=null) {
+
+        /* Load from a list of files, running a callback with the aggregate
+        dictionary that reports the success for each of them */
+
+        if (!this.initialised) {
+            return;
+        }
+
+        let cbm = new CallbackMerger(files.length, cback);
+        let app = this.viewer;
+        let intf = this;
+
+        // Callback for each file after the FileReader is done
+        function onLoad(contents, name, extension) {
+            var success = app.loadModels(contents, extension, name, params);
+
+            // Find a valid one to load
+            var to_display = null;
+            _.map(success, (v, n) => {
+                if (v === 0) {
+                    to_display = n;
+                }
+            });
+
+            if (to_display) {
+                intf.display(to_display);
+            }
+
+            if (cback) {
+                cbm.call(success);
+            }
+        }
+
+        // Function that loads each individual file
+        function parseOne(f) {
+            
+            let reader = new FileReader();
+            // Extension and file name
+            let name = f.name.split('.')[0];
+            let extension = f.name.split('.').pop();
+
+            reader.onload = ((e) => { onLoad(e.target.result, name, extension) });
+            reader.readAsText(f);            
+        }
+
+        _.forEach(files, parseOne);
+    }
+
+    display(m) {
+        this._dispatcher({
+            type: 'call',
+            function: appDisplayModel,
+            arguments: [m]
+        });
+    }
+
+    delete(m) {
+        this._dispatcher({
+            type: 'call',
+            function: appDeleteModel,
+            arguments: [m]
+        });
+    }
+
+}
+
+// Hook for interface
+function useAppInterface() {
+    let state = useSelector(makeSelector('app'), shallowEqual);
+    let dispatcher = useDispatch();
+
+    let intf = new AppInterface(state, dispatcher);
+
+    return intf;
+}
+
+export default useAppInterface;
+export { initialAppState, appDisplayModel };

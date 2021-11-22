@@ -7,8 +7,7 @@ import MVFile from '../../controls/MVFile';
 import MVBox from '../../controls/MVBox';
 import MVCheckBox from '../../controls/MVCheckBox';
 import MVListSelect, { MVListSelectOption } from '../../controls/MVListSelect';
-
-import { MVStoreContext } from '../store';
+import { useAppInterface } from '../store';
 
 import React, { useState, useContext } from 'react';
 
@@ -25,14 +24,8 @@ function MVSidebarLoad(props) {
         load_message_status: null
     });
 
-    const [mvc] = useContext(MVStoreContext);
-
-    const viewer = mvc.app;
-
-    let models = [];
-    if (viewer) {
-        models = mvc.models;
-    }
+    const appint = useAppInterface();
+    const models = appint.models;
 
     // Methods
     function loadModel(f) {
@@ -42,7 +35,7 @@ function MVSidebarLoad(props) {
             supercell: [3,3,3]
         };
 
-        mvc.load(f, params, (success) => {
+        appint.load(f, params, (success) => {
             // Check success
             var msg = '';
             var err = false;
@@ -61,22 +54,22 @@ function MVSidebarLoad(props) {
                 load_message: msg, 
                 load_message_status: err? 'error' : 'success'
             });
-        });       
+        });
     }
 
     function makeModelOption(m, i) {
 
         var model_icon;
-        if (m === mvc.current_model_name) {
+        if (m === appint.current_model_name) {
             model_icon = <AiFillEye size={22}/>;
         }
         else {
-            model_icon = <AiOutlineEyeInvisible size={22} onClick={() => { mvc.display(m);}} />
+            model_icon = <AiOutlineEyeInvisible size={22} onClick={() => { appint.display(m); }} />
         }
 
         return (<MVListSelectOption key={i} value={m} icon={model_icon}>
             {m}
-            <MdDeleteForever style={{color: 'var(--err-color-2)'}} size={22} onClick={() => { mvc.delete(m)}} />
+            <MdDeleteForever style={{color: 'var(--err-color-2)'}} size={22} onClick={() => { appint.delete(m); }} />
         </MVListSelectOption>);
     }
 

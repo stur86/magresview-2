@@ -21,20 +21,10 @@ function MVCustomSelectOption(props) {
 
 function MVCustomSelect(props) {
 
-    const [ state, setState ] = useState({
-        index: 0,
-        showdrop: false
-    });
+    const [ show, setShow ] = useState(false);
 
     // Gather the options
-    var options = [];
-
-    for (let i = 0; i < props.children.length; ++i) {
-        let c = props.children[i];
-        if (c.type.name === 'MVCustomSelectOption') {
-            options.push(c);
-        }
-    }
+    const options = props.children.filter((c) => c.type === MVCustomSelectOption);
     const values = options.map((o) => (o.props.value));
 
     // Translation?
@@ -42,27 +32,22 @@ function MVCustomSelect(props) {
         transform: 'translateY(calc(var(--cselect-opt-height)*' + options.length/2.0 + '))'
     };
 
+    const selected = values.findIndex((v) => (v === props.selected));
     const onSelect = props.onSelect || (() => {});
-    const effectCallback = useRef();
-    effectCallback.current = ((i) => { onSelect(values[i]);});
-
-    useEffect(() => {
-        effectCallback.current(state.index);
-    }, [state.index]);
 
     return (
-        <div style={tstyle} className={chainClasses('mv-control', 'mv-cselect', state.showdrop? null : 'mv-cselect-closed')} 
-            onMouseLeave={() => { setState({...state, showdrop: false})}} title={props.title}>
-            <div className='mv-control mv-cselect-main' onClick={() => { setState({...state, showdrop: true})}}>
-                {options[state.index]}
+        <div style={tstyle} className={chainClasses('mv-control', 'mv-cselect', show? null : 'mv-cselect-closed')} 
+            onMouseLeave={() => { setShow(false); }} title={props.title}>
+            <div className='mv-control mv-cselect-main' onClick={() => { setShow(true); }}>
+                {options[selected]}
                 <span className='mv-cselect-main-caret'><FaCaretDown /></span>
             </div>
             <div className='mv-control mv-cselect-ddown'>
                 {options.map((o, i) => {
-                    return cloneElement(o, {key: i, onClick: () => { setState({...state, index: i, showdrop: false})}});
+                    return cloneElement(o, {key: i, onClick: () => { setShow(false); onSelect(values[i]); }});
                 })}
             </div>
-        </div>   
+        </div>
     );
 }
 
