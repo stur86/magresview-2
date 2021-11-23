@@ -17,7 +17,7 @@
   box-sizing: border-box;
   min-width: 150px;
   color: var(--dark-color-3);
-  background-color: var(--fwd-color-3);
+  background-color: var(--light-color-3);
   transition: background-color 0.2s;
 
   cursor: pointer;

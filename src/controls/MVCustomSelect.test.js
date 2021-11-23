@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 test('render MVCustomSelect', () => {
+    
     var value = null;
     render(<MVCustomSelect title='mv-cselect' onSelect={(v) => {value = v;}}>
         <MVCustomSelectOption value='opt1'>Option 1</MVCustomSelectOption>
@@ -20,15 +21,30 @@ test('render MVCustomSelect', () => {
     const ddownElement = mainElement.nextSibling;
     expect(ddownElement).toBeInTheDocument();
 
-    const undesiredElement = ddownElement.nextSibling;
-    expect(undesiredElement).not.toBeInTheDocument();
+    const firstOption = ddownElement.firstChild;
+    expect(firstOption).toBeInTheDocument();
+
+    const secondOption = firstOption.nextSibling;
+    expect(secondOption).toBeInTheDocument();
+
+    const thirdOption = secondOption.nextSibling;
+    expect(thirdOption).not.toBeInTheDocument();
 
     // Now test selecting
     userEvent.click(mainElement);
     userEvent.hover(ddownElement);
-    userEvent.click(ddownElement.firstChild);
 
+    userEvent.click(firstOption);
     expect(value).toBe('opt1');
+
+    userEvent.click(secondOption);
+    expect(value).toBe('opt2');
+
+    // Test opening and closing
+    userEvent.click(mainElement);
+    expect(cselElement.classList.contains('mv-cselect-closed')).toBe(false);
+    userEvent.unhover(cselElement);
+    expect(cselElement.classList.contains('mv-cselect-closed')).toBe(true);    
 
     cleanup();
 });

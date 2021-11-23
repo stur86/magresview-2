@@ -1,14 +1,20 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import MVCheckBox from './MVCheckBox';
 import userEvent from '@testing-library/user-event';
+import { useState } from 'react';
 
 test('renders MVCheckBox', () => {
 
-    var checked = true;
-    var count = 0;
-    render(<MVCheckBox title='cbox' checked={checked} onCheck={() => {count += 1;}}>
-        <span data-testid='label'>CheckBox Label</span>
-    </MVCheckBox>);
+    // Container component
+    function TestComp(props) {
+        const [ state, setState ] = useState(true);
+
+        return (<MVCheckBox title='cbox' checked={state} onCheck={() => {setState(!state);}}>
+            <span data-testid='label'>CheckBox Label</span>
+        </MVCheckBox>);
+    }
+
+    render(<TestComp />);
 
     const checkBoxElement = screen.getByTitle('cbox');
     const checkLabelElement = screen.getByTestId('label');
@@ -23,8 +29,6 @@ test('renders MVCheckBox', () => {
 
     userEvent.click(inputElement);
     expect(inputElement).toHaveProperty('checked', true);
-
-    expect(count).toBe(2);
 
     cleanup();
 });

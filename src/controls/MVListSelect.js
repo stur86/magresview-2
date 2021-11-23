@@ -2,7 +2,7 @@ import './controls.css';
 import './MVListSelect.css';
 import _ from 'lodash';
 
-import React, { useState, cloneElement, useEffect, useRef } from 'react';
+import React, { cloneElement, useEffect, useRef } from 'react';
 
 import { chainClasses } from '../utils';
 
@@ -21,28 +21,18 @@ function MVListSelectOption(props) {
 
 function MVListSelect(props) {
 
-    const [ state, setState ] = useState({
-        index: 0,
-    });
-
     // Gather the options
-    const options = _.filter(props.children, (c, i) => {
-        return (c.type.name === 'MVListSelectOption');
-    });
+    const options = props.children.filter((c) => c.type === MVListSelectOption);
     const values = options.map((o) => (o.props.value));
 
-    const onSelect = props.onSelect || (() => {});  
-    const effectCallback = useRef((i) => { onSelect(values[i]);});
-
-    useEffect(() => {
-        effectCallback.current(state.index);
-    }, [state.index]);
+    const selected = values.findIndex((v) => (v === props.selected));
+    const onSelect = props.onSelect || (() => {});
 
     return (
         <div className='mv-control mv-lselect' title={props.title}>
             {options.map((o, i) => {
-                return cloneElement(o, {key: i, selected: (i === state.index),
-                                        onClick: () => { setState({...state, index: i})}});
+                return cloneElement(o, {key: i, selected: (i === selected),
+                                        onClick: () => { onSelect(values[i]); }});
             })}
         </div>
     );

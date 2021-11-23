@@ -21,7 +21,8 @@ function MVSidebarLoad(props) {
     const [ state, setState ] = useState({
         load_as_mol: false,
         load_message: '',
-        load_message_status: null
+        load_message_status: null,
+        list_selected: ''
     });
 
     const appint = useAppInterface();
@@ -79,7 +80,7 @@ function MVSidebarLoad(props) {
             <MVCheckBox onCheck={(v) => {setState({...state, load_as_mol: v})}}>Load as molecular crystal</MVCheckBox>
         </div>
         <h4>Models:</h4>
-        <MVListSelect>
+        <MVListSelect selected={state.list_selected} onSelect={(v) => { setState({...state, list_selected: v}); }}>
             {models.map(makeModelOption)}
         </MVListSelect>
         <span className='sep-1' />
