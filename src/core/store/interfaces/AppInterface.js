@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
-import { makeSelector } from './utils';
-import { CallbackMerger } from '../../utils';
+import { makeSelector, BaseInterface } from '../utils';
+import { CallbackMerger } from '../../../utils';
 
 import CrystVis from 'crystvis-js';
 
@@ -50,19 +50,14 @@ function appDeleteModel(state, m) {
     return data;
 }
 
-class AppInterface {
-
-    constructor(state, dispatcher) {
-        this._state = state;
-        this._dispatcher = dispatcher;
-    }
+class AppInterface extends BaseInterface {
 
     get initialised() {
         return this.viewer !== null;
     }
 
     get viewer() {
-        return this._state.app_viewer;
+        return this.state.app_viewer;
     }
 
     get models() {
@@ -96,11 +91,11 @@ class AppInterface {
     }
 
     get theme() {
-        return this._state.app_theme;
+        return this.state.app_theme;
     }
 
     set theme(v) {
-        this._dispatcher({
+        this.dispatch({
             type: 'set',
             key: 'app_theme',
             value: v
@@ -108,11 +103,11 @@ class AppInterface {
     }
 
     get sidebar() {
-        return this._state.app_sidebar;
+        return this.state.app_sidebar;
     }
 
     set sidebar(v) {
-        this._dispatcher({
+        this.dispatch({
             type: 'set',
             key: 'app_sidebar',
             value: v
@@ -123,11 +118,10 @@ class AppInterface {
         console.log('Initialising CrystVis app on element ' + elem);
         // Initialise app but only if it's not already there
         var vis = new CrystVis(elem);
-
-        // Some other stuff
-        // vis.highlight_selected = this.select.highlighted;
+        vis.highlight_selected = true; // Our default
+                
         if (!this.initialised) {
-            this._dispatcher({type: 'set', key: 'app_viewer', value: vis});
+            this.dispatch({type: 'set', key: 'app_viewer', value: vis});
         }
     }
 
@@ -181,7 +175,7 @@ class AppInterface {
     }
 
     display(m) {
-        this._dispatcher({
+        this.dispatch({
             type: 'call',
             function: appDisplayModel,
             arguments: [m]
@@ -189,7 +183,7 @@ class AppInterface {
     }
 
     delete(m) {
-        this._dispatcher({
+        this.dispatch({
             type: 'call',
             function: appDeleteModel,
             arguments: [m]
@@ -209,4 +203,4 @@ function useAppInterface() {
 }
 
 export default useAppInterface;
-export { initialAppState, appDisplayModel };
+export { initialAppState, appDisplayModel, appDeleteModel };

@@ -1,7 +1,7 @@
 import './MVSidebarMS.css';
 
 import MagresViewSidebar from './MagresViewSidebar';
-import { MVStoreContext } from '../store';
+import { useMSInterface } from '../store';
 
 import React, { useContext } from 'react';
 
@@ -12,32 +12,33 @@ import MVRadioButton, { MVRadioGroup } from '../../controls/MVRadioButton';
 
 function MVSidebarMS(props) {
 
-    const [mvc] = useContext(MVStoreContext);
+    // const [mvc] = useContext(MVStoreContext);
+    const msint = useMSInterface();
 
     var has_ms = false;
     if (props.show) {
-        has_ms = mvc.ms.hasData;
+        has_ms = msint.hasData;
     }
 
     return (<MagresViewSidebar show={props.show} title='Magnetic Shielding'>
         {has_ms? 
          (<div className='mv-sidebar-block'>
-             <MVCheckBox onCheck={(v) => { mvc.ms.setEllipsoids(v); }} checked={mvc.ms.hasEllipsoids}>Ellipsoids</MVCheckBox>
-             <MVRange min={0.01} max={0.5} step={0.005} value={mvc.ms.ellipsoidScale}
-                      onChange={(s) => { mvc.ms.setEllipsoids(mvc.ms.hasEllipsoids, s); }} disabled={!mvc.ms.hasEllipsoids} noState>Ellipsoid scale</MVRange>
-             <MVButton onClick={() => { mvc.ms.setEllipsoids(mvc.ms.hasEllipsoids, 0); }}>Set auto scale</MVButton>
-             <MVRadioGroup label='Show labels' onSelect={(v) => { mvc.ms.setLabels(v); }} selected={mvc.ms.labelsContent} name='ms_label_radio' noState>
-                <MVRadioButton value='none'>None</MVRadioButton>
-                <MVRadioButton value='iso'>Isotropy (ppm)</MVRadioButton>
-                <MVRadioButton value='aniso'>Anisotropy (ppm)</MVRadioButton>
-                <MVRadioButton value='asymm'>Asymmetry</MVRadioButton>
-             </MVRadioGroup>
-             <MVRadioGroup label='Use color scale' onSelect={(v) => { mvc.ms.setColorScale(v); }} selected={mvc.ms.colorScaleContent} name='ms_cscale_radio' noState>
-                <MVRadioButton value='none'>None</MVRadioButton>
-                <MVRadioButton value='iso'>Isotropy (ppm)</MVRadioButton>
-                <MVRadioButton value='aniso'>Anisotropy (ppm)</MVRadioButton>
-                <MVRadioButton value='asymm'>Asymmetry</MVRadioButton>
-             </MVRadioGroup>
+             <MVCheckBox onCheck={(v) => { msint.setEllipsoids(v); }} checked={msint.hasEllipsoids}>Ellipsoids</MVCheckBox>
+             {/* <MVRange min={0.01} max={0.5} step={0.005} value={mvc.ms.ellipsoidScale} */}
+             {/*          onChange={(s) => { mvc.ms.setEllipsoids(mvc.ms.hasEllipsoids, s); }} disabled={!mvc.ms.hasEllipsoids} noState>Ellipsoid scale</MVRange> */}
+             {/* <MVButton onClick={() => { mvc.ms.setEllipsoids(mvc.ms.hasEllipsoids, 0); }}>Set auto scale</MVButton> */}
+             {/* <MVRadioGroup label='Show labels' onSelect={(v) => { mvc.ms.setLabels(v); }} selected={mvc.ms.labelsContent} name='ms_label_radio' noState> */}
+             {/*    <MVRadioButton value='none'>None</MVRadioButton> */}
+             {/*    <MVRadioButton value='iso'>Isotropy (ppm)</MVRadioButton> */}
+             {/*    <MVRadioButton value='aniso'>Anisotropy (ppm)</MVRadioButton> */}
+             {/*    <MVRadioButton value='asymm'>Asymmetry</MVRadioButton> */}
+             {/* </MVRadioGroup> */}
+             {/* <MVRadioGroup label='Use color scale' onSelect={(v) => { mvc.ms.setColorScale(v); }} selected={mvc.ms.colorScaleContent} name='ms_cscale_radio' noState> */}
+             {/*    <MVRadioButton value='none'>None</MVRadioButton> */}
+             {/*    <MVRadioButton value='iso'>Isotropy (ppm)</MVRadioButton> */}
+             {/*    <MVRadioButton value='aniso'>Anisotropy (ppm)</MVRadioButton> */}
+             {/*    <MVRadioButton value='asymm'>Asymmetry</MVRadioButton> */}
+             {/* </MVRadioGroup> */}
           </div>): 
          <div className='mv-warning-noms'>No MS data found</div>}
     </MagresViewSidebar>);

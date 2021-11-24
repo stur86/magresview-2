@@ -2,11 +2,15 @@ import _ from 'lodash';
 import { createStore } from 'redux';
 
 // Initial state, merged from segments
-import { initialAppState } from './AppInterface';
+import { initialAppState } from './interfaces/AppInterface';
+import { initialSelState } from './interfaces/SelInterface';
+import { initialMSState } from './interfaces/MSInterface';
 
 // Merging together
 const initialState = {
-    ...initialAppState
+    ...initialAppState,
+    ...initialSelState,
+    ...initialMSState
 };
 
 // Reducer

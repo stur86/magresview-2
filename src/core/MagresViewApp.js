@@ -8,8 +8,8 @@ import MagresViewHeader from './MagresViewHeader';
 import { useAppInterface } from './store';
 
 import MVSidebarLoad from './sidebars/MVSidebarLoad';
-// import MVSidebarSelect from './sidebars/MVSidebarSelect';
-// import MVSidebarMS from './sidebars/MVSidebarMS';
+import MVSidebarSelect from './sidebars/MVSidebarSelect';
+import MVSidebarMS from './sidebars/MVSidebarMS';
 
 function MagresViewPage() {
 
@@ -24,8 +24,8 @@ function MagresViewPage() {
     return (<div className={chainClasses('mv-main-page', 'theme-' + appint.theme )}>
                 <MagresViewHeader />
                 <MVSidebarLoad show={appint.sidebar === 'load'} />
-                {/* <MVSidebarSelect show={appint.sidebar === 'select'} /> */}
-                {/* <MVSidebarMS show={appint.sidebar === 'ms'} /> */}
+                <MVSidebarSelect show={appint.sidebar === 'select'} />
+                <MVSidebarMS show={appint.sidebar === 'ms'} />
                 <div id='mv-appwindow' className='mv-background'/>
             </div>);
 }

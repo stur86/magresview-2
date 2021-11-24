@@ -28,6 +28,8 @@ function MVSidebarLoad(props) {
     const appint = useAppInterface();
     const models = appint.models;
 
+    console.log('[MVSidebarLoad rendered]');
+
     // Methods
     function loadModel(f) {
 

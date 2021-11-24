@@ -1,7 +1,7 @@
 import './MVSidebarSelect.css';
 
 import MagresViewSidebar from './MagresViewSidebar';
-import { MVStoreContext } from '../store';
+import { useSelInterface } from '../store';
 
 import MVCheckBox from '../../controls/MVCheckBox';
 import MVButton from '../../controls/MVButton';
@@ -13,66 +13,49 @@ import React, { useState, useContext, useEffect, useRef } from 'react';
 function MVSidebarSelect(props) {
 
     const [ state, setState ] = useState({last_mode: 'atom', n: 1, r: 2.0});
-    const [mvc] = useContext(MVStoreContext);
+    const selint = useSelInterface();
+
+    console.log('[MVSidebarLoad rendered]');
 
     function selectMode(v) {
-        setState({  
-            ...state,
-            last_mode: v
-        });
+        selint.selection_mode = v;
     }
 
     function setR(v) {
-        setState({
-            ...state,
-            r: parseFloat(v) || 0.0
-        })
+        selint.selection_sphere_r = v;
     }
 
     function setN(v) {
-        setState({
-            ...state,
-            n: parseInt(v) || 0
-        })
+        selint.selection_bond_n = v;
     }
 
-    const mvcRef = useRef(mvc);
+    const selRef = useRef();
+    selRef.current = selint;
 
     useEffect(() => {
-        let mvc = mvcRef.current;
-
-        if (!props.show) {
-            // Just no selection possible
-            if (mvc.select.selection_mode !== 'none')
-                mvc.select.set_select('none');
-        }
-        else {
-            mvc.select.set_select(state.last_mode, {r: state.r, n: state.n});
-        }
-
-    }, [props.show, state.last_mode, state.r, state.n, mvc.app]);
-
+        selRef.current.selection_on = props.show;
+    }, [props.show]);
 
     return (<MagresViewSidebar show={props.show} title='Select and display'>
         <div className='mv-sidebar-block'>
-            <MVCheckBox checked={mvc.select.highlighted} onCheck={(v) => { mvc.select.highlighted = v }} noState>Highlight selected</MVCheckBox>        
+            <MVCheckBox checked={selint.highlight_selected} onCheck={(v) => { selint.highlight_selected = v }} noState>Highlight selected</MVCheckBox>        
             <span className='sep-1' />
-            <MVRadioGroup label='Selection mode' onSelect={selectMode} selected={mvc.select.selection_mode} name='selec_mode_radio' noState>
+            <MVRadioGroup label='Selection mode' onSelect={selectMode} selected={selint.selection_mode} name='selec_mode_radio' noState>
                 <MVRadioButton value='atom'>Atom</MVRadioButton>
                 <MVRadioButton value='element'>Element</MVRadioButton>
                 <MVRadioButton value='sphere'>Sphere, radius =&nbsp;
-                    <MVText size='5' value={state.r} filter='[0-9]*(?:\.[0-9]*)?' onChange={setR} onSubmit={setR} />&nbsp;  &#8491;
+                    <MVText size='5' value={selint.selection_sphere_r} filter='[0-9]*(?:\.[0-9]*)?' onChange={setR} onSubmit={setR} />&nbsp;  &#8491;
                 </MVRadioButton>
                 <MVRadioButton value='molecule'>Molecule</MVRadioButton>
                 <MVRadioButton value='bonds'>Bonds, max distance = &nbsp;
-                    <MVText size='3' value={state.n} filter='[0-9]*' onChange={setN} onSubmit={setN} />
+                    <MVText size='3' value={selint.selection_bond_n} filter='[0-9]*' onChange={setN} onSubmit={setN} />
                 </MVRadioButton>
             </MVRadioGroup>
         </div>
         <div className='mv-sidebar-block'>
-            <MVButton onClick={() => { mvc.select.set_display('selected'); }}>Display selected</MVButton>
+            <MVButton onClick={() => { selint.displayed = selint.selected }}>Display selected</MVButton>
             <span className='sep-1' />
-            <MVButton onClick={() => { mvc.select.set_display(); }}>Reset displayed</MVButton>
+            <MVButton onClick={() => { selint.displayed = null }}>Reset displayed</MVButton>
         </div>
     </MagresViewSidebar>);
 }
