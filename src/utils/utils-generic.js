@@ -46,4 +46,6 @@ function getColorScale(min=0, max=1, scale='jet', shades=10) {
     return cscale;
 }
 
-export { CallbackMerger, getColorScale };
+const floatRegExp = new RegExp('[0-9]*(?:[.][0-9]*)?');
+
+export { CallbackMerger, getColorScale, floatRegExp };

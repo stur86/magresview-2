@@ -2,6 +2,8 @@ import { makeSelector, BaseInterface } from '../utils';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import CrystVis from 'crystvis-js';
 
+import { msDisplayEllipsoids } from './MSInterface';
+
 const LC = CrystVis.LEFT_CLICK;
 const SLC = CrystVis.LEFT_CLICK + CrystVis.SHIFT_BUTTON;
 const CLC = CrystVis.LEFT_CLICK + CrystVis.CTRL_BUTTON;
@@ -16,25 +18,25 @@ const initialSelState = {
     sel_hlight: true
 };
 
-function selSetSelection(state, sel) {
+function selSetSelection(state, sel, set_displayed=false) {
     let app = state.app_viewer;
+    let data = {};
 
-    app.selected = sel;
+    if (!set_displayed) {
+        app.selected = sel;
+        data.sel_selected_view = sel;
+    }
+    else {
+        app.displayed = sel;
+        data.sel_displayed_view = sel;
+    }
 
-    // Here go any additional callbacks
+    // We now update all views that may be changed as a result of this
+    let msdata = msDisplayEllipsoids(state, state.ms_ellipsoids_on, state.ms_ellipsoids_scale);
     
     return {
-        sel_selected_view: sel
-    };
-}
-
-function selSetDisplayed(state, displ) {
-    let app = state.app_viewer;
-
-    app.displayed = displ;
-
-    return {
-        sel_displayed_view: displ
+        ...data,
+        ...msdata
     };
 }
 
@@ -62,8 +64,8 @@ class SelInterface extends BaseInterface {
         }
         this.dispatch({
             type: 'call',
-            function: selSetDisplayed,
-            arguments: [v]
+            function: selSetSelection,
+            arguments: [v, true]
         });
     }
 

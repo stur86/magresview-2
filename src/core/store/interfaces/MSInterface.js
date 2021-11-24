@@ -1,4 +1,4 @@
-import { makeSelector, BaseInterface } from '../utils';
+import { makeSelector, makeDisplayEllipsoids, BaseInterface } from '../utils';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
 const initialMSState = {
@@ -8,6 +8,8 @@ const initialMSState = {
     ms_labels_type: 'none',
     ms_cscale_type: 'none'
 };
+
+const msDisplayEllipsoids = makeDisplayEllipsoids('ms', 0xff8000);
 
 class MSInterface extends BaseInterface {
 
@@ -20,10 +22,21 @@ class MSInterface extends BaseInterface {
         return this.state.ms_ellipsoids_on;
     }
 
-    setEllipsoids(v) {
-        
+    set hasEllipsoids(v) {
+        this.dispatch({
+            type: 'call',
+            function: msDisplayEllipsoids,
+            arguments: [v, this.state.ms_ellipsoids_scale]
+        });
     }
 
+    get ellipsoidScale() {
+        return this.state.ms_ellipsoids_scale;
+    }
+
+    set ellipsoidScale(v) {
+        console.log(v);
+    }
 }
 
 function useMSInterface() {
@@ -36,4 +49,4 @@ function useMSInterface() {
 }
 
 export default useMSInterface;
-export { initialMSState };
+export { initialMSState, msDisplayEllipsoids };

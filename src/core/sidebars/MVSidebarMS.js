@@ -23,9 +23,9 @@ function MVSidebarMS(props) {
     return (<MagresViewSidebar show={props.show} title='Magnetic Shielding'>
         {has_ms? 
          (<div className='mv-sidebar-block'>
-             <MVCheckBox onCheck={(v) => { msint.setEllipsoids(v); }} checked={msint.hasEllipsoids}>Ellipsoids</MVCheckBox>
-             {/* <MVRange min={0.01} max={0.5} step={0.005} value={mvc.ms.ellipsoidScale} */}
-             {/*          onChange={(s) => { mvc.ms.setEllipsoids(mvc.ms.hasEllipsoids, s); }} disabled={!mvc.ms.hasEllipsoids} noState>Ellipsoid scale</MVRange> */}
+             <MVCheckBox onCheck={(v) => { msint.hasEllipsoids = v; }} checked={msint.hasEllipsoids}>Ellipsoids</MVCheckBox>
+             <MVRange min={0.01} max={0.5} step={0.005} value={msint.ellipsoidScale}
+                      onChange={(s) => { msint.ellipsoidScale = s; }} disabled={!msint.hasEllipsoids} noState>Ellipsoid scale</MVRange>
              {/* <MVButton onClick={() => { mvc.ms.setEllipsoids(mvc.ms.hasEllipsoids, 0); }}>Set auto scale</MVButton> */}
              {/* <MVRadioGroup label='Show labels' onSelect={(v) => { mvc.ms.setLabels(v); }} selected={mvc.ms.labelsContent} name='ms_label_radio' noState> */}
              {/*    <MVRadioButton value='none'>None</MVRadioButton> */}

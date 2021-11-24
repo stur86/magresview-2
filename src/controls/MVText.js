@@ -1,16 +1,17 @@
 import './MVText.css';
 import _ from 'lodash';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import { chainClasses } from '../utils';
 
 function MVText(props) {
 
-    const [state, setState] = useState({text: props.value, submitted: true, id: props.id || _.uniqueId('text')});
+    const [submitted, setSubmitted] = useState(true);
+    const id = useMemo(() => {_.uniqueId('text')}, []);
 
     var filter = null;
-    if (props.filter) 
+    if (props.filter)
         filter = new RegExp(props.filter);
 
     // Style (custom color)
@@ -19,36 +20,32 @@ function MVText(props) {
         style['--outline-color'] = props.color;
     }
 
-    var text = props.noState? props.value : state.text;
+    const waitSubmit = (props.onSubmit && !submitted);
 
     function onChange(e) {
         var v = e.target.value;
         if (filter) {
             let m = filter.exec(v)
-            v = m? m[0] : text;
+            v = m? m[0] : props.value;
         }
-        setState(s => ({...s, submitted: false, text: v}));
-        if(props.onChange) {
+        setSubmitted(false);
+        if(props.onChange)
             props.onChange(v);
-        }
     }
 
     function onKeyDown(e) {
         if (e.key === 'Enter') {
-            if (props.onSubmit) {
-                props.onSubmit(text);
-            }
-            setState(s => ({...s, submitted: true}));
+            if (waitSubmit)
+                props.onSubmit(props.value);
+            setSubmitted(true);
         }
     }
 
-    const waitSubmit = (props.onSubmit && !state.submitted);
-
     return (
-    <span className='mv-text'>
-        {props.children? <label htmlFor={state.id} className='mv-textlabel'>{props.children}</label> : <></>}
-        <input type='text' id={state.id} className={chainClasses('mv-control mv-textfield', waitSubmit? 'mv-submit-wait' : '')} 
-            style={style} size={props.size} value={text}
+    <span className='mv-text' style={style} title={props.title}>
+        {props.children? <label htmlFor={id} className='mv-textlabel'>{props.children}</label> : <></>}
+        <input type='text' id={id} className={chainClasses('mv-control mv-textfield', waitSubmit? 'mv-submit-wait' : '')} 
+            size={props.size} value={props.value}
             onChange={onChange} onKeyDown={onKeyDown}
         />
     </span>);

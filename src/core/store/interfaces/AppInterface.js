@@ -3,6 +3,7 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
 import { makeSelector, BaseInterface } from '../utils';
 import { CallbackMerger } from '../../../utils';
+import { msDisplayEllipsoids } from './MSInterface';
 
 import CrystVis from 'crystvis-js';
 
@@ -20,15 +21,19 @@ const initialAppState = {
 function appDisplayModel(state, m) {
     let app = state.app_viewer;
     let cm = app.model;
+
+    let msdata = {};
     if (cm) {
-        // Do the stuff with resetting selection and such
+        // We turn visualizations off
+        msdata = msDisplayEllipsoids(state, false);
     }
 
     app.displayModel(m);
 
     // Return data for dispatch
     return {
-        app_default_displayed: app.displayed
+        app_default_displayed: app.displayed,
+        ...msdata
     };
 }
 
