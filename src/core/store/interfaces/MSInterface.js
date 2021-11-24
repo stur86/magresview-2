@@ -42,6 +42,14 @@ class MSInterface extends BaseInterface {
         });
     }
 
+    get labelsMode() {
+        return this.state.ms_labels_type;
+    }
+
+    set labelsMode(v) {
+        console.log(v);
+    }
+
 }
 
 function useMSInterface() {

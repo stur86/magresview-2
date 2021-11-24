@@ -17,3 +17,7 @@
 .mv-textfield.mv-submit-wait {
   border: 2px solid var(--outline-color);
 }
+
+.mv-textfield:disabled {
+  background-color: var(--light-color-1);
+}

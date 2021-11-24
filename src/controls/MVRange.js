@@ -32,6 +32,7 @@ function MVRange(props) {
     var style = {};
     if (props.color) {
         style['--outline-color'] = props.color;
+        style['--thumb-color'] = props.color;
     }
 
     function acceptValue(v) {
@@ -59,7 +60,7 @@ function MVRange(props) {
             <span className='mv-control mv-range' style={style}>
                 <input className='mv-range-slider' type='range' id={id} onInput={(e) => { acceptValue(e.target.value); }}
                  min={min} max={max} step={step} value={in_val} disabled={props.disabled}/>
-                <MVText size={4} filter={regularExpressions.float} value={text} onChange={setText} onSubmit={acceptValue}/>
+                <MVText size={4} filter={regularExpressions.float} value={text} onChange={setText} onSubmit={acceptValue} disabled={props.disabled}/>
             </span>
         </div>);
 }

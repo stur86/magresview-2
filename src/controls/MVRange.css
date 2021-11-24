@@ -10,22 +10,6 @@
   padding: var(--ctrl-padding) 0;
 }
 
-.mv-range-text {
-  height: 30px;
-  box-sizing: border-box;
-  text-align: right;
-  border: 2px solid var(--fwd-color-3);
-}
-
-.mv-range-text.mv-submit-wait {
-  border: 2px solid var(--outline-color);
-}
-
-.mv-range-text:disabled {
-  color: var(--mid-color-1);
-  background-color: var(--light-color-1);
-}
-
 /* CSS generated with the help of http://danielstern.ca/range.css/#/ */
 
 input[type=range].mv-range-slider {
@@ -35,6 +19,9 @@ input[type=range].mv-range-slider {
   margin-right: 10px;
   background-color: transparent;
   -webkit-appearance: none;  
+}
+input[type=range].mv-range-slider:disabled {
+  --track-color: var(--light-color-1);
 }
 input[type=range].mv-range-slider:focus {
   outline: none;
@@ -58,6 +45,9 @@ input[type=range].mv-range-slider::-webkit-slider-thumb {
   cursor: pointer;
   -webkit-appearance: none;
 }
+input[type=range].mv-range-slider:disabled::-webkit-slider-thumb {
+  filter: saturate(50%);
+}
 input[type=range].mv-range-slider:focus::-webkit-slider-runnable-track {
   background: var(--track-color);
 }
@@ -77,6 +67,9 @@ input[type=range].mv-range-slider::-moz-range-thumb {
   border: 0;
   border-radius: 4px;
   cursor: pointer;
+}
+input[type=range].mv-range-slider:disabled::-moz-range-thumb {
+  filter: saturate(50%);
 }
 input[type=range].mv-range-slider::-ms-track {
   background: transparent;
@@ -107,6 +100,9 @@ input[type=range].mv-range-slider::-ms-thumb {
   cursor: pointer;
   margin-top: 0px;
   /*Needed to keep the Edge thumb centred*/
+}
+input[type=range].mv-range-slider:disabled::-ms-thumb {
+  filter: saturate(50%);
 }
 input[type=range].mv-range-slider:focus::-ms-fill-lower {
   background: var(--track-color);

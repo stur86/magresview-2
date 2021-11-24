@@ -47,6 +47,7 @@ function MVText(props) {
         <input type='text' id={id} className={chainClasses('mv-control mv-textfield', waitSubmit? 'mv-submit-wait' : '')} 
             size={props.size} value={props.value}
             onChange={onChange} onKeyDown={onKeyDown}
+            disabled={props.disabled}
         />
     </span>);
 }

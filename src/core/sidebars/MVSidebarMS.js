@@ -26,13 +26,13 @@ function MVSidebarMS(props) {
              <MVCheckBox onCheck={(v) => { msint.hasEllipsoids = v; }} checked={msint.hasEllipsoids}>Ellipsoids</MVCheckBox>
              <MVRange min={0.01} max={0.5} step={0.005} value={msint.ellipsoidScale}
                       onChange={(s) => { msint.ellipsoidScale = s; }} disabled={!msint.hasEllipsoids} noState>Ellipsoid scale</MVRange>
-             <MVButton onClick={() => { msint.ellipsoidScale = 0; }}>Set auto scale</MVButton>
-             {/* <MVRadioGroup label='Show labels' onSelect={(v) => { mvc.ms.setLabels(v); }} selected={mvc.ms.labelsContent} name='ms_label_radio' noState> */}
-             {/*    <MVRadioButton value='none'>None</MVRadioButton> */}
-             {/*    <MVRadioButton value='iso'>Isotropy (ppm)</MVRadioButton> */}
-             {/*    <MVRadioButton value='aniso'>Anisotropy (ppm)</MVRadioButton> */}
-             {/*    <MVRadioButton value='asymm'>Asymmetry</MVRadioButton> */}
-             {/* </MVRadioGroup> */}
+             <MVButton onClick={() => { msint.ellipsoidScale = 0; }} disabled={!msint.hasEllipsoids}>Set auto scale</MVButton>
+             <MVRadioGroup label='Show labels' onSelect={(v) => { msint.labelsMode = v; }} selected={msint.labelsMode} name='ms_label_radio' noState>
+                <MVRadioButton value='none'>None</MVRadioButton>
+                <MVRadioButton value='iso'>Isotropy (ppm)</MVRadioButton>
+                <MVRadioButton value='aniso'>Anisotropy (ppm)</MVRadioButton>
+                <MVRadioButton value='asymm'>Asymmetry</MVRadioButton>
+             </MVRadioGroup>
              {/* <MVRadioGroup label='Use color scale' onSelect={(v) => { mvc.ms.setColorScale(v); }} selected={mvc.ms.colorScaleContent} name='ms_cscale_radio' noState> */}
              {/*    <MVRadioButton value='none'>None</MVRadioButton> */}
              {/*    <MVRadioButton value='iso'>Isotropy (ppm)</MVRadioButton> */}
