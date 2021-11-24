@@ -46,13 +46,22 @@ function makeDisplayEllipsoids(name, color) {
 
         // Now for the new view and data
         if (on) {
+
+            let data = sel.map((a) => a.getArrayValue(name));
+
+            if (scale === 0) {
+                // Auto scale needed
+                let avg = data.map((t) => _.sum(t.eigenvalues.map(Math.abs))/3.0);
+                avg = _.sum(avg)/data.length;
+                scale = 2.0/avg;
+            }
+
             if (sel_old === sel && on_old) {
                 // Same view, we're just changing some properties
                 sel.ellipsoidProperties(name, 'scalingFactor', scale);
             }
             else {
                 // We need to create them from scratch
-                let data = sel.map((a) => a.getArrayValue(name));
                 sel.addEllipsoids(data, name, {scalingFactor: scale, color: color, opacity: 0.25});
             }
         }

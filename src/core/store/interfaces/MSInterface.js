@@ -41,6 +41,7 @@ class MSInterface extends BaseInterface {
             arguments: [this.state.ms_ellipsoids_on, v]
         });
     }
+
 }
 
 function useMSInterface() {
