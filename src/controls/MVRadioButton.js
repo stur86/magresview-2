@@ -7,7 +7,7 @@ function MVRadioGroup(props) {
 
     // Which children are buttons?
     var children = _.filter(props.children, (c) => {
-        return (c.type.name === 'MVRadioButton');
+        return (c.type === MVRadioButton);
     });
 
     // Find the index of the one we want selected
