@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 
-import { chainClasses, floatRegExp } from '../utils';
+import { chainClasses, regularExpressions } from '../utils';
 import MVText from './MVText';
 
 function MVRange(props) {
@@ -26,10 +26,7 @@ function MVRange(props) {
     const in_val = (props.value != null? toNumber(props.value) : min);
     const id = useMemo(() => _.uniqueId('range'), []);
 
-    const [state, setState] = useState({
-        text_value: in_val.toString(),
-        text_submitted: true
-    });
+    const [text, setText] = useState(in_val.toString());
 
     // Style (custom color)
     var style = {};
@@ -37,70 +34,32 @@ function MVRange(props) {
         style['--outline-color'] = props.color;
     }
 
-//     // Range changes
-//     function onRangeChange(e) {
-//         let v = e.target.value;
-//         v = toNumber(v);
-// 
-//         if (props.onChange) {
-//             props.onChange(v);
-//         }
-// 
-//         setState({
-//             ...state,
-//             value: v,
-//             text_value: v.toString(),
-//             text_submitted: true
-//         });
-//     }
-// 
-//     // Text changes
-//     function onTextChange(e) {
-//         let v = e.target.value;
-//         if (filter) {
-//             let m = filter.exec(v)
-//             v = m? m[0] : state.text;
-//         }
-//         setState({
-//             ...state,
-//             text_value: v,
-//             text_submitted: false
-//         });
-//     }
-// 
-//     // Text is submitted
-//     function onTextSubmit(e) {
-//         if (e.key === 'Enter') {
-//             onRangeChange(e);
-//         }
-//     }
-// 
-//     let value = props.noState? in_val : state.value;
-//     
-//     // Here we handle the updating when the value change comes from the outside    
-//     let stateRef = useRef();
-//     stateRef.current = [state, setState];
-// 
-//     useEffect(() => {
-//         let [state, setState] = stateRef.current;
-//         setState({
-//             ...state,
-//             text_value: value.toString(),
-//             text_submitted: true
-//         })
-//     }, [value]);
+    function acceptValue(v) {
+        v = toNumber(v);
+
+        if (props.onChange)
+            props.onChange(v);
+    }
+
+    let stateRef = useRef();
+    stateRef.current = [text, setText];
+
+    // Update the text value if the props one changed and if necessary
+    useEffect(() => {
+        const [text, setText] = stateRef.current;
+
+        if (parseFloat(text) !== in_val)
+            setText(in_val.toString());
+    }, [in_val]);
 
 
     return (
         <div className='mv-control'>
             {props.children? <label htmlFor={id} className='mv-rangelabel'>{props.children}</label> : <></>}            
             <span className='mv-control mv-range' style={style}>
-                <input className='mv-range-slider' type='range' id={id} onInput={() => {}}
+                <input className='mv-range-slider' type='range' id={id} onInput={(e) => { acceptValue(e.target.value); }}
                  min={min} max={max} step={step} value={in_val} disabled={props.disabled}/>
-                <input type='text' className={chainClasses('mv-control mv-range-text', state.text_submitted? '': 'mv-submit-wait')} 
-                    size={4} value={state.text_value} onChange={() => {}}
-                    onKeyDown={() => {}} disabled={props.disabled}
-                />
+                <MVText size={4} filter={regularExpressions.float} value={text} onChange={setText} onSubmit={acceptValue}/>
             </span>
         </div>);
 }

@@ -35,7 +35,11 @@ class MSInterface extends BaseInterface {
     }
 
     set ellipsoidScale(v) {
-        console.log(v);
+        this.dispatch({
+            type: 'call',
+            function: msDisplayEllipsoids,
+            arguments: [this.state.ms_ellipsoids_on, v]
+        });
     }
 }
 
