@@ -2,7 +2,7 @@ import { makeSelector, BaseInterface } from '../utils';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import CrystVis from 'crystvis-js';
 
-import { msDisplayEllipsoids } from './MSInterface';
+import { msDisplayEllipsoids, msDisplayLabels, msDisplayCScales } from './MSInterface';
 
 const LC = CrystVis.LEFT_CLICK;
 const SLC = CrystVis.LEFT_CLICK + CrystVis.SHIFT_BUTTON;
@@ -32,7 +32,11 @@ function selSetSelection(state, sel, set_displayed=false) {
     }
 
     // We now update all views that may be changed as a result of this
-    let msdata = msDisplayEllipsoids(state, state.ms_ellipsoids_on, state.ms_ellipsoids_scale);
+    let msdata = {
+        ...msDisplayEllipsoids(state, state.ms_ellipsoids_on, state.ms_ellipsoids_scale),
+        ...msDisplayLabels(state, state.ms_labels_type),
+        ...msDisplayCScales(state, state.ms_cscale_type)
+    };
     
     return {
         ...data,

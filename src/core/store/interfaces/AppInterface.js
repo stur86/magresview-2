@@ -3,7 +3,7 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
 import { makeSelector, BaseInterface } from '../utils';
 import { CallbackMerger } from '../../../utils';
-import { msDisplayEllipsoids } from './MSInterface';
+import { msDisplayEllipsoids, msDisplayLabels, msDisplayCScales } from './MSInterface';
 
 import CrystVis from 'crystvis-js';
 
@@ -25,7 +25,11 @@ function appDisplayModel(state, m) {
     let msdata = {};
     if (cm) {
         // We turn visualizations off
-        msdata = msDisplayEllipsoids(state, false);
+        msdata = {
+            ...msDisplayEllipsoids(state, false),
+            ...msDisplayLabels(state, 'none'),
+            ...msDisplayCScales(state, 'none')
+        };
     }
 
     app.displayModel(m);

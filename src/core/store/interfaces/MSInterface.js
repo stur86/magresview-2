@@ -1,4 +1,4 @@
-import { makeSelector, makeDisplayEllipsoids, BaseInterface } from '../utils';
+import { makeSelector, makeDisplayEllipsoids, makeDisplayLabels, makeDisplayCScales, BaseInterface } from '../utils';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
 const initialMSState = {
@@ -6,10 +6,15 @@ const initialMSState = {
     ms_ellipsoids_on: false,
     ms_ellipsoids_scale: 0.05,
     ms_labels_type: 'none',
-    ms_cscale_type: 'none'
+    ms_cscale_type: 'none',
+    ms_cscale_displ: null
 };
 
-const msDisplayEllipsoids = makeDisplayEllipsoids('ms', 0xff8000);
+const msColor = 0xff8000;
+
+const msDisplayEllipsoids = makeDisplayEllipsoids('ms', msColor);
+const msDisplayLabels = makeDisplayLabels('ms', msColor);
+const msDisplayCScales = makeDisplayCScales('ms');
 
 class MSInterface extends BaseInterface {
 
@@ -47,7 +52,23 @@ class MSInterface extends BaseInterface {
     }
 
     set labelsMode(v) {
-        console.log(v);
+        this.dispatch({
+            type: 'call', 
+            function: msDisplayLabels,
+            arguments: [v]
+        });
+    }
+
+    get cscaleMode() {
+        return this.state.ms_cscale_type;
+    }
+
+    set cscaleMode(v) {
+        this.dispatch({
+            type: 'call',
+            function: msDisplayCScales,
+            arguments: [v]
+        });
     }
 
 }
@@ -62,4 +83,4 @@ function useMSInterface() {
 }
 
 export default useMSInterface;
-export { initialMSState, msDisplayEllipsoids };
+export { initialMSState, msDisplayEllipsoids, msDisplayLabels, msDisplayCScales };
