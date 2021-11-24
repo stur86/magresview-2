@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { createStore } from 'redux';
 
 // Initial state, merged from segments

@@ -1,8 +1,7 @@
 import './controls.css';
 import './MVListSelect.css';
-import _ from 'lodash';
 
-import React, { cloneElement, useEffect, useRef } from 'react';
+import React, { cloneElement } from 'react';
 
 import { chainClasses } from '../utils';
 

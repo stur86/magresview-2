@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 
-import { chainClasses, regularExpressions } from '../utils';
+import { regularExpressions } from '../utils';
 import MVText from './MVText';
 
 function MVRange(props) {

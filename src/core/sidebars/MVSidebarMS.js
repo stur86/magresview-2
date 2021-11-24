@@ -3,7 +3,7 @@ import './MVSidebarMS.css';
 import MagresViewSidebar from './MagresViewSidebar';
 import { useMSInterface } from '../store';
 
-import React, { useContext } from 'react';
+import React from 'react';
 
 import MVCheckBox from '../../controls/MVCheckBox';
 import MVRange from '../../controls/MVRange';
@@ -12,8 +12,9 @@ import MVRadioButton, { MVRadioGroup } from '../../controls/MVRadioButton';
 
 function MVSidebarMS(props) {
 
-    // const [mvc] = useContext(MVStoreContext);
     const msint = useMSInterface();
+
+    console.log('[MVSidebarMS rendered]');
 
     var has_ms = false;
     if (props.show) {

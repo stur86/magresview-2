@@ -155,7 +155,8 @@ function makeDisplayCScales(name) {
             let notsel = displ.xor(sel);
 
             const data = sel.map((a) => a.getArrayValue(name));
-            const [units, values] = _getNMRData(data, mode);
+            const nmrdata = _getNMRData(data, mode);
+            const values = nmrdata[1];
 
             let minv = _.min(values);
             let maxv = _.max(values);

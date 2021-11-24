@@ -8,11 +8,10 @@ import MVButton from '../../controls/MVButton';
 import MVRadioButton, { MVRadioGroup } from '../../controls/MVRadioButton';
 import MVText from '../../controls/MVText';
 
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 function MVSidebarSelect(props) {
 
-    const [ state, setState ] = useState({last_mode: 'atom', n: 1, r: 2.0});
     const selint = useSelInterface();
 
     console.log('[MVSidebarLoad rendered]');
