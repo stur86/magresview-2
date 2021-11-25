@@ -1,54 +1,36 @@
 import './MVRadioButton.css';
 import _ from 'lodash';
 
-import React, { cloneElement, useState } from 'react';
+import React, { cloneElement, useState, useMemo } from 'react';
+
+function MVRadioButton(props) {
+
+    const uid = useMemo(() => (_.uniqueId('radiobutton')), []);
+
+    console.log(props);
+
+    return (<span className='mv-control mv-radio' title={props.title}>
+        <input id={uid} name={props.name} type="radio" checked={props.checked} onChange={props.onChange}/>
+        <label htmlFor={props.id}></label>{props.children}
+    </span>);
+}
 
 function MVRadioGroup(props) {
 
     // Which children are buttons?
-    var children = _.filter(props.children, (c) => {
-        return (c.type === MVRadioButton);
-    });
+    const buttons = _.filter(props.children, (c) => c.type === MVRadioButton);
+    const values = buttons.map((b) => b.props.value);
 
     // Find the index of the one we want selected
-    let index = 0;
-    if (props.selected != null) {
-        index = _.findIndex(children, (c) => c.props.value === props.selected);
-    }
-
-    const [ state, setState ] = useState({index: index,
-        _uids: children.map((c, i) => c.props.id || _.uniqueId(props.name + '_radio_' + i))});
-
-    function onChange(v, i) {
-        setState(s => ({...s, index: i}));
-        if (props.onSelect) {
-            props.onSelect(v, i);
-        }
-    }
-
-    // Redefine
-    index = props.noState? index : state.index;
-
-    // Clone the MVRadioButton children
-    children = children.map((c, i) => cloneElement(c, {key: i, 
-                                      index: i, 
-                                      id: state._uids[i],
-                                      name: props.name, 
-                                      checked: (i === index),
-                                      onChange: () => {onChange(c.props.value, i)}}
-                                )
-        );
+    const selected = values.findIndex((v) => v === props.selected);
+    console.log(selected, props.selected);
+    const onChange = props.onSelect? props.onSelect : (() => {});
 
     return(<span className='mv-control mv-radiogroup' title={props.title}>
         {props.label? <span className="mv-radiogroup-label" style={props.labelStyle}>{props.label}</span> : null}
-        {children}
-    </span>);
-}
-
-function MVRadioButton(props) {
-    return (<span className='mv-control mv-radio' title={props.title}>
-        <input id={props.id} name={props.name} type="radio" checked={props.checked} onChange={props.onChange}/>
-        <label htmlFor={props.id}></label>{props.children}
+        {buttons.map((b, i) => {
+            return cloneElement(b, {key: i, index: i, checked: (i === selected), name: props.name, onChange: () => { console.log(b); onChange(b.props.value); }});
+        })}
     </span>);
 }
 
