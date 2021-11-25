@@ -91,6 +91,21 @@ function _getNMRData(data, datatype) {
         case 'asymm':
             values = data.map((T) => T.asymmetry);
             break;
+        case 'span':
+            values = data.map((T) => T.span);
+            break;
+        case 'skew':
+            values = data.map((T) => T.skew);
+            break;
+        case 'e_x':
+            values = data.map((T) => T.haeberlen_eigenvalues[0]);
+            break;
+        case 'e_y':
+            values = data.map((T) => T.haeberlen_eigenvalues[1]);
+            break;
+        case 'e_z':
+            values = data.map((T) => T.haeberlen_eigenvalues[2]);
+            break;
         default:
             break;
     }

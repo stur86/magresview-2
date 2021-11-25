@@ -37,9 +37,9 @@ function MVSidebarSelect(props) {
 
     return (<MagresViewSidebar show={props.show} title='Select and display'>
         <div className='mv-sidebar-block'>
-            <MVCheckBox checked={selint.highlight_selected} onCheck={(v) => { selint.highlight_selected = v }} noState>Highlight selected</MVCheckBox>        
+            <MVCheckBox checked={selint.highlight_selected} onCheck={(v) => { selint.highlight_selected = v }}>Highlight selected</MVCheckBox>        
             <span className='sep-1' />
-            <MVRadioGroup label='Selection mode' onSelect={selectMode} selected={selint.selection_mode} name='selec_mode_radio' noState>
+            <MVRadioGroup label='Selection mode' onSelect={selectMode} selected={selint.selection_mode} name='selec_mode_radio'>
                 <MVRadioButton value='atom'>Atom</MVRadioButton>
                 <MVRadioButton value='element'>Element</MVRadioButton>
                 <MVRadioButton value='sphere'>Sphere, radius =&nbsp;

@@ -65,6 +65,10 @@ class SelInterface extends BaseInterface {
     set displayed(v) {
         if (!v) {
             v = this.state.app_default_displayed;
+            if (!v) {
+                // Then there's just no model at all
+                return;
+            }
         }
         this.dispatch({
             type: 'call',

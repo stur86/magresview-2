@@ -43,6 +43,8 @@
   --err-color-1: #ff3322;
   --err-color-2: #cc2200;
   --err-color-3: #aa1000;
+
+  --overlay-color: #111111aa; 
 }
 
 .theme-light {
@@ -90,4 +92,6 @@
   --err-color-1: #aa1000;
   --err-color-2: #cc2200;
   --err-color-3: #ff3322;
+
+  --overlay-color: #111111aa; 
 }
