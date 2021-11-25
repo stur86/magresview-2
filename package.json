@@ -1,7 +1,8 @@
 {
   "name": "magresview-2",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "homepage": ".",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.2",
