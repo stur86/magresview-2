@@ -45,6 +45,14 @@
     cursor: pointer;
 }
 
+.mv-modal-content {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
 .mv-modal-footer {
     display: flex;
     align-items: center;

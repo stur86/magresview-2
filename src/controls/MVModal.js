@@ -23,7 +23,9 @@ function MVModal(props) {
                         <IoClose size={22} onClick={onClose}/>
                     </IconContext.Provider>
                 </div>
-                {props.children}
+                <div className='mv-modal-content'>
+                    {props.children}                
+                </div>
                 <div className='mv-modal-footer'>
                     <MVButton onClick={onAccept}>OK</MVButton>
                     <MVButton onClick={onClose}>Cancel</MVButton>

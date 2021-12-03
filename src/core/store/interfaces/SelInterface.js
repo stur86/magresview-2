@@ -77,6 +77,10 @@ class SelInterface extends BaseInterface {
         });
     }
 
+    get default_displayed() {
+        return this.state.app_default_displayed;
+    }
+
     get highlight_selected() {
         return this.state.sel_hlight;
     }

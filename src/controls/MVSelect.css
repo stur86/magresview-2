@@ -1,0 +1,5 @@
+.mv-select {
+    min-width: 70px;
+    background-color: var(--light-color-3);
+    border: 1px solid var(--fwd-color-3);
+}
