@@ -16,7 +16,37 @@
     background-color: var(--overlay-color);
 }
 
+.mv-modal-overlay.mv-modal-hidden {
+    display: none;
+}
+
 .mv-modal {
     color: var(--fwd-color-1);
     background-color: var(--bkg-color-1);
+
+    min-width: 30vw;
+    box-shadow: 0 2px 5px var(--fwd-color-3);
+}
+
+.mv-modal-title {
+    padding: 10px 0px;
+    border-bottom: 1px solid var(--fwd-color-1);
+    margin-bottom: 10px;
+
+    font-weight: bold;
+    text-align: center;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mv-modal-title svg {
+    cursor: pointer;
+}
+
+.mv-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

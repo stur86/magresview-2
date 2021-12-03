@@ -1,7 +1,7 @@
 import './MVRadioButton.css';
 import _ from 'lodash';
 
-import React, { cloneElement, useState, useMemo } from 'react';
+import React, { cloneElement, useMemo } from 'react';
 
 function MVRadioButton(props) {
 

@@ -11,6 +11,8 @@ import MVSidebarLoad from './sidebars/MVSidebarLoad';
 import MVSidebarSelect from './sidebars/MVSidebarSelect';
 import MVSidebarMS from './sidebars/MVSidebarMS';
 
+import MVModal from '../controls/MVModal';
+
 function MagresViewPage() {
 
     let appint = useAppInterface();
@@ -27,6 +29,7 @@ function MagresViewPage() {
                 <MVSidebarSelect show={appint.sidebar === 'select'} />
                 <MVSidebarMS show={appint.sidebar === 'ms'} />
                 <div id='mv-appwindow' className='mv-background'/>
+                <MVModal display={true} title={"Test Modal"} onAccept={() => {console.log('Hello');}} onClose={() => {console.log('Goodbye');}}>Thing</MVModal>
             </div>);
 }
 
