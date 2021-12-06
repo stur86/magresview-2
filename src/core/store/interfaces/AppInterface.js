@@ -4,6 +4,7 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { makeSelector, BaseInterface } from '../utils';
 import { CallbackMerger } from '../../../utils';
 import { msDisplayEllipsoids, msDisplayLabels, msDisplayCScales } from './MSInterface';
+import { efgDisplayEllipsoids, efgDisplayLabels, efgDisplayCScales } from './EFGInterface';
 import { selShowLabels } from './SelInterface';
 
 import CrystVis from 'crystvis-js';
@@ -30,7 +31,10 @@ function appDisplayModel(state, m) {
             ...selShowLabels(state, false),
             ...msDisplayEllipsoids(state, false),
             ...msDisplayLabels(state, 'none'),
-            ...msDisplayCScales(state, 'none')
+            ...msDisplayCScales(state, 'none'),
+            ...efgDisplayEllipsoids(state, false),
+            ...efgDisplayLabels(state, 'none'),
+            ...efgDisplayCScales(state, 'none')
         };
     }
 

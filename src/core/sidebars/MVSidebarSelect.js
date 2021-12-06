@@ -88,7 +88,7 @@ function MVSidebarSelect(props) {
     useEffect(() => {
         let selint = selRef.current;
         selint.selectionOn = props.show;
-    }, [props.show]);
+    }, [props.show, selint.app]); // The dependency on app guarantees this is executed AFTER the app itself is loaded
 
     function closeAtomTable() {
         setState({

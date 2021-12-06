@@ -3,6 +3,7 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import CrystVis from 'crystvis-js';
 
 import { msDisplayEllipsoids, msDisplayLabels, msDisplayCScales } from './MSInterface';
+import { efgDisplayEllipsoids, efgDisplayLabels, efgDisplayCScales } from './EFGInterface';
 
 const LC = CrystVis.LEFT_CLICK;
 const SLC = CrystVis.LEFT_CLICK + CrystVis.SHIFT_BUTTON;
@@ -65,7 +66,10 @@ function selSetSelection(state, sel, set_displayed=false) {
         ...selShowLabels(state, state.sel_show_labels),
         ...msDisplayEllipsoids(state, state.ms_ellipsoids_on, state.ms_ellipsoids_scale),
         ...msDisplayLabels(state, state.ms_labels_type),
-        ...msDisplayCScales(state, state.ms_cscale_type)
+        ...msDisplayCScales(state, state.ms_cscale_type),
+        ...efgDisplayEllipsoids(state, state.efg_ellipsoids_on, state.efg_ellipsoids_scale),
+        ...efgDisplayLabels(state, state.efg_labels_type),
+        ...efgDisplayCScales(state, state.efg_cscale_type)
     };
     
     return {
@@ -75,6 +79,10 @@ function selSetSelection(state, sel, set_displayed=false) {
 }
 
 class SelInterface extends BaseInterface {
+
+    get app() {
+        return this.state.app_viewer;
+    }
 
     get selected() {
         return this.state.sel_selected_view;
@@ -240,9 +248,6 @@ class SelInterface extends BaseInterface {
         // hidden or can be used as ghost for other purposes
         var dd = this.state.app_default_displayed;
         var intf = this;
-
-        console.log(selFunc);
-        console.log(options);        
 
         if (selFunc) {
             app.onAtomClick((a, e) => { intf.selected = dd.and(selFunc(a, e)); }, LC);
