@@ -98,6 +98,7 @@ function MVSidebarSelect(props) {
 
     return (<MagresViewSidebar show={props.show} title='Select and display'>
         <div className='mv-sidebar-block'>
+            <MVCheckBox checked={selint.show_cryst_labels} onCheck={(v) => { selint.show_cryst_labels = v }}>Show crystallographic labels</MVCheckBox>        
             <MVCheckBox checked={selint.highlight_selected} onCheck={(v) => { selint.highlight_selected = v }}>Highlight selected</MVCheckBox>        
             <span className='sep-1' />
             <MVRadioGroup label='Selection mode' onSelect={selectMode} selected={selint.selection_mode} name='selec_mode_radio'>

@@ -13,7 +13,7 @@ const initialMSState = {
 const msColor = 0xff8000;
 
 const msDisplayEllipsoids = makeDisplayEllipsoids('ms', msColor);
-const msDisplayLabels = makeDisplayLabels('ms', msColor);
+const msDisplayLabels = makeDisplayLabels('ms', msColor, (r) => ([0.2*r, 0.0, 0.0]));
 const msDisplayCScales = makeDisplayCScales('ms');
 
 class MSInterface extends BaseInterface {

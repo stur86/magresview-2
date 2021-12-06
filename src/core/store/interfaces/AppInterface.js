@@ -4,6 +4,7 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { makeSelector, BaseInterface } from '../utils';
 import { CallbackMerger } from '../../../utils';
 import { msDisplayEllipsoids, msDisplayLabels, msDisplayCScales } from './MSInterface';
+import { selShowLabels } from './SelInterface';
 
 import CrystVis from 'crystvis-js';
 
@@ -26,6 +27,7 @@ function appDisplayModel(state, m) {
     if (cm) {
         // We turn visualizations off
         msdata = {
+            ...selShowLabels(state, false),
             ...msDisplayEllipsoids(state, false),
             ...msDisplayLabels(state, 'none'),
             ...msDisplayCScales(state, 'none')

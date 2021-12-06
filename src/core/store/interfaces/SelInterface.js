@@ -15,8 +15,37 @@ const initialSelState = {
     sel_mode: 'atom',
     sel_sphere_r: 2.0,
     sel_bond_n: 1,
-    sel_hlight: true
+    sel_hlight: true,
+    sel_labels_view: null,
+    sel_show_labels: false
 };
+
+function selShowLabels(state, show) {
+
+    let app = state.app_viewer;
+    let sel_old = state.sel_labels_view;
+    let show_old = state.sel_show_labels;
+
+    let sel = app.displayed;
+
+    if (sel_old && (sel_old !== sel || (show_old && !show))) {
+        // Remove old labels
+        sel_old.removeLabels('cryst');
+    }
+
+    if (show) {
+        const label_texts = sel.map((a) => a.crystLabel);
+        sel.addLabels(label_texts, 'cryst', (a, i) => ({ 
+            shift: [0.1414*a.radius, 0.1414, 0]
+        }));
+    }
+
+    return {
+        sel_labels_view: sel,
+        sel_show_labels: show
+    };
+}    
+
 
 function selSetSelection(state, sel, set_displayed=false) {
     let app = state.app_viewer;
@@ -33,6 +62,7 @@ function selSetSelection(state, sel, set_displayed=false) {
 
     // We now update all views that may be changed as a result of this
     let msdata = {
+        ...selShowLabels(state, state.sel_show_labels),
         ...msDisplayEllipsoids(state, state.ms_ellipsoids_on, state.ms_ellipsoids_scale),
         ...msDisplayLabels(state, state.ms_labels_type),
         ...msDisplayCScales(state, state.ms_cscale_type)
@@ -96,6 +126,18 @@ class SelInterface extends BaseInterface {
             type: 'set',
             key: 'sel_hlight',
             value: v
+        });
+    }
+
+    get show_cryst_labels() {
+        return this.state.sel_show_labels;
+    }
+
+    set show_cryst_labels(v) {
+        this.dispatch({
+            type: 'call',
+            function: selShowLabels,
+            arguments: [v]
         });
     }
 
@@ -232,4 +274,4 @@ function useSelInterface() {
 
 
 export default useSelInterface;
-export { initialSelState };
+export { initialSelState, selShowLabels };

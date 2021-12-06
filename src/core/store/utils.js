@@ -113,7 +113,7 @@ function _getNMRData(data, datatype) {
     return [units, values];
 }
 
-function makeDisplayLabels(name, color) {
+function makeDisplayLabels(name, color, shiftfunc) {
 
     // Factory for a function that will be used for both MS and EFG with
     // minimal differences
@@ -136,7 +136,10 @@ function makeDisplayLabels(name, color) {
             const [units, values] = _getNMRData(data, mode);
 
             let label_texts = values.map((v) => v.toFixed(2) + ' ' + units);
-            sel.addLabels(label_texts, name, { color: color });
+            sel.addLabels(label_texts, name, (a, i) => ({ 
+                color: color,  
+                shift: shiftfunc(a.radius)
+            }));
         }
 
         return {
