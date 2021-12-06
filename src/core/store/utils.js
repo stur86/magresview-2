@@ -52,6 +52,7 @@ function makeDisplayEllipsoids(name, color) {
                 let avg = data.map((t) => _.sum(t.eigenvalues.map(Math.abs))/3.0);
                 avg = _.sum(avg)/data.length;
                 scale = 2.0/avg;
+                console.log(scale);
             }
 
             if (sel_old === sel && on_old) {

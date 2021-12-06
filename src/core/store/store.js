@@ -4,12 +4,14 @@ import { createStore } from 'redux';
 import { initialAppState } from './interfaces/AppInterface';
 import { initialSelState } from './interfaces/SelInterface';
 import { initialMSState } from './interfaces/MSInterface';
+import { initialEFGState } from './interfaces/EFGInterface';
 
 // Merging together
 const initialState = {
     ...initialAppState,
     ...initialSelState,
-    ...initialMSState
+    ...initialMSState,
+    ...initialEFGState
 };
 
 // Reducer

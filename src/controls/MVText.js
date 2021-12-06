@@ -8,7 +8,7 @@ import { chainClasses } from '../utils';
 function MVText(props) {
 
     const [submitted, setSubmitted] = useState(true);
-    const id = useMemo(() => {_.uniqueId('text')}, []);
+    const id = useMemo(() => _.uniqueId('text'), []);
 
     var filter = null;
     if (props.filter)

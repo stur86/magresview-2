@@ -17,7 +17,7 @@ function MVAtomTable(props) {
 
     const selint = useSelInterface();
 
-    const ddisp = selint.default_displayed;
+    const ddisp = selint.defaultDisplayed;
     const atoms = ddisp? ddisp.atoms : [];
 
     return (
@@ -71,22 +71,23 @@ function MVSidebarSelect(props) {
     console.log('[MVSidebarLoad rendered]');
 
     function selectMode(v) {
-        selint.selection_mode = v;
+        selint.selectionMode = v;
     }
 
     function setR(v) {
-        selint.selection_sphere_r = v;
+        selint.selectionSphereR = v;
     }
 
     function setN(v) {
-        selint.selection_bond_n = v;
+        selint.selectionBondN = v;
     }
 
     const selRef = useRef();
     selRef.current = selint;
 
     useEffect(() => {
-        selRef.current.selection_on = props.show;
+        let selint = selRef.current;
+        selint.selectionOn = props.show;
     }, [props.show]);
 
     function closeAtomTable() {
@@ -98,18 +99,18 @@ function MVSidebarSelect(props) {
 
     return (<MagresViewSidebar show={props.show} title='Select and display'>
         <div className='mv-sidebar-block'>
-            <MVCheckBox checked={selint.show_cryst_labels} onCheck={(v) => { selint.show_cryst_labels = v }}>Show crystallographic labels</MVCheckBox>        
-            <MVCheckBox checked={selint.highlight_selected} onCheck={(v) => { selint.highlight_selected = v }}>Highlight selected</MVCheckBox>        
+            <MVCheckBox checked={selint.showCrystLabels} onCheck={(v) => { selint.showCrystLabels = v }}>Show crystallographic labels</MVCheckBox>        
+            <MVCheckBox checked={selint.highlightSelected} onCheck={(v) => { selint.highlightSelected = v }}>Highlight selected</MVCheckBox>        
             <span className='sep-1' />
-            <MVRadioGroup label='Selection mode' onSelect={selectMode} selected={selint.selection_mode} name='selec_mode_radio'>
+            <MVRadioGroup label='Selection mode' onSelect={selectMode} selected={selint.selectionMode} name='selec_mode_radio'>
                 <MVRadioButton value='atom'>Atom</MVRadioButton>
                 <MVRadioButton value='element'>Element</MVRadioButton>
                 <MVRadioButton value='sphere'>Sphere, radius =&nbsp;
-                    <MVText size='5' value={selint.selection_sphere_r} filter='[0-9]*(?:\.[0-9]*)?' onChange={setR} onSubmit={setR} />&nbsp;  &#8491;
+                    <MVText size='5' value={selint.selectionSphereR} filter='[0-9]*(?:\.[0-9]*)?' onChange={setR} onSubmit={setR} />&nbsp;  &#8491;
                 </MVRadioButton>
                 <MVRadioButton value='molecule'>Molecule</MVRadioButton>
                 <MVRadioButton value='bonds'>Bonds, max distance = &nbsp;
-                    <MVText size='3' value={selint.selection_bond_n} filter='[0-9]*' onChange={setN} onSubmit={setN} />
+                    <MVText size='3' value={selint.selectionBondN} filter='[0-9]*' onChange={setN} onSubmit={setN} />
                 </MVRadioButton>
             </MVRadioGroup>
         </div>
@@ -120,7 +121,7 @@ function MVSidebarSelect(props) {
             <span className='sep-1' />
             <MVButton onClick={() => { setState({...state, atable_show: true}) }}>Isotopes and references</MVButton>
         </div>
-        <MVAtomTable display={state.atable_show} onClose={closeAtomTable}/>
+        {/* <MVAtomTable display={state.atable_show} onClose={closeAtomTable}/> */}
     </MagresViewSidebar>);
 }
 

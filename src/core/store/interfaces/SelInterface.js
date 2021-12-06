@@ -107,15 +107,15 @@ class SelInterface extends BaseInterface {
         });
     }
 
-    get default_displayed() {
+    get defaultDisplayed() {
         return this.state.app_default_displayed;
     }
 
-    get highlight_selected() {
+    get highlightSelected() {
         return this.state.sel_hlight;
     }
 
-    set highlight_selected(v) {
+    set highlightSelected(v) {
         let app = this.state.app_viewer;
 
         if (!app)
@@ -129,11 +129,11 @@ class SelInterface extends BaseInterface {
         });
     }
 
-    get show_cryst_labels() {
+    get showCrystLabels() {
         return this.state.sel_show_labels;
     }
 
-    set show_cryst_labels(v) {
+    set showCrystLabels(v) {
         this.dispatch({
             type: 'call',
             function: selShowLabels,
@@ -141,39 +141,39 @@ class SelInterface extends BaseInterface {
         });
     }
 
-    get selection_on() {
+    get selectionOn() {
         return this.state.sel_on;
     }
 
-    set selection_on(v) {
-        this.set_selection(this.selection_mode, {on: v});
+    set selectionOn(v) {
+        this.setSelection(this.selectionMode, {on: v});
     }
 
-    get selection_mode() {
+    get selectionMode() {
         return this.state.sel_mode;
     }
 
-    set selection_mode(v) {
-        this.set_selection(v);
+    set selectionMode(v) {
+        this.setSelection(v);
     }
 
-    get selection_sphere_r() {
+    get selectionSphereR() {
         return this.state.sel_sphere_r;
     }
 
-    set selection_sphere_r(v) {
-        this.set_selection(this.selection_mode, {r: v});
+    set selectionSphereR(v) {
+        this.setSelection(this.selectionMode, {r: v});
     }
 
-    get selection_bond_n() {
+    get selectionBondN() {
         return this.state.sel_bond_n;
     }
 
-    set selection_bond_n(v) {
-        this.set_selection(this.selection_mode, {n: v});
+    set selectionBondN(v) {
+        this.setSelection(this.selectionMode, {n: v});
     }
 
-    set_selection(mode, options={}) {
+    setSelection(mode, options={}) {
         // Set the selection for a certain mode and options
 
         let app = this.state.app_viewer;
@@ -181,9 +181,9 @@ class SelInterface extends BaseInterface {
             return;
 
         let default_options = {
-            r: this.selection_sphere_r,
-            n: this.selection_bond_n,
-            on: this.selection_on
+            r: this.selectionSphereR,
+            n: this.selectionBondN,
+            on: this.selectionOn
         };
 
         options = {
@@ -241,6 +241,9 @@ class SelInterface extends BaseInterface {
         var dd = this.state.app_default_displayed;
         var intf = this;
 
+        console.log(selFunc);
+        console.log(options);        
+
         if (selFunc) {
             app.onAtomClick((a, e) => { intf.selected = dd.and(selFunc(a, e)); }, LC);
             app.onAtomClick((a, e) => { intf.selected = dd.and(app.selected.or(selFunc(a, e))); }, SLC);
@@ -253,8 +256,8 @@ class SelInterface extends BaseInterface {
         }
 
         this.dispatch({type: 'update', data: {
-            sel_mode: mode, 
-            sel_sph_r: options.r,
+            sel_mode: mode,
+            sel_sphere_r: options.r,
             sel_bond_n: options.n,
             sel_on: options.on
         }});

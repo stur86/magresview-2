@@ -10,6 +10,7 @@ import { useAppInterface } from './store';
 import MVSidebarLoad from './sidebars/MVSidebarLoad';
 import MVSidebarSelect from './sidebars/MVSidebarSelect';
 import MVSidebarMS from './sidebars/MVSidebarMS';
+import MVSidebarEFG from './sidebars/MVSidebarEFG';
 
 function MagresViewPage() {
 
@@ -26,6 +27,7 @@ function MagresViewPage() {
                 <MVSidebarLoad show={appint.sidebar === 'load'} />
                 <MVSidebarSelect show={appint.sidebar === 'select'} />
                 <MVSidebarMS show={appint.sidebar === 'ms'} />
+                <MVSidebarEFG show={appint.sidebar === 'efg'} />
                 <div id='mv-appwindow' className='mv-background'/>
             </div>);
 }
