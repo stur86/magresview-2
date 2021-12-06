@@ -24,21 +24,21 @@ function MVSidebarEFG(props) {
     return (<MagresViewSidebar show={props.show} title='Electric Field Gradient'>
         {has_efg? 
          (<div className='mv-sidebar-block'>
-             <MVCheckBox onCheck={(v) => { efgint.hasEllipsoids = v; }} checked={ efgint.hasEllipsoids }>Ellipsoids</MVCheckBox>
-             <MVRange min={0.1} max={10.0} step={0.05} value={efgint.ellipsoidScale}
+             <MVCheckBox onCheck={(v) => { efgint.hasEllipsoids = v; }} checked={ efgint.hasEllipsoids } color={'var(--efg-color-2)'}>Ellipsoids</MVCheckBox>
+             <MVRange min={0.1} max={10.0} step={0.05} value={efgint.ellipsoidScale} color={'var(--efg-color-2)'}
                       onChange={(s) => { efgint.ellipsoidScale = s; }} disabled={!efgint.hasEllipsoids} noState>Ellipsoid scale</MVRange>
              <MVButton onClick={() => { efgint.ellipsoidScale = 0; }} disabled={!efgint.hasEllipsoids}>Set auto scale</MVButton>
-             <MVRadioGroup label='Show labels' onSelect={(v) => { efgint.labelsMode = v; }} selected={efgint.labelsMode} name='efg_label_radio' noState>
+             <MVRadioGroup label='Show labels' onSelect={(v) => { efgint.labelsMode = v; }} selected={efgint.labelsMode} name='efg_label_radio' color={'var(--efg-color-2)'}>
                 <MVRadioButton value='none'>None</MVRadioButton>
-                <MVRadioButton value='iso'>Isotropy (ppm)</MVRadioButton>
-                <MVRadioButton value='aniso'>Anisotropy (ppm)</MVRadioButton>
+                <MVRadioButton value='aniso'>Anisotropy (au)</MVRadioButton>
                 <MVRadioButton value='asymm'>Asymmetry</MVRadioButton>
+                <MVRadioButton value='Q'>Quadrupole Coupling (Hz)</MVRadioButton>
              </MVRadioGroup>
-             <MVRadioGroup label='Use color scale' onSelect={(v) => { efgint.cscaleMode = v; }} selected={ efgint.cscaleMode} name='efg_cscale_radio' noState>
+             <MVRadioGroup label='Use color scale' onSelect={(v) => { efgint.cscaleMode = v; }} selected={ efgint.cscaleMode} name='efg_cscale_radio' color={'var(--efg-color-2)'}>
                 <MVRadioButton value='none'>None</MVRadioButton>
-                <MVRadioButton value='iso'>Isotropy (ppm)</MVRadioButton>
-                <MVRadioButton value='aniso'>Anisotropy (ppm)</MVRadioButton>
+                <MVRadioButton value='aniso'>Anisotropy (au)</MVRadioButton>
                 <MVRadioButton value='asymm'>Asymmetry</MVRadioButton>
+                <MVRadioButton value='Q'>Quadrupole Coupling (Hz)</MVRadioButton>
              </MVRadioGroup>
           </div>): 
          <div className='mv-warning-noms'>No EFG data found</div>}

@@ -23,7 +23,12 @@ function MVRadioGroup(props) {
     const selected = values.findIndex((v) => v === props.selected);
     const onChange = props.onSelect? props.onSelect : (() => {});
 
-    return(<span className='mv-control mv-radiogroup' title={props.title}>
+    var style = {};
+    if (props.color) {
+        style['--check-color'] = props.color;
+    }
+
+    return(<span className='mv-control mv-radiogroup' style={style} title={props.title}>
         {props.label? <span className="mv-radiogroup-label" style={props.labelStyle}>{props.label}</span> : null}
         {buttons.map((b, i) => {
             return cloneElement(b, {key: i, 

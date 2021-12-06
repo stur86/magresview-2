@@ -52,7 +52,6 @@ function makeDisplayEllipsoids(name, color) {
                 let avg = data.map((t) => _.sum(t.eigenvalues.map(Math.abs))/3.0);
                 avg = _.sum(avg)/data.length;
                 scale = 2.0/avg;
-                console.log(scale);
             }
 
             if (sel_old === sel && on_old) {
@@ -75,38 +74,45 @@ function makeDisplayEllipsoids(name, color) {
     return displayfunc;
 }
 
-function _getNMRData(data, datatype) {
+function _getNMRData(data, datatype, tenstype='ms') {
 
     let units = '';
+    let tens_units = {
+        ms: 'ppm',
+        efg: 'au'
+    }[tenstype];
     let values = null;
 
     switch(datatype) {
         case 'iso': 
-            values = data.map((T) => T.isotropy);
-            units = 'ppm';
+            values = data.map(([T, iD]) => T.isotropy);
+            units = tens_units;
             break;
         case 'aniso':
-            values = data.map((T) => T.anisotropy);
-            units = 'ppm';
+            values = data.map(([T, iD]) => T.anisotropy);
+            units = tens_units;
             break;            
         case 'asymm':
-            values = data.map((T) => T.asymmetry);
+            values = data.map(([T, iD]) => T.asymmetry);
             break;
         case 'span':
-            values = data.map((T) => T.span);
+            values = data.map(([T, iD]) => T.span);
             break;
         case 'skew':
-            values = data.map((T) => T.skew);
+            values = data.map(([T, iD]) => T.skew);
             break;
         case 'e_x':
-            values = data.map((T) => T.haeberlen_eigenvalues[0]);
+            values = data.map(([T, iD]) => T.haeberlen_eigenvalues[0]);
             break;
         case 'e_y':
-            values = data.map((T) => T.haeberlen_eigenvalues[1]);
+            values = data.map(([T, iD]) => T.haeberlen_eigenvalues[1]);
             break;
         case 'e_z':
-            values = data.map((T) => T.haeberlen_eigenvalues[2]);
+            values = data.map(([T, iD]) => T.haeberlen_eigenvalues[2]);
             break;
+        case 'Q':
+            values = data.map(([T, iD]) => T.efgAtomicToHz(iD.Q).haeberlen_eigenvalues[2]);
+            break;            
         default:
             break;
     }
@@ -133,8 +139,8 @@ function makeDisplayLabels(name, color, shiftfunc) {
         }
 
         if (mode !== 'none') {
-            const data = sel.map((a) => a.getArrayValue(name));
-            const [units, values] = _getNMRData(data, mode);
+            const data = sel.map((a) => [a.getArrayValue(name), a.isotopeData]);
+            const [units, values] = _getNMRData(data, mode, name);
 
             let label_texts = values.map((v) => v.toFixed(2) + ' ' + units);
             sel.addLabels(label_texts, name, (a, i) => ({ 
@@ -173,7 +179,7 @@ function makeDisplayCScales(name) {
     
             let notsel = displ.xor(sel);
 
-            const data = sel.map((a) => a.getArrayValue(name));
+            const data = sel.map((a) => [a.getArrayValue(name), a.isotopeData]);
             const nmrdata = _getNMRData(data, mode);
             const values = nmrdata[1];
 
