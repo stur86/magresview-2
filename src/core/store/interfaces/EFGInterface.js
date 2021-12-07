@@ -13,7 +13,7 @@ const initialEFGState = {
 const efgColor = 0x0080ff;
 
 const efgDisplayEllipsoids = makeDisplayEllipsoids('efg', efgColor);
-const efgDisplayLabels = makeDisplayLabels('efg', efgColor, (r) => ([0.1414*r, -0.1414, 0.0]));
+const efgDisplayLabels = makeDisplayLabels('efg', efgColor, (r) => ([r, -r, 0.0]));
 const efgDisplayCScales = makeDisplayCScales('efg');
 
 class EFGInterface extends BaseInterface {

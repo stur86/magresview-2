@@ -60,7 +60,7 @@ function makeDisplayEllipsoids(name, color) {
             }
             else {
                 // We need to create them from scratch
-                sel.addEllipsoids(data, name, {scalingFactor: scale, color: color, opacity: 0.25});
+                sel.addEllipsoids(data, name, {scalingFactor: scale, color: color, opacity: 0.125});
             }
         }
 
@@ -145,7 +145,8 @@ function makeDisplayLabels(name, color, shiftfunc) {
             let label_texts = values.map((v) => v.toFixed(2) + ' ' + units);
             sel.addLabels(label_texts, name, (a, i) => ({ 
                 color: color,  
-                shift: shiftfunc(a.radius)
+                shift: shiftfunc(a.radius),
+                height: 0.02
             }));
         }
 

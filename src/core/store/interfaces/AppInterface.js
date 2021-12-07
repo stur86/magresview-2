@@ -55,7 +55,7 @@ function appDeleteModel(state, m) {
     // Delete a model
     app.deleteModel(m);
 
-    let models = app.model_list;
+    let models = app.modelList;
 
     if (!app.model && models.length > 0) {
         // Let's display a different one
@@ -79,13 +79,13 @@ class AppInterface extends BaseInterface {
         let models = [];
 
         if (this.initialised) {
-            models = this.viewer.model_list;
+            models = this.viewer.modelList;
         }
 
         return models;
     }
 
-    get current_model() {
+    get currentModel() {
         let model = null;
 
         if (this.initialised) {
@@ -95,11 +95,11 @@ class AppInterface extends BaseInterface {
         return model;
     }
 
-    get current_model_name() {
+    get currentModelName() {
         let model_name = null;
 
         if (this.initialised) {
-            model_name = this.viewer.model_name;
+            model_name = this.viewer.modelName;
         }
 
         return model_name;
@@ -133,7 +133,7 @@ class AppInterface extends BaseInterface {
         console.log('Initialising CrystVis app on element ' + elem);
         // Initialise app but only if it's not already there
         var vis = new CrystVis(elem);
-        vis.highlight_selected = true; // Our default
+        vis.highlightSelected = true; // Our default
                 
         if (!this.initialised) {
             this.dispatch({type: 'set', key: 'app_viewer', value: vis});

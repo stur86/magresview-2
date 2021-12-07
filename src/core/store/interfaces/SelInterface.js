@@ -37,7 +37,8 @@ function selShowLabels(state, show) {
     if (show) {
         const label_texts = sel.map((a) => a.crystLabel);
         sel.addLabels(label_texts, 'cryst', (a, i) => ({ 
-            shift: [0.1414*a.radius, 0.1414, 0]
+            shift: [a.radius, a.radius, 0],
+            height: 0.02
         }));
     }
 
@@ -129,7 +130,7 @@ class SelInterface extends BaseInterface {
         if (!app)
             return;
 
-        app.highlight_selected = v;
+        app.highlightSelected = v;
         this.dispatch({
             type: 'set',
             key: 'sel_hlight',
@@ -206,7 +207,7 @@ class SelInterface extends BaseInterface {
             switch(mode) {
                 case 'atom':
                     selFunc = ((a, e) => {
-                        return app.model.view([a.img_index]); // Just the one
+                        return app.model.view([a.imgIndex]); // Just the one
                     });
                     break;
                 case 'element':
@@ -233,7 +234,7 @@ class SelInterface extends BaseInterface {
                     const n = options.n;
                     selFunc = ((a, e) => {
                         var found = app.model._queryBonded(a, n, false);
-                        found = found.concat([a.img_index]); // Crystvis excludes the original atom
+                        found = found.concat([a.imgIndex]); // Crystvis excludes the original atom
                         return app.model.view(found);
                     });
                     break;

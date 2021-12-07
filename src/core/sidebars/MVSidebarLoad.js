@@ -62,8 +62,8 @@ function MVSidebarLoad(props) {
 
     function makeModelOption(m, i) {
 
-        var model_icon;
-        if (m === appint.current_model_name) {
+        var model_icon;        
+        if (m === appint.currentModelName) {
             model_icon = <AiFillEye size={22}/>;
         }
         else {
