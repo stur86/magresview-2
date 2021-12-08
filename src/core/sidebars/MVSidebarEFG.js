@@ -2,6 +2,7 @@ import './MVSidebarEFG.css';
 
 import MagresViewSidebar from './MagresViewSidebar';
 import { useEFGInterface } from '../store';
+import { chainClasses } from '../../utils';
 
 import React from 'react';
 
@@ -22,8 +23,7 @@ function MVSidebarEFG(props) {
     }
 
     return (<MagresViewSidebar show={props.show} title='Electric Field Gradient'>
-        {has_efg? 
-         (<div className='mv-sidebar-block'>
+        <div className={chainClasses('mv-sidebar-block', has_efg? '' : 'hidden')}>
              <MVCheckBox onCheck={(v) => { efgint.hasEllipsoids = v; }} checked={ efgint.hasEllipsoids } color={'var(--efg-color-2)'}>Ellipsoids</MVCheckBox>
              <MVRange min={0.1} max={10.0} step={0.05} value={efgint.ellipsoidScale} color={'var(--efg-color-2)'}
                       onChange={(s) => { efgint.ellipsoidScale = s; }} disabled={!efgint.hasEllipsoids} noState>Ellipsoid scale</MVRange>
@@ -40,8 +40,8 @@ function MVSidebarEFG(props) {
                 <MVRadioButton value='asymm'>Asymmetry</MVRadioButton>
                 <MVRadioButton value='Q'>Quadrupole Coupling (Hz)</MVRadioButton>
              </MVRadioGroup>
-          </div>): 
-         <div className='mv-warning-noms'>No EFG data found</div>}
+        </div>
+        <div className={chainClasses('mv-warning-noms', has_efg? 'hidden' : '')}>No EFG data found</div>
     </MagresViewSidebar>);
 }
 

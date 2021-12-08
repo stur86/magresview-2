@@ -8,63 +8,56 @@ import MVButton from '../../controls/MVButton';
 import MVRadioButton, { MVRadioGroup } from '../../controls/MVRadioButton';
 import MVSelect from '../../controls/MVSelect';
 import MVText from '../../controls/MVText';
-import MVModal from '../../controls/MVModal';
-
-import React, { useEffect, useState, useRef } from 'react';
+import MVCustomSelect, { MVCustomSelectOption } from '../../controls/MVCustomSelect';
 
 
-function MVAtomTable(props) {
+import React, { useEffect, useRef } from 'react';
+
+
+function sharedElement(sel) {
+    if (sel == null || sel.atoms.length === 0) {
+        return null;
+    }
+
+    let atoms = sel.atoms;
+    let el = atoms[0].element;
+
+    console.log(atoms, el);
+
+    if (atoms.slice(1).reduce((s, a) => (s && a.element === el), true)) {
+        return el;
+    }
+    else {
+        return null;
+    }
+}
+
+
+function MVIsotopeSelection(props) {
 
     const selint = useSelInterface();
+    const el = sharedElement(selint.selected);
 
-    const ddisp = selint.defaultDisplayed;
-    const atoms = ddisp? ddisp.atoms : [];
+    let elData = null;
+    let isoConf = null;
+    if (el) {
+        // Information about that element?
+        elData = selint.selected.atoms[0].elementData;
+        // Current isotope configuration?
+        isoConf = selint.selected.atoms.map((a) => a.isotope);        
+    }
 
-    return (
-        <MVModal title={"Isotopes and references"} display={props.display}
-        onClose={props.onClose}>
-            <table className='mv-atom-table'>
-                <thead>
-                    <tr>
-                        <th>Species</th>
-                        <th>Index</th>
-                        <th>Label</th>
-                        <th>Isotope</th>
-                        <th>Reference</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {atoms.map((a, i) => {
-                        const edata = a.elementData;
-                        const isos = Object.keys(edata.isotopes);
-                        return (<tr key={i}>
-                            <td>{a.element}</td>
-                            <td>{a.index}</td>
-                            <td>{a.element + '_' + a.index}</td>
-                            <td>
-                                <MVSelect>
-                                    {isos.map((iso, j) => (
-                                        <option key={j} value={iso}>{iso}</option>
-                                        ))}
-                                </MVSelect>
-                            </td>
-                            <td>
-                                <div className='cell-content'>
-                                    <MVText size={6} />&nbsp;ppm
-                                </div>
-                            </td>
-                        </tr>);
-                    })}
-                </tbody>
-            </table>
-        </MVModal>
-    );
+    // This component handles specifically just the selection of isotopes
+    return (<>
+        <h3>Isotope selection</h3>
+        {el? 
+            <div>{el + ' ' + isoConf.toString()}</div> : 
+            <div>No atoms selected, or atoms of different species. Can not set isotopes.</div>}
+    </>);
 }
 
 
 function MVSidebarSelect(props) {
-
-    const [state, setState] = useState({atable_show: false});
 
     const selint = useSelInterface();
 
@@ -90,13 +83,6 @@ function MVSidebarSelect(props) {
         selint.selectionOn = props.show;
     }, [props.show, selint.app]); // The dependency on app guarantees this is executed AFTER the app itself is loaded
 
-    function closeAtomTable() {
-        setState({
-            ...state,
-            atable_show: false
-        });
-    }
-
     return (<MagresViewSidebar show={props.show} title='Select and display'>
         <div className='mv-sidebar-block'>
             <MVCheckBox checked={selint.showCrystLabels} onCheck={(v) => { selint.showCrystLabels = v }}>Show crystallographic labels</MVCheckBox>        
@@ -114,14 +100,21 @@ function MVSidebarSelect(props) {
                 </MVRadioButton>
             </MVRadioGroup>
         </div>
+        <span className='sep-1' />
         <div className='mv-sidebar-block'>
-            <MVButton onClick={() => { selint.displayed = selint.selected }}>Display selected</MVButton>
-            <span className='sep-1' />
-            <MVButton onClick={() => { selint.displayed = null }}>Reset displayed</MVButton>
-            <span className='sep-1' />
-            <MVButton onClick={() => { setState({...state, atable_show: true}) }}>Isotopes and references</MVButton>
+            <div className='mv-sidebar-row'>
+                <MVButton onClick={() => { selint.displayed = selint.selected }}>Display selected</MVButton>
+                <MVButton onClick={() => { selint.displayed = null }}>Reset displayed</MVButton>                
+            </div>
         </div>
-        {/* <MVAtomTable display={state.atable_show} onClose={closeAtomTable}/> */}
+        <span className='sep-1' />
+        <div className='mv-sidebar-block'>
+            <MVIsotopeSelection />
+        </div>
+        <MVCustomSelect noTranslate>
+            <MVCustomSelectOption><div>Thing and more</div></MVCustomSelectOption>
+            <MVCustomSelectOption>Thing 2</MVCustomSelectOption>
+        </MVCustomSelect>
     </MagresViewSidebar>);
 }
 

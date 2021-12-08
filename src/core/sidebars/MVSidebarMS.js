@@ -2,6 +2,7 @@ import './MVSidebarMS.css';
 
 import MagresViewSidebar from './MagresViewSidebar';
 import { useMSInterface } from '../store';
+import { chainClasses } from '../../utils';
 
 import React from 'react';
 
@@ -22,8 +23,7 @@ function MVSidebarMS(props) {
     }
 
     return (<MagresViewSidebar show={props.show} title='Magnetic Shielding'>
-        {has_ms? 
-         (<div className='mv-sidebar-block'>
+        <div className={chainClasses('mv-sidebar-block', has_ms? '' : 'hidden')}>
              <MVCheckBox onCheck={(v) => { msint.hasEllipsoids = v; }} checked={msint.hasEllipsoids}>Ellipsoids</MVCheckBox>
              <MVRange min={0.01} max={0.5} step={0.005} value={msint.ellipsoidScale}
                       onChange={(s) => { msint.ellipsoidScale = s; }} disabled={!msint.hasEllipsoids} noState>Ellipsoid scale</MVRange>
@@ -40,8 +40,8 @@ function MVSidebarMS(props) {
                 <MVRadioButton value='aniso'>Anisotropy (ppm)</MVRadioButton>
                 <MVRadioButton value='asymm'>Asymmetry</MVRadioButton>
              </MVRadioGroup>
-          </div>): 
-         <div className='mv-warning-noms'>No MS data found</div>}
+          </div>
+         <div className={chainClasses('mv-warning-noms', has_ms? 'hidden': '')}>No MS data found</div>
     </MagresViewSidebar>);
 }
 

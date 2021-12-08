@@ -182,6 +182,39 @@ class SelInterface extends BaseInterface {
         this.setSelection(this.selectionMode, {n: v});
     }
 
+    get isotopeChoices() {
+        // Find which isotopes are available for the currently selected atoms
+        let sel = this.selected;
+        if (sel === null) {
+            return null;
+        }
+
+        let elements = sel.map((a, i) => a.element);
+        // Are they all the same?
+        let el = elements[0];
+        if (!elements.reduce((s, x) => (s && x === el), true)) {
+            return null;
+        }
+
+        // Get the isotope information
+        let eData = sel.atoms[0].elementData;
+
+        let iKeys = Object.keys(eData.isotopes).sort();
+        let iData = iKeys.map((A, i) => {
+            let iso = eData.isotopes[A];
+            return {
+                A: A,
+                is_nmr_active: iso.spin !== 0,
+                is_Q_active: iso.Q !== 0,
+                is_max_nmr: A === eData.maxiso_NMR,
+                is_max_Q: A === eData.maxiso_Q,
+                abundance: iso.abundance
+            };
+        });
+
+        return iData;
+    }
+
     setSelection(mode, options={}) {
         // Set the selection for a certain mode and options
 

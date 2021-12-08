@@ -27,10 +27,10 @@ function MVCustomSelect(props) {
     const values = options.map((o) => (o.props.value));
 
     // Translation?
-    var tstyle = {
-        transform: 'translateY(calc(var(--cselect-opt-height)*' + options.length/2.0 + '))'
-    };
-
+    let tstyle = {};
+    if (!props.noTranslate)
+        tstyle.transform = 'translateY(calc(var(--cselect-opt-height)*' + options.length/2.0 + '))';
+    
     const selected = values.findIndex((v) => (v === props.selected));
     const onSelect = props.onSelect || (() => {});
 

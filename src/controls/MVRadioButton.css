@@ -11,6 +11,10 @@
   margin-left: 1rem;
 }
 
+.mv-radiogroup-label {
+  font-weight: bold;
+}
+
 .mv-radio {
   display: flex;
   justify-content: center;

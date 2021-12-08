@@ -1,11 +1,12 @@
 import './MVCheckBox.css';
-import _ from 'lodash';
 
-import React, { useMemo } from 'react';
+import React from 'react';
+
+import { useId } from '../utils';
 
 function MVCheckBox(props) {
 
-    const id = useMemo(() => _.uniqueId('checkbox'), []);
+    const id = useId('checkbox');
 
     var style = {};
     if (props.color) {

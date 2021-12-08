@@ -1,14 +1,13 @@
 import './MVText.css';
-import _ from 'lodash';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 
-import { chainClasses } from '../utils';
+import { chainClasses, useId } from '../utils';
 
 function MVText(props) {
 
     const [submitted, setSubmitted] = useState(true);
-    const id = useMemo(() => _.uniqueId('text'), []);
+    const id = useId('text');
 
     var filter = null;
     if (props.filter)

@@ -1,11 +1,9 @@
 import './MVRange.css';
 import './MVText.css'; 
 
-import _ from 'lodash';
+import React, { useState, useRef, useEffect } from 'react';
 
-import React, { useState, useRef, useEffect, useMemo } from 'react';
-
-import { regularExpressions } from '../utils';
+import { regularExpressions, useId } from '../utils';
 import MVText from './MVText';
 
 function MVRange(props) {
@@ -24,7 +22,7 @@ function MVRange(props) {
     }
 
     const in_val = (props.value != null? toNumber(props.value) : min);
-    const id = useMemo(() => _.uniqueId('range'), []);
+    const id = useId('range');
 
     const [text, setText] = useState(in_val.toString());
 

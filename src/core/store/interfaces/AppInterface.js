@@ -24,10 +24,10 @@ function appDisplayModel(state, m) {
     let app = state.app_viewer;
     let cm = app.model;
 
-    let msdata = {};
+    let data = {};
     if (cm) {
         // We turn visualizations off
-        msdata = {
+        data = {
             ...selShowLabels(state, false),
             ...msDisplayEllipsoids(state, false),
             ...msDisplayLabels(state, 'none'),
@@ -43,7 +43,7 @@ function appDisplayModel(state, m) {
     // Return data for dispatch
     return {
         app_default_displayed: app.displayed,
-        ...msdata
+        ...data
     };
 }
 

@@ -41,6 +41,12 @@
   align-items: flex-start;  
 }
 
+.mv-sidebar .mv-sidebar-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
 .mv-sidebar .sep-1 {
   display: block;
   margin-bottom: 1em;
@@ -54,5 +60,9 @@
 .mv-sidebar::-webkit-scrollbar-track-piece:start {
   background: transparent;
   margin-top: var(--header-height);
+}
+
+.mv-sidebar .hidden {
+    display: none !important;
 }
 

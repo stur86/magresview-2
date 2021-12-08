@@ -1,11 +1,13 @@
 import './MVRadioButton.css';
 import _ from 'lodash';
 
-import React, { cloneElement, useMemo } from 'react';
+import React, { cloneElement } from 'react';
+
+import { useId } from '../utils';
 
 function MVRadioButton(props) {
 
-    const uid = useMemo(() => (_.uniqueId('radiobutton')), []);
+    const uid = useId('radiobutton');
 
     return (<span className='mv-control mv-radio' title={props.title}>
         <input id={uid} name={props.name} type="radio" checked={props.checked} onChange={props.onChange}/>
