@@ -6,7 +6,6 @@ import { useSelInterface } from '../store';
 import MVCheckBox from '../../controls/MVCheckBox';
 import MVButton from '../../controls/MVButton';
 import MVRadioButton, { MVRadioGroup } from '../../controls/MVRadioButton';
-import MVSelect from '../../controls/MVSelect';
 import MVText from '../../controls/MVText';
 import MVCustomSelect, { MVCustomSelectOption } from '../../controls/MVCustomSelect';
 
@@ -22,8 +21,6 @@ function sharedElement(sel) {
     let atoms = sel.atoms;
     let el = atoms[0].element;
 
-    console.log(atoms, el);
-
     if (atoms.slice(1).reduce((s, a) => (s && a.element === el), true)) {
         return el;
     }
@@ -36,23 +33,41 @@ function sharedElement(sel) {
 function MVIsotopeSelection(props) {
 
     const selint = useSelInterface();
-    const el = sharedElement(selint.selected);
+    const selected = selint.selected;
+    const el = sharedElement(selected);
+    const isoConfRef = useRef({selection: null});
 
     let elData = null;
-    let isoConf = null;
+    let selOptions = [];
     if (el) {
         // Information about that element?
         elData = selint.selected.atoms[0].elementData;
-        // Current isotope configuration?
-        isoConf = selint.selected.atoms.map((a) => a.isotope);        
+        // Last configuration of isotopes since the selection changed?
+        if(isoConfRef.current.selection !== selected) {
+            isoConfRef.current = {
+                selection: selected,
+                isoConf: selected.atoms.map((a) => a.isotope)
+            };
+        }
+
+        // Generate options
+        let keys = Object.keys(elData.isotopes).sort();
+        selOptions = keys.map((A, i) => (<MVCustomSelectOption key={i}>
+            {A}
+        </MVCustomSelectOption>));
     }
+
+    throw Error('Must find a way to make the MVCustomSelect dropdown not displace things below it!');
 
     // This component handles specifically just the selection of isotopes
     return (<>
         <h3>Isotope selection</h3>
         {el? 
-            <div>{el + ' ' + isoConf.toString()}</div> : 
+            <MVCustomSelect noTranslate>{selOptions}</MVCustomSelect> : 
             <div>No atoms selected, or atoms of different species. Can not set isotopes.</div>}
+        <h5>Thing</h5>
+        <h5>Thing</h5>
+        <h5>Thing</h5>
     </>);
 }
 
@@ -111,10 +126,6 @@ function MVSidebarSelect(props) {
         <div className='mv-sidebar-block'>
             <MVIsotopeSelection />
         </div>
-        <MVCustomSelect noTranslate>
-            <MVCustomSelectOption><div>Thing and more</div></MVCustomSelectOption>
-            <MVCustomSelectOption>Thing 2</MVCustomSelectOption>
-        </MVCustomSelect>
     </MagresViewSidebar>);
 }
 
