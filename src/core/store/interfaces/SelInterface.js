@@ -63,7 +63,8 @@ function selSetSelection(state, sel, set_displayed=false) {
     }
 
     // We now update all views that may be changed as a result of this
-    let msdata = {
+    data = {
+        ...data,
         ...selShowLabels(state, state.sel_show_labels),
         ...msDisplayEllipsoids(state, state.ms_ellipsoids_on, state.ms_ellipsoids_scale),
         ...msDisplayLabels(state, state.ms_labels_type),
@@ -73,10 +74,7 @@ function selSetSelection(state, sel, set_displayed=false) {
         ...efgDisplayCScales(state, state.efg_cscale_type)
     };
     
-    return {
-        ...data,
-        ...msdata
-    };
+    return data;
 }
 
 class SelInterface extends BaseInterface {

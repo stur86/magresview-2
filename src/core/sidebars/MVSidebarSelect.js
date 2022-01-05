@@ -76,7 +76,7 @@ function MVSidebarSelect(props) {
 
     const selint = useSelInterface();
 
-    console.log('[MVSidebarLoad rendered]');
+    console.log('[MVSidebarSelect rendered]');
 
     function selectMode(v) {
         selint.selectionMode = v;
