@@ -90,3 +90,11 @@ Their rules are:
 
 #### Changing selections and displayed atoms, and the `selSetSelection` method
 
+A special kind of very common problem happens when we deal with visualizations (such as ellipsoids) that ought to refresh whenever either the selected or displayed atoms change. We will here use as an example the problem of MS ellipsoids. Here is how the flow works:
+
+* in `src/core/store/interfaces/MSInterface.js`, the `msDisplayEllipsoids` function is defined and exported. This function takes the state as its first argument, and is used by `MSInterface` by dispatching an action of type `call`;
+* `msDisplayEllipsoids` performs its refresh operations by deleting whatever visualization existed on the previously defined selection, which is stored in the `state`, and then creating a new one on the current visualization, as found by looking up the `app` itself;
+* `msDisplayEllipsoids` then returns a dictionary that can be used to update the state with the new selection and information about the visualization (e.g. if it's on or off);
+* whenever selected or displayed atoms are changed, this happens by a call to `selSetSelection`, a method defined in `src/core/store/interfaces/SelInterface.js`. This method then calls each method of visualizations that need to be refreshed (like `msDisplayEllipsoids`) and uses their returned data to update the state. It is therefore **of absolute importance** that any time a new visualization is added, it exports its method, and it gets imported and added into `selSetSelection`.
+
+A similar logic applies to the method `appDisplayModel`, contained in `src/core/store/interfaces/AppInterface.js`. The main difference is that this method is used instead to load a completely new model, and thus its role is just to turn off all visualizations, to avoid confusion later on. However, just like for `selSetSelection`, an appropriate call to all methods creating visualizations must be added to it too.
