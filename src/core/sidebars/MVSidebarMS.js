@@ -4,14 +4,29 @@ import MagresViewSidebar from './MagresViewSidebar';
 import { useMSInterface } from '../store';
 import { chainClasses } from '../../utils';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import MVCheckBox from '../../controls/MVCheckBox';
 import MVRange from '../../controls/MVRange';
 import MVButton from '../../controls/MVButton';
 import MVRadioButton, { MVRadioGroup } from '../../controls/MVRadioButton';
+import MVModal from '../../controls/MVModal';
+
+function MVReferenceTable(props) {
+
+    return (<MVModal title='References for chemical shifts, by element (ppm)' display={props.display} onClose={props.close}>
+        {props.msInterface.referenceList.map(([el, ref]) => {
+            return (<div>{el} => {ref}</div>);
+        })}
+    </MVModal>);
+}
+
 
 function MVSidebarMS(props) {
+
+    const [ state, setState ] = useState({
+        showRefTable: false
+    });
 
     const msint = useMSInterface();
 
@@ -40,6 +55,8 @@ function MVSidebarMS(props) {
                 <MVRadioButton value='aniso'>Anisotropy (ppm)</MVRadioButton>
                 <MVRadioButton value='asymm'>Asymmetry</MVRadioButton>
              </MVRadioGroup>
+             <MVButton onClick={() => { setState({...state, showRefTable: true}) }}>Set References</MVButton>
+             <MVReferenceTable display={state.showRefTable} close={() => { setState({...state, showRefTable: false}) }} msInterface={msint}/>
           </div>
          <div className={chainClasses('mv-warning-noms', has_ms? 'hidden': '')}>No MS data found</div>
     </MagresViewSidebar>);

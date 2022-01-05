@@ -3,7 +3,7 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
 import { makeSelector, BaseInterface } from '../utils';
 import { CallbackMerger } from '../../../utils';
-import { msDisplayEllipsoids, msDisplayLabels, msDisplayCScales } from './MSInterface';
+import { msDisplayEllipsoids, msDisplayLabels, msDisplayCScales, msSetReferences } from './MSInterface';
 import { efgDisplayEllipsoids, efgDisplayLabels, efgDisplayCScales } from './EFGInterface';
 import { selShowLabels } from './SelInterface';
 
@@ -32,6 +32,7 @@ function appDisplayModel(state, m) {
             ...msDisplayEllipsoids(state, false),
             ...msDisplayLabels(state, 'none'),
             ...msDisplayCScales(state, 'none'),
+            ...msSetReferences(state),
             ...efgDisplayEllipsoids(state, false),
             ...efgDisplayLabels(state, 'none'),
             ...efgDisplayCScales(state, 'none')
