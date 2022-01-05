@@ -26,3 +26,7 @@ npm-audit.html
 # YALC
 .yalc
 yalc.lock
+
+# docs
+docs/*.html
+docs/*.pdf
