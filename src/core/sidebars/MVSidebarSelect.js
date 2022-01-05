@@ -57,13 +57,11 @@ function MVIsotopeSelection(props) {
         </MVCustomSelectOption>));
     }
 
-    throw Error('Must find a way to make the MVCustomSelect dropdown not displace things below it!');
-
     // This component handles specifically just the selection of isotopes
     return (<>
         <h3>Isotope selection</h3>
         {el? 
-            <MVCustomSelect noTranslate>{selOptions}</MVCustomSelect> : 
+            <MVCustomSelect>{selOptions}</MVCustomSelect> : 
             <div>No atoms selected, or atoms of different species. Can not set isotopes.</div>}
         <h5>Thing</h5>
         <h5>Thing</h5>
