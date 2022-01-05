@@ -1,5 +1,7 @@
 import './MVSidebarSelect.css';
 
+import _ from 'lodash';
+
 import MagresViewSidebar from './MagresViewSidebar';
 import { useSelInterface } from '../store';
 
@@ -10,7 +12,7 @@ import MVText from '../../controls/MVText';
 import MVCustomSelect, { MVCustomSelectOption } from '../../controls/MVCustomSelect';
 
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 
 function sharedElement(sel) {
@@ -32,40 +34,49 @@ function sharedElement(sel) {
 
 function MVIsotopeSelection(props) {
 
+    // Actually unnecessary; we only use it to trigger a re-render
+    const [ state, setState ] = useState(1);
+
     const selint = useSelInterface();
     const selected = selint.selected;
     const el = sharedElement(selected);
-    const isoConfRef = useRef({selection: null});
 
     let elData = null;
+    let isoConf = null;
     let selOptions = [];
+    let currentOption = 0;
+
     if (el) {
         // Information about that element?
-        elData = selint.selected.atoms[0].elementData;
-        // Last configuration of isotopes since the selection changed?
-        if(isoConfRef.current.selection !== selected) {
-            isoConfRef.current = {
-                selection: selected,
-                isoConf: selected.atoms.map((a) => a.isotope)
-            };
+        elData = selected.atoms[0].elementData;
+        isoConf = selected.atoms.map((a) => a.isotope);
+
+        // Are they all the same?
+        currentOption = isoConf[0].toString();
+        if (!isoConf.reduce((s, x) => s && x === isoConf[0], true)) {
+            // If not, then we have to add a special option that reproduces this last
+            // configuration
+            selOptions = [<MVCustomSelectOption key={-1} value={isoConf}>
+                {_.join(_.uniq(isoConf))}
+            </MVCustomSelectOption>];
+            currentOption = isoConf;
         }
 
         // Generate options
         let keys = Object.keys(elData.isotopes).sort();
-        selOptions = keys.map((A, i) => (<MVCustomSelectOption key={i}>
-            {A}
-        </MVCustomSelectOption>));
+        selOptions = selOptions.concat(keys.map((A, i) => (<MVCustomSelectOption key={i} value={A}>
+                {A}
+            </MVCustomSelectOption>))
+        );
+    }
+    else {
+        selOptions = [<MVCustomSelectOption key={0} value={0}>N/A</MVCustomSelectOption>];
     }
 
     // This component handles specifically just the selection of isotopes
     return (<>
         <h3>Isotope selection</h3>
-        {el? 
-            <MVCustomSelect>{selOptions}</MVCustomSelect> : 
-            <div>No atoms selected, or atoms of different species. Can not set isotopes.</div>}
-        <h5>Thing</h5>
-        <h5>Thing</h5>
-        <h5>Thing</h5>
+        <MVCustomSelect disabled={!el} onSelect={(A) => { selected.setProperty('isotope', A); setState(-state); }} selected={currentOption}>{selOptions}</MVCustomSelect>
     </>);
 }
 

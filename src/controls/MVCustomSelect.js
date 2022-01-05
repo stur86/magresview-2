@@ -1,7 +1,7 @@
 import './controls.css';
 import './MVCustomSelect.css';
 
-import React, { useState, cloneElement } from 'react';
+import React, { useState, cloneElement, useEffect } from 'react';
 import { FaCaretDown } from 'react-icons/fa';
 
 import { chainClasses } from '../utils';
@@ -32,10 +32,17 @@ function MVCustomSelect(props) {
     const selected = values.findIndex((v) => (v === props.selected));
     const onSelect = props.onSelect || (() => {});
 
+    // If disabled while open, must close
+    useEffect(() => {
+        if (props.disabled)
+            setShow(false);
+    }, [props.disabled]);
+
     return (
-        <div style={tstyle} className={chainClasses('mv-control', 'mv-cselect', show? null : 'mv-cselect-closed')} 
+        <div style={tstyle} className={chainClasses('mv-control', 'mv-cselect', show? null : 'mv-cselect-closed', 
+                                                    props.disabled? 'mv-cselect-disabled' : null )} 
             onMouseLeave={() => { setShow(false); }} title={props.title}>
-            <div className='mv-control mv-cselect-main' onClick={() => { setShow(true); }}>
+            <div className='mv-control mv-cselect-main' onClick={() => { setShow(true && (!props.disabled)); }}>
                 {options[selected]}
                 <span className='mv-cselect-main-caret'><FaCaretDown /></span>
             </div>

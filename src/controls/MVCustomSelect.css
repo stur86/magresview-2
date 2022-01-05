@@ -16,7 +16,6 @@
   align-items: center;
   background-color: var(--fwd-color-3);
   pointer-events: all;
-
 }
 
 .mv-cselect-main-caret {
@@ -52,4 +51,17 @@
 
 .mv-cselect-opt:hover {
   background-color: var(--fwd-color-2);
+}
+
+.mv-cselect-disabled .mv-cselect-opt {
+  color: var(--fwd-color-1);
+}
+
+.mv-cselect-disabled .mv-cselect-opt:hover {
+  background-color: var(--fwd-color-3);
+}
+
+
+.mv-cselect-disabled .mv-cselect-main-caret {
+  color: var(--fwd-color-1);
 }
