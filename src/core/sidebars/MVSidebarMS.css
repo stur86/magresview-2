@@ -5,3 +5,33 @@
     margin-top: 3rem;
     color: var(--err-color-2);
 }
+
+.mv-msref-table {
+    display: flex;
+    flex-direction: column;
+}
+
+.mv-msref-table-row {
+    display: grid;
+    grid-template-columns: 3fr 5fr 4fr;
+
+    min-width: 150px;
+    padding: 10px 5px;
+}
+
+.mv-msref-table-el {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.mv-msref-table-ref {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding-right: 5px;
+}

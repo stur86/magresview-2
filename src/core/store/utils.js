@@ -130,6 +130,8 @@ function makeDisplayLabels(name, color, shiftfunc) {
         let app = state.app_viewer;
         let sel_old = state[_addPrefix(name, 'view')];
         let mode_old = state[_addPrefix(name, 'labels_type')];
+        let ref_table = state[_addPrefix(name, 'references')];
+        let nmr_mode = mode;
 
         let sel = _getSel(app);
 
@@ -139,8 +141,25 @@ function makeDisplayLabels(name, color, shiftfunc) {
         }
 
         if (mode !== 'none') {
+
+            // We add special instructions just for the case of referenced
+            // chemical shifts. These only matter for MS, not EFG.
+            if (mode === 'cs' && name === 'ms') {
+                nmr_mode = 'iso'; // We then need to reference these
+            }
+
             const data = sel.map((a) => [a.getArrayValue(name), a.isotopeData]);
-            const [units, values] = _getNMRData(data, mode, name);
+            let [units, values] = _getNMRData(data, nmr_mode, name);
+
+            // Second part, here we apply the formula:
+            //     cs = ref - iso
+            if (mode === 'cs' && name === 'ms') {
+                // Referencing
+                values = sel.map((a, i) => {
+                    const ref = ref_table[a.element] || 0.0;
+                    return ref-values[i];
+                });
+            }
 
             let label_texts = values.map((v) => v.toFixed(2) + ' ' + units);
             sel.addLabels(label_texts, name, (a, i) => ({ 

@@ -22,19 +22,30 @@ const msDisplayCScales = makeDisplayCScales('ms');
 // Update any new references for chemical shifts
 function msSetReferences(state, refs=null) {
 
-    if (refs === null) {
-        // Special case: just clear everything
-        return {
-            ms_references: {}
+    let data = {
+        ms_references: {}
+    };
+
+    // Default behaviour if refs is null is to clear everything,
+    // otherwise we update the existing table.
+    if (refs) {
+        data.ms_references = {
+            ...state.ms_references,
+            ...refs
         };
     }
 
-    return {
-        ms_references: {
-            ...state.ms_references,
-            ...refs
-        }
-    };
+    // We then update the state and refresh the ms labels, in case any changes
+    // are needed
+    state.ms_references = data.ms_references;
+    if (state.ms_labels_type === 'cs') {
+        data = {
+            ...data,
+            ...msDisplayLabels(state, state.ms_labels_type)
+        };
+    }
+
+    return data;
 }
 
 class MSInterface extends BaseInterface {
@@ -92,27 +103,27 @@ class MSInterface extends BaseInterface {
         });
     }
 
-    get referenceList() {
+    get referenceTable() {
 
         if (!this.state.app_viewer || !this.state.app_viewer.model)
             return [];
 
         // Find the elements, then return the respective references as pairs
-        const elements = _.uniq(this.state.app_viewer.model.symbols).sort();
+        const elements = _.uniq(this.state.app_viewer.model.symbols);
         const refs = this.state.ms_references;
-        return elements.map((el) => [el, refs[el] || 0]);
+        return _.fromPairs(elements.map((el) => [el, refs[el] || 0]));
+    }
+
+    updateReferenceTable(data) {
+        this.dispatch({
+            type: 'call',
+            function: msSetReferences,
+            arguments: [data]
+        });
     }
 
     getReference(el) {
         return this.state.ms_references[el] || 0.0;
-    }
-
-    setReference(el, ref) {
-        this.dispatch({
-            type: 'call',
-            function: msSetReferences,
-            arguments: [{[el]: ref}]
-        });
     }
 
 }
