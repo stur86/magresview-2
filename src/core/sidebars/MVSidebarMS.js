@@ -16,7 +16,7 @@ import MVText from '../../controls/MVText';
 
 function MVReferenceTable(props) {
 
-    const msint = props.msInterface;
+    const msint = useMSInterface();
     const [ refTable, setRefTable ] = useState(msint.referenceTable);
 
     // We store a copy of the reference list internally; it only gets set on
@@ -89,7 +89,7 @@ function MVSidebarMS(props) {
                 <MVRadioButton value='asymm'>Asymmetry</MVRadioButton>
              </MVRadioGroup>
              <MVButton onClick={() => { setState({...state, showRefTable: true}) }}>Set References</MVButton>
-             <MVReferenceTable display={state.showRefTable} close={() => { setState({...state, showRefTable: false}) }} msInterface={msint}/>
+             <MVReferenceTable display={state.showRefTable} close={() => { setState({...state, showRefTable: false}) }}/>
           </div>
          <div className={chainClasses('mv-warning-noms', has_ms? 'hidden': '')}>No MS data found</div>
     </MagresViewSidebar>);

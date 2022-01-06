@@ -76,7 +76,7 @@ function MVIsotopeSelection(props) {
     // This component handles specifically just the selection of isotopes
     return (<>
         <h3>Isotope selection</h3>
-        <MVCustomSelect disabled={!el} onSelect={(A) => { selected.setProperty('isotope', A); setState(-state); }} selected={currentOption}>{selOptions}</MVCustomSelect>
+        <MVCustomSelect disabled={!el} onSelect={(A) => { selint.setIsotope(A); setState(-state); }} selected={currentOption}>{selOptions}</MVCustomSelect>
     </>);
 }
 

@@ -77,6 +77,19 @@ function selSetSelection(state, sel, set_displayed=false) {
     return data;
 }
 
+function selSetIsotope(state, sel, A) {
+
+    sel.setProperty('isotope', A);
+
+    // Now refresh all relevant visualisations
+    const data = {
+        ...efgDisplayLabels(state, state.efg_labels_type),
+        ...efgDisplayCScales(state, state.efg_cscale_type)
+    };
+
+    return data;
+}
+
 class SelInterface extends BaseInterface {
 
     get app() {
@@ -211,6 +224,19 @@ class SelInterface extends BaseInterface {
         });
 
         return iData;
+    }
+
+    setIsotope(A) {
+        let sel = this.selected;
+        if (sel === null) {
+            return null;
+        }
+
+        this.dispatch({
+            type: 'call',
+            function: selSetIsotope,
+            arguments: [sel, A]
+        });
     }
 
     setSelection(mode, options={}) {

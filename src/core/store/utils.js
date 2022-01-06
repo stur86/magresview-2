@@ -111,7 +111,8 @@ function _getNMRData(data, datatype, tenstype='ms') {
             values = data.map(([T, iD]) => T.haeberlen_eigenvalues[2]);
             break;
         case 'Q':
-            values = data.map(([T, iD]) => T.efgAtomicToHz(iD.Q).haeberlen_eigenvalues[2]);
+            values = data.map(([T, iD]) => T.efgAtomicToHz(iD.Q).haeberlen_eigenvalues[2]/1e3);
+            units = 'kHz';
             break;            
         default:
             break;
