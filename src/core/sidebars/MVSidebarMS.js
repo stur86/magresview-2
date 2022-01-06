@@ -1,7 +1,7 @@
 import './MVSidebarMS.css';
 
 import _ from 'lodash';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import MagresViewSidebar from './MagresViewSidebar';
 import { useMSInterface } from '../store';
@@ -23,10 +23,13 @@ function MVReferenceTable(props) {
     // the interface once we click OK. This is to avoid needless expensive 
     // operations when typing text in the fields, especially if the CS labels
     // are on.
+    
+    const intRef = useRef();
+    intRef.current = msint;
 
     useEffect(() => {
-        setRefTable(msint.referenceTable);
-    }, [msint]);
+        setRefTable(intRef.current.referenceTable);
+    }, [props.display]);
 
     const elements = _.keys(refTable).sort();
 
@@ -36,10 +39,10 @@ function MVReferenceTable(props) {
 
     return (<MVModal title='References for chemical shifts, by element (ppm)' display={props.display} onClose={props.close} onAccept={() => { msint.updateReferenceTable(refTable); props.close(); }}>
         <div className='mv-msref-table'>
-            {elements.map((el) => {
+            {elements.map((el, i) => {
                 const ref = refTable[el];
 
-                return (<div className='mv-msref-table-row'>
+                return (<div key={i} className='mv-msref-table-row'>
                             <div className='mv-msref-table-el'>{el}</div>
                             <div className='mv-msref-table-ref'>
                                 <MVText value={ref} onChange={(v) => { setRefTable({...refTable, [el]: v}) }} size={5}/>

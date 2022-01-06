@@ -223,6 +223,30 @@ function makeDisplayCScales(name) {
     return displayfunc;
 }
 
+function makeDisplayLinks(name) {
+
+    // Factory for a function that will be used for both DIP and JCOUP with
+    // minimal differences
+    
+    function displayfunc(state, atom, radius, sphere) {
+
+        let app = state.app_viewer;
+        let atom_old = state[_addPrefix(name, 'center_atom')];
+
+        let displ = app.displayed;
+        let sel = _getSel(app);
+        let model = app.model;
+        let sphc = model._querySphere(atom, radius);
+
+        console.log(atom);
+
+
+    }
+
+    return displayfunc;
+
+}
+
 class BaseInterface {
 
     constructor(state, dispatcher) {
@@ -245,5 +269,6 @@ export {
     makeDisplayEllipsoids, 
     makeDisplayLabels, 
     makeDisplayCScales, 
+    makeDisplayLinks,
     BaseInterface 
 };
