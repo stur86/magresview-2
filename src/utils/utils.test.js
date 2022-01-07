@@ -1,5 +1,6 @@
 import { chainClasses } from './utils-react';
 import { CallbackMerger, getColorScale } from './utils-generic';
+import { dipolarCoupling } from './utils-nmr';
 
 test('chains classes', () => {
     let cc = chainClasses('this', 'that');
@@ -38,4 +39,46 @@ test('merges callbacks', () => {
     cbm.call({y: 1});
     expect(dummy.x).toEqual(0);
     expect(dummy.y).toEqual(1);
+});
+
+test('computes dipolar couplings', () => {
+
+    // A mock class with the same interface for our purposes 
+    // as a regular AtomImage
+    class MockAtomImage {
+
+        constructor(position, gamma) {
+            this.position = position;
+            this.gamma = gamma;
+        }
+
+        get xyz() {
+            return this.position;
+        }
+
+        get isotopeData() {
+            return {
+                gamma: this.gamma
+            };
+        }
+    }
+
+    // Water molecule with 17O
+    const O = new MockAtomImage([ 0.  ,  0.      ,  0.119262], -36280800.0);
+    const H1 = new MockAtomImage([ 0. ,  0.763239, -0.477047], 267522128.0);
+    const H2 = new MockAtomImage([ 0. , -0.763239, -0.477047], 267522128.0);
+
+    const [D1, r1] = dipolarCoupling(O,  H1);
+    const [D2, r2] = dipolarCoupling(H1, H2);
+
+    expect(D1).toBeCloseTo(17928.605843719663);
+    expect(D2).toBeCloseTo(-33771.011222588495);
+
+    const r1targ = [0, 0.78801008, -0.61566233];
+    const r2targ = [0, -1, 0];
+
+    for (let i = 0; i < 3; ++i) {
+        expect(r1[i]).toBeCloseTo(r1targ[i]);
+        expect(r2[i]).toBeCloseTo(r2targ[i]);
+    }
 });
