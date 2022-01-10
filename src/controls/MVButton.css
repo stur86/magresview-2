@@ -1,5 +1,6 @@
 .mv-button {
   min-width: 70px;
+  width: 100%;
 
   color: var(--dark-color-3);
   background-color: var(--light-color-3);

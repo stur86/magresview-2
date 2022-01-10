@@ -47,6 +47,12 @@
   align-items: flex-start;
 }
 
+.mv-sidebar .mv-sidebar-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+}
+
 .mv-sidebar .sep-1 {
   display: block;
   margin-bottom: 1em;

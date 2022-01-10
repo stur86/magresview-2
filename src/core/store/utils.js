@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { getColorScale } from '../../utils';
+import { getColorScale, dipolarCoupling } from '../../utils';
 
 function makeSelector(prefix, extras=[]) {
     // Creates and returns a selector function for a given prefix
@@ -223,7 +223,18 @@ function makeDisplayCScales(name) {
     return displayfunc;
 }
 
-function makeDisplayLinks(name) {
+function _getLinkLabel(a1, a2, linktype) {
+
+    switch (linktype) {
+        case 'dip':
+            const D = dipolarCoupling(a1, a2)[0];
+            return (D/1e3).toFixed(2) + ' kHz';
+        default:
+            return '';
+    }
+}
+
+function makeDisplayLinks(name, color) {
 
     // Factory for a function that will be used for both DIP and JCOUP with
     // minimal differences
@@ -231,16 +242,42 @@ function makeDisplayLinks(name) {
     function displayfunc(state, atom, radius, sphere) {
 
         let app = state.app_viewer;
-        let atom_old = state[_addPrefix(name, 'center_atom')];
+        let sel_old = state[_addPrefix(name, 'view')];
+        let atom_old = state[_addPrefix(name, 'central_atom')];
+        let links_old = state[_addPrefix(name, 'link_names')];
 
         let displ = app.displayed;
         let sel = _getSel(app);
         let model = app.model;
-        let sphc = model._querySphere(atom, radius);
+        //let sphc = model._querySphere(atom, radius);
 
-        console.log(atom);
+        // First, cleaning up old visualisation
+        links_old.forEach((name) => { model.removeGraphics(name); });
 
+        // Now creating a new one
+        let links = [];
+        if (atom && sel) {
+            sel.atoms.forEach((a2, i) => {
 
+                if (a2 === atom)
+                    return;
+
+                const lname = name + '_link_' + i;
+                const label = _getLinkLabel(atom, a2, name);
+                model.addLink(atom, a2, lname, label, {
+                    color: color,
+                    dashed: true,
+                    onOverlay: true
+                });
+                links.push(lname);
+            });
+        }
+
+        return {
+            [_addPrefix(name, 'view')]: sel,
+            [_addPrefix(name, 'central_atom')]: atom,
+            [_addPrefix(name, 'link_names')]: links
+        };
     }
 
     return displayfunc;

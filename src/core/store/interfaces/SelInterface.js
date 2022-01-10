@@ -4,6 +4,7 @@ import CrystVis from 'crystvis-js';
 
 import { msDisplayEllipsoids, msDisplayLabels, msDisplayCScales } from './MSInterface';
 import { efgDisplayEllipsoids, efgDisplayLabels, efgDisplayCScales } from './EFGInterface';
+import { dipDisplayLinks } from './DipInterface';
 
 const LC = CrystVis.LEFT_CLICK;
 const SLC = CrystVis.LEFT_CLICK + CrystVis.SHIFT_BUTTON;
@@ -12,6 +13,7 @@ const CLC = CrystVis.LEFT_CLICK + CrystVis.CTRL_BUTTON;
 const initialSelState = {
     sel_selected_view: null,
     sel_displayed_view: null,
+    sel_ghosts_view: null,
     sel_on: false,
     sel_mode: 'atom',
     sel_sphere_r: 2.0,
@@ -49,17 +51,21 @@ function selShowLabels(state, show) {
 }    
 
 
-function selSetSelection(state, sel, set_displayed=false) {
+function selSetSelection(state, sel, set_mode='selection') {
     let app = state.app_viewer;
     let data = {};
 
-    if (!set_displayed) {
-        app.selected = sel;
-        data.sel_selected_view = sel;
-    }
-    else {
-        app.displayed = sel;
-        data.sel_displayed_view = sel;
+    switch (set_mode) {
+        case 'selection':
+            data.sel_selected_view = sel;
+            app.selected = sel;
+            break;
+        case 'displayed':
+            data.sel_displayed_view = sel;
+            app.displayed = sel;
+            break;
+        default:
+            break;        
     }
 
     // We now update all views that may be changed as a result of this
@@ -71,7 +77,8 @@ function selSetSelection(state, sel, set_displayed=false) {
         ...msDisplayCScales(state, state.ms_cscale_type),
         ...efgDisplayEllipsoids(state, state.efg_ellipsoids_on, state.efg_ellipsoids_scale),
         ...efgDisplayLabels(state, state.efg_labels_type),
-        ...efgDisplayCScales(state, state.efg_cscale_type)
+        ...efgDisplayCScales(state, state.efg_cscale_type),
+        ...dipDisplayLinks(state, state.dip_central_atom, state.dip_radius, state.dip_sphere_show)
     };
     
     return data;
@@ -84,7 +91,8 @@ function selSetIsotope(state, sel, A) {
     // Now refresh all relevant visualisations
     const data = {
         ...efgDisplayLabels(state, state.efg_labels_type),
-        ...efgDisplayCScales(state, state.efg_cscale_type)
+        ...efgDisplayCScales(state, state.efg_cscale_type),
+        ...dipDisplayLinks(state, state.dip_central_atom, state.dip_radius, state.dip_sphere_show)
     };
 
     return data;
@@ -101,6 +109,13 @@ class SelInterface extends BaseInterface {
     }
 
     set selected(v) {
+        if (!v) {
+            let model = this.state.app_viewer.model;
+            if (model) {
+                v = model.view([]);
+            }
+        }
+
         this.dispatch({
             type: 'call', 
             function: selSetSelection,
@@ -109,7 +124,7 @@ class SelInterface extends BaseInterface {
     }
 
     get displayed() {
-        return this.state.sel_displayed_view;
+        return this.state.sel_displayed_view || this.state.app_default_displayed;
     }
 
     set displayed(v) {
@@ -123,7 +138,7 @@ class SelInterface extends BaseInterface {
         this.dispatch({
             type: 'call',
             function: selSetSelection,
-            arguments: [v, true]
+            arguments: [v, 'displayed']
         });
     }
 

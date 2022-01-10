@@ -120,13 +120,15 @@ function MVSidebarSelect(props) {
                 </MVRadioButton>
                 <MVRadioButton value='molecule'>Molecule</MVRadioButton>
                 <MVRadioButton value='bonds'>Bonds, max distance = &nbsp;
-                    <MVText size='3' value={selint.selectionBondN} filter='[0-9]*' onChange={setN} onSubmit={setN} />
+                    <MVText size='3' value={ selint.selectionBondN } filter='[0-9]*' onChange={setN} onSubmit={setN} />
                 </MVRadioButton>
             </MVRadioGroup>
         </div>
         <span className='sep-1' />
         <div className='mv-sidebar-block'>
-            <div className='mv-sidebar-row'>
+            <div className='mv-sidebar-grid'>
+                <MVButton onClick={() => { selint.selected = selint.displayed }}>Select visible</MVButton>
+                <MVButton onClick={() => { selint.selected = null }}>Select none</MVButton>                
                 <MVButton onClick={() => { selint.displayed = selint.selected }}>Display selected</MVButton>
                 <MVButton onClick={() => { selint.displayed = null }}>Reset displayed</MVButton>                
             </div>

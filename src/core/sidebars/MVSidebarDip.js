@@ -2,7 +2,7 @@ import './MVSidebarDip.css';
 
 import MagresViewSidebar from './MagresViewSidebar';
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import MVCheckBox from '../../controls/MVCheckBox';
 import useDipInterface from '../store/interfaces/DipInterface';
@@ -11,6 +11,17 @@ import useDipInterface from '../store/interfaces/DipInterface';
 function MVSidebarDip(props) {
 
     const dipint = useDipInterface();
+
+    const intRef = useRef();
+    intRef.current = dipint;
+
+    useEffect(() => {
+        let dipint = intRef.current;
+        // Reactivate whenever it shows again!
+        if (props.show) {
+            dipint.isOn = dipint.isOn;
+        }
+    }, [props.show]);
 
     return (<MagresViewSidebar show={props.show} title='Dipolar couplings'>
         <div className='mv-sidebar-block'>

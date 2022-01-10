@@ -6,6 +6,7 @@ import { CallbackMerger } from '../../../utils';
 import { msDisplayEllipsoids, msDisplayLabels, msDisplayCScales, msSetReferences } from './MSInterface';
 import { efgDisplayEllipsoids, efgDisplayLabels, efgDisplayCScales } from './EFGInterface';
 import { selShowLabels } from './SelInterface';
+import { dipDisplayLinks } from './DipInterface';
 
 import CrystVis from 'crystvis-js';
 
@@ -35,7 +36,8 @@ function appDisplayModel(state, m) {
             ...msSetReferences(state),
             ...efgDisplayEllipsoids(state, false),
             ...efgDisplayLabels(state, 'none'),
-            ...efgDisplayCScales(state, 'none')
+            ...efgDisplayCScales(state, 'none'),
+            ...dipDisplayLinks(state, null)
         };
     }
 

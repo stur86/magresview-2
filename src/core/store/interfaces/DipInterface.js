@@ -15,7 +15,9 @@ const initialDipState = {
     dip_sphere_show: false
 };
 
-const dipDisplayLinks = makeDisplayLinks('dip');
+const dipColor = 0x00ff80;
+
+const dipDisplayLinks = makeDisplayLinks('dip', dipColor);
 
 class DipInterface extends BaseInterface {
 
@@ -29,16 +31,27 @@ class DipInterface extends BaseInterface {
 
         if (v) {
             app.onAtomClick((a, e) => { intf.centralAtom = a; }, LC);
+
+            this.dispatch({
+                type: 'set',
+                key: 'dip_on',
+                value: true
+            });
         }
         else {
             app.onAtomClick(() => {}, LC);
+            // And also clean up the existing visualisation
+            this.dispatch({
+                type: 'call',
+                function: (state) => {
+                    let data = dipDisplayLinks(state, null);
+                    return {
+                        ...data,
+                        dip_on: false
+                    }
+                }
+            });
         }
-
-        this.dispatch({
-            type: 'set',
-            key: 'dip_on',
-            value: v
-        });
 
     }
 
@@ -57,7 +70,7 @@ class DipInterface extends BaseInterface {
         // originally defined.
         this.dispatch({
             type: 'call',
-            function: (state, atom) => { dipDisplayLinks(state, atom, state.dip_radius, state.dip_sphere_show); },
+            function: (state, atom) => { return dipDisplayLinks(state, atom, state.dip_radius, state.dip_sphere_show); },
             arguments: [v]
         });
     }
