@@ -1,5 +1,5 @@
 import { chainClasses } from './utils-react';
-import { CallbackMerger, getColorScale } from './utils-generic';
+import { CallbackMerger, getColorScale, mergeOnly } from './utils-generic';
 import { dipolarCoupling } from './utils-nmr';
 
 test('chains classes', () => {
@@ -39,6 +39,24 @@ test('merges callbacks', () => {
     cbm.call({y: 1});
     expect(dummy.x).toEqual(0);
     expect(dummy.y).toEqual(1);
+});
+
+test('merges objects with only some members', () => {
+
+    let a = {
+        x: 1,
+        y: 2
+    };
+
+    let b = {
+        x: 3,
+        z: 4
+    };
+
+    let c = mergeOnly(a, b);
+
+    expect(c).toEqual({ x: 3, y: 2});
+
 });
 
 test('computes dipolar couplings', () => {

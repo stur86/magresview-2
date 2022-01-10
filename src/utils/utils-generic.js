@@ -46,4 +46,24 @@ function getColorScale(min=0, max=1, scale='jet', shades=10) {
     return cscale;
 }
 
-export { CallbackMerger, getColorScale };
+/**
+ * Merge the values from an object into another, but without creating
+ * new values if they were absent to begin with.
+ * 
+ * @param  {Object} a The object to update
+ * @param  {Object} b The object containing the updated values
+ * 
+ * @return {Object}   The updated object
+ */
+function mergeOnly(a, b) {
+
+    let c = {};
+
+    for (let k in a) {
+        c[k] = (k in b)? b[k] : a[k];
+    }
+
+    return c;
+}
+
+export { CallbackMerger, getColorScale, mergeOnly };
