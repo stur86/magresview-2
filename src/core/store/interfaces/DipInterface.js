@@ -9,7 +9,7 @@ const initialDipState = {
     dip_view: null,
     dip_ghost_view: null,
     dip_link_names: [],
-    dip_on: false,
+    dip_links_on: false,
     dip_central_atom: null,
     dip_radius: 1.0,
     dip_sphere_show: false
@@ -22,34 +22,37 @@ const dipDisplayLinks = makeDisplayLinks('dip', dipColor);
 class DipInterface extends BaseInterface {
 
     get isOn() {
-        return this.state.dip_on;
+        return this.state.dip_links_on;
     }
 
     set isOn(v) {
         let app = this.state.app_viewer;
         let intf = this;
+        let dispatch = this._dispatcher;
 
         if (v) {
-            app.onAtomClick((a, e) => { intf.centralAtom = a; }, LC);
+            app.onAtomClick((a, e) => { 
+                dispatch({
+                    type: 'call',
+                    function: dipDisplayLinks,
+                    arguments: [{ dip_central_atom: a }]
+                });
+            }, LC);
 
             this.dispatch({
-                type: 'set',
-                key: 'dip_on',
-                value: true
+                type: 'call',
+                function: dipDisplayLinks,
+                arguments: [{ dip_links_on: true }]
             });
         }
         else {
+            // Remove the event
             app.onAtomClick(() => {}, LC);
             // And also clean up the existing visualisation
             this.dispatch({
                 type: 'call',
-                function: (state) => {
-                    let data = dipDisplayLinks(state, null);
-                    return {
-                        ...data,
-                        dip_on: false
-                    }
-                }
+                function: dipDisplayLinks,
+                arguments: [{ dip_links_on: false, dip_central_atom: null }]
             });
         }
 
@@ -60,18 +63,10 @@ class DipInterface extends BaseInterface {
     }
 
     set centralAtom(v) {
-        // Defining a custom function is important to make sure that the values of dip_radius and
-        // dip_sphere_show are taken from the most recent state. If we just used 
-        // 
-        //      function: dipDisplayLinks
-        //      arguments: [v, this.state.dip_radius, this.state.dip_sphere_show]
-        //      
-        // then those two arguments could be frozen at the state they were in when the click callback was
-        // originally defined.
         this.dispatch({
             type: 'call',
-            function: (state, atom) => { return dipDisplayLinks(state, atom, state.dip_radius, state.dip_sphere_show); },
-            arguments: [v]
+            function: dipDisplayLinks,
+            arguments: [{ dip_central_atom: v }]
         });
     }
 

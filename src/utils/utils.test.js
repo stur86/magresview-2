@@ -41,7 +41,7 @@ test('merges callbacks', () => {
     expect(dummy.y).toEqual(1);
 });
 
-test('merges objects with only some members', () => {
+test('merges objects with only existing members', () => {
 
     let a = {
         x: 1,

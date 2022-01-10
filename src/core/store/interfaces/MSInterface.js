@@ -41,7 +41,7 @@ function msSetReferences(state, refs=null) {
     if (state.ms_labels_type === 'cs') {
         data = {
             ...data,
-            ...msDisplayLabels(state, state.ms_labels_type)
+            ...msDisplayLabels(state)
         };
     }
 
@@ -63,7 +63,7 @@ class MSInterface extends BaseInterface {
         this.dispatch({
             type: 'call',
             function: msDisplayEllipsoids,
-            arguments: [v, this.state.ms_ellipsoids_scale]
+            arguments: [{ ms_ellipsoids_on: v }]
         });
     }
 
@@ -75,7 +75,7 @@ class MSInterface extends BaseInterface {
         this.dispatch({
             type: 'call',
             function: msDisplayEllipsoids,
-            arguments: [this.state.ms_ellipsoids_on, v]
+            arguments: [{ ms_ellipsoids_scale: v }]
         });
     }
 
@@ -87,7 +87,7 @@ class MSInterface extends BaseInterface {
         this.dispatch({
             type: 'call', 
             function: msDisplayLabels,
-            arguments: [v]
+            arguments: [{ ms_labels_type: v }]
         });
     }
 
@@ -99,7 +99,7 @@ class MSInterface extends BaseInterface {
         this.dispatch({
             type: 'call',
             function: msDisplayCScales,
-            arguments: [v]
+            arguments: [{ ms_cscale_type: v }]
         });
     }
 

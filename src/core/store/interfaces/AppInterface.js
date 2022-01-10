@@ -29,15 +29,15 @@ function appDisplayModel(state, m) {
     if (cm) {
         // We turn visualizations off
         data = {
-            ...selShowLabels(state, false),
-            ...msDisplayEllipsoids(state, false),
-            ...msDisplayLabels(state, 'none'),
-            ...msDisplayCScales(state, 'none'),
+            ...selShowLabels(state, { sel_show_labels: false }),
+            ...msDisplayEllipsoids(state, { ms_ellipsoids_on: false }),
+            ...msDisplayLabels(state, { ms_labels_type: 'none' }),
+            ...msDisplayCScales(state, { ms_cscale_type: 'none'}),
             ...msSetReferences(state),
-            ...efgDisplayEllipsoids(state, false),
-            ...efgDisplayLabels(state, 'none'),
-            ...efgDisplayCScales(state, 'none'),
-            ...dipDisplayLinks(state, null)
+            ...efgDisplayEllipsoids(state, { efg_ellipsoids_on: false }),
+            ...efgDisplayLabels(state, { efg_labels_type: 'none' }),
+            ...efgDisplayCScales(state, { efg_cscale_type: 'none'}),
+            ...dipDisplayLinks(state, { dip_links_on: false, dip_central_atom: null })
         };
     }
 

@@ -1,3 +1,4 @@
+import { mergeOnly } from '../../../utils';
 import { makeSelector, BaseInterface } from '../utils';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import CrystVis from 'crystvis-js';
@@ -23,13 +24,22 @@ const initialSelState = {
     sel_show_labels: false
 };
 
-function selShowLabels(state, show) {
+function selShowLabels(state, parameters = {}) {
 
     let app = state.app_viewer;
     let sel_old = state.sel_labels_view;
-    let show_old = state.sel_show_labels;
+
+    const defaults = {
+        sel_show_labels: false,
+    };
+
+    let options_old = mergeOnly(defaults, state);
+    let options_new = mergeOnly(options_old, parameters);
 
     let sel = app.displayed;
+
+    let show_old = options_old.sel_show_labels;
+    let show = options_new.sel_show_labels;
 
     if (sel_old && (sel_old !== sel || (show_old && !show))) {
         // Remove old labels
@@ -71,14 +81,14 @@ function selSetSelection(state, sel, set_mode='selection') {
     // We now update all views that may be changed as a result of this
     data = {
         ...data,
-        ...selShowLabels(state, state.sel_show_labels),
-        ...msDisplayEllipsoids(state, state.ms_ellipsoids_on, state.ms_ellipsoids_scale),
-        ...msDisplayLabels(state, state.ms_labels_type),
-        ...msDisplayCScales(state, state.ms_cscale_type),
-        ...efgDisplayEllipsoids(state, state.efg_ellipsoids_on, state.efg_ellipsoids_scale),
-        ...efgDisplayLabels(state, state.efg_labels_type),
-        ...efgDisplayCScales(state, state.efg_cscale_type),
-        ...dipDisplayLinks(state, state.dip_central_atom, state.dip_radius, state.dip_sphere_show)
+        ...selShowLabels(state),
+        ...msDisplayEllipsoids(state),
+        ...msDisplayLabels(state),
+        ...msDisplayCScales(state),
+        ...efgDisplayEllipsoids(state),
+        ...efgDisplayLabels(state),
+        ...efgDisplayCScales(state),
+        ...dipDisplayLinks(state)
     };
     
     return data;
@@ -90,9 +100,9 @@ function selSetIsotope(state, sel, A) {
 
     // Now refresh all relevant visualisations
     const data = {
-        ...efgDisplayLabels(state, state.efg_labels_type),
-        ...efgDisplayCScales(state, state.efg_cscale_type),
-        ...dipDisplayLinks(state, state.dip_central_atom, state.dip_radius, state.dip_sphere_show)
+        ...efgDisplayLabels(state),
+        ...efgDisplayCScales(state),
+        ...dipDisplayLinks(state)
     };
 
     return data;
@@ -172,7 +182,7 @@ class SelInterface extends BaseInterface {
         this.dispatch({
             type: 'call',
             function: selShowLabels,
-            arguments: [v]
+            arguments: [{ sel_show_labels: v }]
         });
     }
 

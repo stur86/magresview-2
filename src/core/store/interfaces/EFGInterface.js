@@ -31,7 +31,7 @@ class EFGInterface extends BaseInterface {
         this.dispatch({
             type: 'call',
             function: efgDisplayEllipsoids,
-            arguments: [v, this.state.efg_ellipsoids_scale]
+            arguments: [{ efg_ellipsoids_on: v }]
         });
     }
 
@@ -43,7 +43,7 @@ class EFGInterface extends BaseInterface {
         this.dispatch({
             type: 'call',
             function: efgDisplayEllipsoids,
-            arguments: [this.state.efg_ellipsoids_on, v]
+            arguments: [{ efg_ellipsoids_scale: v }]
         });
     }
 
@@ -55,7 +55,7 @@ class EFGInterface extends BaseInterface {
         this.dispatch({
             type: 'call', 
             function: efgDisplayLabels,
-            arguments: [v]
+            arguments: [{ efg_labels_type: v }]
         });
     }
 
@@ -67,7 +67,7 @@ class EFGInterface extends BaseInterface {
         this.dispatch({
             type: 'call',
             function: efgDisplayCScales,
-            arguments: [v]
+            arguments: [{ efg_cscale_type: v }]
         });
     }
 

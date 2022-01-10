@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { getColorScale, dipolarCoupling } from '../../utils';
+import { getColorScale, dipolarCoupling, mergeOnly } from '../../utils';
 
 function makeSelector(prefix, extras=[]) {
     // Creates and returns a selector function for a given prefix
@@ -25,17 +25,30 @@ function makeDisplayEllipsoids(name, color) {
     // Factory for a function that will be used for both MS and EFG with
     // minimal differences
 
-    function displayfunc(state, on, scale=null) {
+    function displayfunc(state, parameters={}) {
 
         let app = state.app_viewer;
         let sel_old = state[_addPrefix(name, 'view')];
-        let on_old = state[_addPrefix(name, 'ellipsoids_on')];
 
-        if (scale === null)
-            scale = state[_addPrefix(name, 'ellipsoids_scale')];
+        const defaults = {
+            [_addPrefix(name, 'ellipsoids_on')]: false,
+            [_addPrefix(name, 'ellipsoids_scale')]: 1.0
+        };
+
+        // Update: first, use the current state values as defaults. Then,
+        // change them with the passed parameters
+        
+        const options_old = mergeOnly(defaults, state);
+        const options_new = mergeOnly(options_old, parameters);
 
         // What would be the "new" view?
         let sel = _getSel(app);
+
+        // Aliases for convenience
+        const on_old = options_old[_addPrefix(name, 'ellipsoids_on')];
+
+        const on = options_new[_addPrefix(name, 'ellipsoids_on')];
+        let scale = options_new[_addPrefix(name, 'ellipsoids_scale')];
 
         if (sel_old && (sel_old !== sel || (on_old && !on))) {
             // Something's changing. Remove old ellipsoids!
@@ -66,8 +79,7 @@ function makeDisplayEllipsoids(name, color) {
 
         return {
             [_addPrefix(name, 'view')]: sel,
-            [_addPrefix(name, 'ellipsoids_on')]: on,
-            [_addPrefix(name, 'ellipsoids_scale')]: scale
+            ...options_new
         };
     }
 
@@ -126,15 +138,28 @@ function makeDisplayLabels(name, color, shiftfunc) {
     // Factory for a function that will be used for both MS and EFG with
     // minimal differences
 
-    function displayfunc(state, mode) {
+    function displayfunc(state, parameters={}) {
 
         let app = state.app_viewer;
         let sel_old = state[_addPrefix(name, 'view')];
-        let mode_old = state[_addPrefix(name, 'labels_type')];
         let ref_table = state[_addPrefix(name, 'references')];
-        let nmr_mode = mode;
+
+        const defaults = {
+            [_addPrefix(name, 'labels_type')]: 'none'
+        };
+
+        // Update: first, use the current state values as defaults. Then,
+        // change them with the passed parameters
+        
+        const options_old = mergeOnly(defaults, state);
+        const options_new = mergeOnly(options_old, parameters);
 
         let sel = _getSel(app);
+
+        // Aliases
+        const mode_old = options_old[_addPrefix(name, 'labels_type')];
+        const mode = options_new[_addPrefix(name, 'labels_type')];
+        let nmr_mode = mode;
 
         if (sel_old && (sel_old !== sel || (mode_old !== 'none' && mode === 'none'))) {
             // Remove old labels
@@ -172,7 +197,7 @@ function makeDisplayLabels(name, color, shiftfunc) {
 
         return {
             [_addPrefix(name, 'view')]: sel,
-            [_addPrefix(name, 'labels_type')]: mode
+            ...options_new
         };
     }    
 
@@ -184,14 +209,28 @@ function makeDisplayCScales(name) {
     // Factory for a function that will be used for both MS and EFG with
     // minimal differences
 
-    function displayfunc(state, mode) {
+    function displayfunc(state, parameters={}) {
 
         let app = state.app_viewer;
         let displ_old = state[_addPrefix(name, 'cscale_displ')];
 
         let displ = app.displayed;
+
+        const defaults = {
+            [_addPrefix(name, 'cscale_type')]: 'none'
+        };
+
+        // Update: first, use the current state values as defaults. Then,
+        // change them with the passed parameters
+        
+        const options_old = mergeOnly(defaults, state);
+        const options_new = mergeOnly(options_old, parameters);
+
         let sel = _getSel(app);
 
+        const mode = options_new[_addPrefix(name, 'cscale_type')];
+
+        // Restore color to the grayed out atoms
         if (displ_old) {
             displ_old.setProperty('color', null);
         }
@@ -215,8 +254,8 @@ function makeDisplayCScales(name) {
 
         return {
             [_addPrefix(name, 'view')]: sel,
-            [_addPrefix(name, 'cscale_type')]: mode,
-            [_addPrefix(name, 'cscale_displ')]: displ
+            [_addPrefix(name, 'cscale_displ')]: displ,
+            ...options_new
         };
     }    
 
@@ -239,7 +278,7 @@ function makeDisplayLinks(name, color) {
     // Factory for a function that will be used for both DIP and JCOUP with
     // minimal differences
     
-    function displayfunc(state, atom, radius, sphere) {
+    function displayfunc(state, parameters={}) {
 
         let app = state.app_viewer;
         let sel_old = state[_addPrefix(name, 'view')];
@@ -247,16 +286,35 @@ function makeDisplayLinks(name, color) {
         let links_old = state[_addPrefix(name, 'link_names')];
 
         let displ = app.displayed;
+
+        const defaults = {
+            [_addPrefix(name, 'links_on')]: false,
+            [_addPrefix(name, 'central_atom')]: null,
+            [_addPrefix(name, 'radius')]: 1.0,
+            [_addPrefix(name, 'sphere_show')]: false
+        };
+
+        // Update: first, use the current state values as defaults. Then,
+        // change them with the passed parameters
+        
+        const options_old = mergeOnly(defaults, state);
+        const options_new = mergeOnly(options_old, parameters);
+
+        console.log(options_new);
+
         let sel = _getSel(app);
         let model = app.model;
         //let sphc = model._querySphere(atom, radius);
+        
+        const atom = options_new[_addPrefix(name, 'central_atom')];
+        const on = options_new[_addPrefix(name, 'links_on')];
 
         // First, cleaning up old visualisation
         links_old.forEach((name) => { model.removeGraphics(name); });
 
         // Now creating a new one
         let links = [];
-        if (atom && sel) {
+        if (on && atom && sel) {
             sel.atoms.forEach((a2, i) => {
 
                 if (a2 === atom)
@@ -275,8 +333,8 @@ function makeDisplayLinks(name, color) {
 
         return {
             [_addPrefix(name, 'view')]: sel,
-            [_addPrefix(name, 'central_atom')]: atom,
-            [_addPrefix(name, 'link_names')]: links
+            [_addPrefix(name, 'link_names')]: links,
+            ...options_new
         };
     }
 
