@@ -48,6 +48,17 @@ function msSetReferences(state, refs=null) {
     return data;
 }
 
+// Action creator
+const msEllipsoidAction = function(data) {
+    return {
+        type: 'update',
+        data: {
+            ...data,
+            listen_update: ['ms_ellipsoids']
+        }
+    };
+}
+
 class MSInterface extends BaseInterface {
 
     get hasData() {
@@ -60,11 +71,7 @@ class MSInterface extends BaseInterface {
     }
 
     set hasEllipsoids(v) {
-        this.dispatch({
-            type: 'call',
-            function: msDisplayEllipsoids,
-            arguments: [{ ms_ellipsoids_on: v }]
-        });
+        this.dispatch(msEllipsoidAction({ ms_ellipsoids_on: v }));
     }
 
     get ellipsoidScale() {
@@ -72,11 +79,7 @@ class MSInterface extends BaseInterface {
     }
 
     set ellipsoidScale(v) {
-        this.dispatch({
-            type: 'call',
-            function: msDisplayEllipsoids,
-            arguments: [{ ms_ellipsoids_scale: v }]
-        });
+        this.dispatch(msEllipsoidAction({ ms_ellipsoids_scale: v }));
     }
 
     get labelsMode() {

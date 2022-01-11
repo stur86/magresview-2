@@ -1,4 +1,4 @@
-import { makeSelector, makeDisplayLinks, BaseInterface } from '../utils';
+import { makeSelector, makeDisplayLinks, makeCalculateLinks, BaseInterface } from '../utils';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
 import CrystVis from 'crystvis-js';
@@ -7,7 +7,7 @@ const LC = CrystVis.LEFT_CLICK;
 
 const initialDipState = {
     dip_view: null,
-    dip_ghost_view: null,
+    dip_ghosts_view: null,
     dip_link_names: [],
     dip_links_on: false,
     dip_central_atom: null,
@@ -17,6 +17,7 @@ const initialDipState = {
 
 const dipColor = 0x00ff80;
 
+const dipCalculateLinks = makeCalculateLinks('dip');
 const dipDisplayLinks = makeDisplayLinks('dip', dipColor);
 
 class DipInterface extends BaseInterface {
@@ -34,11 +35,13 @@ class DipInterface extends BaseInterface {
             app.onAtomClick((a, e) => { 
                 dispatch({
                     type: 'call',
-                    function: dipDisplayLinks,
+                    function: dipCalculateLinks,
                     arguments: [{ dip_central_atom: a }]
                 });
             }, LC);
 
+            // The display function is ok in this context, as no new ghosts
+            // should need to be shown
             this.dispatch({
                 type: 'call',
                 function: dipDisplayLinks,
@@ -65,7 +68,7 @@ class DipInterface extends BaseInterface {
     set centralAtom(v) {
         this.dispatch({
             type: 'call',
-            function: dipDisplayLinks,
+            function: dipCalculateLinks,
             arguments: [{ dip_central_atom: v }]
         });
     }

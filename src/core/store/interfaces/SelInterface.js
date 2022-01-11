@@ -3,9 +3,10 @@ import { makeSelector, BaseInterface } from '../utils';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import CrystVis from 'crystvis-js';
 
-import { msDisplayEllipsoids, msDisplayLabels, msDisplayCScales } from './MSInterface';
-import { efgDisplayEllipsoids, efgDisplayLabels, efgDisplayCScales } from './EFGInterface';
+import { efgDisplayLabels, efgDisplayCScales } from './EFGInterface';
 import { dipDisplayLinks } from './DipInterface';
+
+import { updateViews } from '../updates';
 
 const LC = CrystVis.LEFT_CLICK;
 const SLC = CrystVis.LEFT_CLICK + CrystVis.SHIFT_BUTTON;
@@ -62,36 +63,22 @@ function selShowLabels(state, parameters = {}) {
 
 
 function selSetSelection(state, sel, set_mode='selection') {
-    let app = state.app_viewer;
+
     let data = {};
 
     switch (set_mode) {
         case 'selection':
             data.sel_selected_view = sel;
-            app.selected = sel;
             break;
         case 'displayed':
             data.sel_displayed_view = sel;
-            app.displayed = sel;
             break;
         default:
             break;        
     }
 
-    // We now update all views that may be changed as a result of this
-    data = {
-        ...data,
-        ...selShowLabels(state),
-        ...msDisplayEllipsoids(state),
-        ...msDisplayLabels(state),
-        ...msDisplayCScales(state),
-        ...efgDisplayEllipsoids(state),
-        ...efgDisplayLabels(state),
-        ...efgDisplayCScales(state),
-        ...dipDisplayLinks(state)
-    };
-    
-    return data;
+    return updateViews(state, data);
+
 }
 
 function selSetIsotope(state, sel, A) {

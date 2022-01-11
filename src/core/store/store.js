@@ -6,6 +6,7 @@ import { initialSelState } from './interfaces/SelInterface';
 import { initialMSState } from './interfaces/MSInterface';
 import { initialEFGState } from './interfaces/EFGInterface';
 import { initialDipState } from './interfaces/DipInterface';
+import makeMasterListener, { initialListenerState } from './listeners';
 
 // Merging together
 const initialState = {
@@ -13,7 +14,8 @@ const initialState = {
     ...initialSelState,
     ...initialMSState,
     ...initialEFGState,
-    ...initialDipState
+    ...initialDipState,
+    ...initialListenerState
 };
 
 // Reducer
@@ -50,5 +52,6 @@ function storeReducer(state=initialState, action={type: 'none'}) {
 };
 
 const magresStore = createStore(storeReducer);
+magresStore.subscribe(makeMasterListener(magresStore));
 
 export default magresStore;

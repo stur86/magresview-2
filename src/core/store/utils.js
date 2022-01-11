@@ -1,9 +1,10 @@
 import _ from 'lodash';
 import { getColorScale, dipolarCoupling, mergeOnly } from '../../utils';
+//import { updateViews } from './updates';
 
 function makeSelector(prefix, extras=[]) {
     // Creates and returns a selector function for a given prefix
-    function _selector(state) {
+    function selector(state) {
         let ans = {};
 
         for (let key in state) {
@@ -15,11 +16,11 @@ function makeSelector(prefix, extras=[]) {
         return ans;
     }
 
-    return _selector;
+    return selector;
 }
 
-const _addPrefix = (p, n) => p + '_' + n;
-const _getSel = (app) => app.selected.length > 0? app.selected : app.displayed;
+const addPrefix = (p, n) => p + '_' + n;
+const getSel = (app) => app.selected.length > 0? app.selected : app.displayed;
 
 function makeDisplayEllipsoids(name, color) {
     // Factory for a function that will be used for both MS and EFG with
@@ -28,11 +29,11 @@ function makeDisplayEllipsoids(name, color) {
     function displayfunc(state, parameters={}) {
 
         let app = state.app_viewer;
-        let sel_old = state[_addPrefix(name, 'view')];
+        let sel_old = state[addPrefix(name, 'view')];
 
         const defaults = {
-            [_addPrefix(name, 'ellipsoids_on')]: false,
-            [_addPrefix(name, 'ellipsoids_scale')]: 1.0
+            [addPrefix(name, 'ellipsoids_on')]: false,
+            [addPrefix(name, 'ellipsoids_scale')]: 1.0
         };
 
         // Update: first, use the current state values as defaults. Then,
@@ -42,13 +43,13 @@ function makeDisplayEllipsoids(name, color) {
         const options_new = mergeOnly(options_old, parameters);
 
         // What would be the "new" view?
-        let sel = _getSel(app);
+        let sel = getSel(app);
 
         // Aliases for convenience
-        const on_old = options_old[_addPrefix(name, 'ellipsoids_on')];
+        const on_old = options_old[addPrefix(name, 'ellipsoids_on')];
 
-        const on = options_new[_addPrefix(name, 'ellipsoids_on')];
-        let scale = options_new[_addPrefix(name, 'ellipsoids_scale')];
+        const on = options_new[addPrefix(name, 'ellipsoids_on')];
+        let scale = options_new[addPrefix(name, 'ellipsoids_scale')];
 
         if (sel_old && (sel_old !== sel || (on_old && !on))) {
             // Something's changing. Remove old ellipsoids!
@@ -78,7 +79,7 @@ function makeDisplayEllipsoids(name, color) {
         }
 
         return {
-            [_addPrefix(name, 'view')]: sel,
+            [addPrefix(name, 'view')]: sel,
             ...options_new
         };
     }
@@ -86,7 +87,7 @@ function makeDisplayEllipsoids(name, color) {
     return displayfunc;
 }
 
-function _getNMRData(data, datatype, tenstype='ms') {
+function getNMRData(data, datatype, tenstype='ms') {
 
     let units = '';
     let tens_units = {
@@ -141,11 +142,11 @@ function makeDisplayLabels(name, color, shiftfunc) {
     function displayfunc(state, parameters={}) {
 
         let app = state.app_viewer;
-        let sel_old = state[_addPrefix(name, 'view')];
-        let ref_table = state[_addPrefix(name, 'references')];
+        let sel_old = state[addPrefix(name, 'view')];
+        let ref_table = state[addPrefix(name, 'references')];
 
         const defaults = {
-            [_addPrefix(name, 'labels_type')]: 'none'
+            [addPrefix(name, 'labels_type')]: 'none'
         };
 
         // Update: first, use the current state values as defaults. Then,
@@ -154,11 +155,11 @@ function makeDisplayLabels(name, color, shiftfunc) {
         const options_old = mergeOnly(defaults, state);
         const options_new = mergeOnly(options_old, parameters);
 
-        let sel = _getSel(app);
+        let sel = getSel(app);
 
         // Aliases
-        const mode_old = options_old[_addPrefix(name, 'labels_type')];
-        const mode = options_new[_addPrefix(name, 'labels_type')];
+        const mode_old = options_old[addPrefix(name, 'labels_type')];
+        const mode = options_new[addPrefix(name, 'labels_type')];
         let nmr_mode = mode;
 
         if (sel_old && (sel_old !== sel || (mode_old !== 'none' && mode === 'none'))) {
@@ -175,7 +176,7 @@ function makeDisplayLabels(name, color, shiftfunc) {
             }
 
             const data = sel.map((a) => [a.getArrayValue(name), a.isotopeData]);
-            let [units, values] = _getNMRData(data, nmr_mode, name);
+            let [units, values] = getNMRData(data, nmr_mode, name);
 
             // Second part, here we apply the formula:
             //     cs = ref - iso
@@ -196,7 +197,7 @@ function makeDisplayLabels(name, color, shiftfunc) {
         }
 
         return {
-            [_addPrefix(name, 'view')]: sel,
+            [addPrefix(name, 'view')]: sel,
             ...options_new
         };
     }    
@@ -212,12 +213,12 @@ function makeDisplayCScales(name) {
     function displayfunc(state, parameters={}) {
 
         let app = state.app_viewer;
-        let displ_old = state[_addPrefix(name, 'cscale_displ')];
+        let displ_old = state[addPrefix(name, 'cscale_displ')];
 
         let displ = app.displayed;
 
         const defaults = {
-            [_addPrefix(name, 'cscale_type')]: 'none'
+            [addPrefix(name, 'cscale_type')]: 'none'
         };
 
         // Update: first, use the current state values as defaults. Then,
@@ -226,9 +227,9 @@ function makeDisplayCScales(name) {
         const options_old = mergeOnly(defaults, state);
         const options_new = mergeOnly(options_old, parameters);
 
-        let sel = _getSel(app);
+        let sel = getSel(app);
 
-        const mode = options_new[_addPrefix(name, 'cscale_type')];
+        const mode = options_new[addPrefix(name, 'cscale_type')];
 
         // Restore color to the grayed out atoms
         if (displ_old) {
@@ -240,7 +241,7 @@ function makeDisplayCScales(name) {
             let notsel = displ.xor(sel);
 
             const data = sel.map((a) => [a.getArrayValue(name), a.isotopeData]);
-            const nmrdata = _getNMRData(data, mode);
+            const nmrdata = getNMRData(data, mode);
             const values = nmrdata[1];
 
             let minv = _.min(values);
@@ -253,8 +254,8 @@ function makeDisplayCScales(name) {
         }
 
         return {
-            [_addPrefix(name, 'view')]: sel,
-            [_addPrefix(name, 'cscale_displ')]: displ,
+            [addPrefix(name, 'view')]: sel,
+            [addPrefix(name, 'cscale_displ')]: displ,
             ...options_new
         };
     }    
@@ -273,25 +274,91 @@ function _getLinkLabel(a1, a2, linktype) {
     }
 }
 
+function makeCalculateLinks(name) {
+
+    // Factory for a function that will be used for both DIP and JCOUP with
+    // minimal differences, with the goal of calculating which atoms are the
+    // 'targets' to which we're drawing links to. Must precede a call to 
+    // updateViews so that the ghosts get visualised or hidden as needed
+    
+    function calcfunc(state, parameters={}) {
+
+        let app = state.app_viewer;
+        let model = app.model;
+
+        const defaults = {
+            [addPrefix(name, 'links_on')]: false,
+            [addPrefix(name, 'central_atom')]: null,
+            [addPrefix(name, 'radius')]: 1.0,
+            [addPrefix(name, 'sphere_show')]: false            
+        };
+
+        // Update: first, use the current state values as defaults. Then,
+        // change them with the passed parameters
+
+        const options_old = mergeOnly(defaults, state);
+        const options_new = mergeOnly(options_old, parameters);
+
+        // Targets?
+        const catom = options_new[addPrefix(name, 'central_atom')];
+        const r = options_new[addPrefix(name, 'radius')];
+
+        let allview;
+        let ghostview;
+
+        if (catom) {
+            allview = model._querySphere(catom, r);
+        }        
+        else {
+            allview = model.view([]);
+        }
+
+        // Important distinction: state.sel_displayed_view is about the solid
+        // atoms, app.displayed includes all of them.
+        ghostview = allview.xor(state.sel_displayed_view);
+
+        const data = {
+            ...options_new,
+            [addPrefix(name, 'view')]: allview,
+            [addPrefix(name, 'ghosts_view')]: ghostview            
+        }
+
+        const state_new = {
+            ...state,
+            ...data
+        };
+
+        /*
+        return updateViews(state_new, {
+            sel_ghosts_view: ghostview
+        });
+        */
+
+    }
+
+    return calcfunc;
+
+}
+
 function makeDisplayLinks(name, color) {
 
     // Factory for a function that will be used for both DIP and JCOUP with
-    // minimal differences
-    
+    // minimal differences, with the goal of actually drawing the links  
+
     function displayfunc(state, parameters={}) {
 
         let app = state.app_viewer;
-        let sel_old = state[_addPrefix(name, 'view')];
-        let atom_old = state[_addPrefix(name, 'central_atom')];
-        let links_old = state[_addPrefix(name, 'link_names')];
+        let sel_old = state[addPrefix(name, 'view')];
+        let atom_old = state[addPrefix(name, 'central_atom')];
+        let links_old = state[addPrefix(name, 'link_names')];
 
         let displ = app.displayed;
 
         const defaults = {
-            [_addPrefix(name, 'links_on')]: false,
-            [_addPrefix(name, 'central_atom')]: null,
-            [_addPrefix(name, 'radius')]: 1.0,
-            [_addPrefix(name, 'sphere_show')]: false
+            [addPrefix(name, 'links_on')]: false,
+            [addPrefix(name, 'central_atom')]: null,
+            [addPrefix(name, 'radius')]: 1.0,
+            [addPrefix(name, 'sphere_show')]: false
         };
 
         // Update: first, use the current state values as defaults. Then,
@@ -300,14 +367,12 @@ function makeDisplayLinks(name, color) {
         const options_old = mergeOnly(defaults, state);
         const options_new = mergeOnly(options_old, parameters);
 
-        console.log(options_new);
-
-        let sel = _getSel(app);
+        let sel = getSel(app);
         let model = app.model;
         //let sphc = model._querySphere(atom, radius);
         
-        const atom = options_new[_addPrefix(name, 'central_atom')];
-        const on = options_new[_addPrefix(name, 'links_on')];
+        const atom = options_new[addPrefix(name, 'central_atom')];
+        const on = options_new[addPrefix(name, 'links_on')];
 
         // First, cleaning up old visualisation
         links_old.forEach((name) => { model.removeGraphics(name); });
@@ -332,8 +397,8 @@ function makeDisplayLinks(name, color) {
         }
 
         return {
-            [_addPrefix(name, 'view')]: sel,
-            [_addPrefix(name, 'link_names')]: links,
+            [addPrefix(name, 'view')]: sel,
+            [addPrefix(name, 'link_names')]: links,
             ...options_new
         };
     }
@@ -365,5 +430,9 @@ export {
     makeDisplayLabels, 
     makeDisplayCScales, 
     makeDisplayLinks,
+    makeCalculateLinks,
+    addPrefix,
+    getSel,
+    getNMRData,
     BaseInterface 
 };
