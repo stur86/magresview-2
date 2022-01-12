@@ -4,8 +4,8 @@
  *
  */
 
-import { msDisplayEllipsoids, msDisplayLabels, msDisplayCScales } from './interfaces/MSInterface';
-import { efgDisplayEllipsoids, efgDisplayLabels, efgDisplayCScales } from './interfaces/EFGInterface';
+import { msDisplayLabels, msDisplayCScales } from './interfaces/MSInterface';
+import { efgDisplayLabels, efgDisplayCScales } from './interfaces/EFGInterface';
 import { dipDisplayLinks } from './interfaces/DipInterface';
 import { selShowLabels } from './interfaces/SelInterface';
 import { mergeOnly } from '../../utils';
@@ -64,7 +64,9 @@ function updateViews(state, parameters = {}) {
     // We now update all visualizations that may be changed as a result of this
     return {
         ...state_new,
-        ...updateAllVisualizations(state_new)
+        ...updateAllVisualizations(state_new),
+        listen_update: ['ms_ellipsoids', 'ms_labels', 'ms_cscales', 
+                        'efg_ellipsoids', 'efg_labels', 'efg_cscales']
     };
 }
 
@@ -75,12 +77,6 @@ function updateViews(state, parameters = {}) {
 function updateAllVisualizations(state) {
     return {
         ...selShowLabels(state),
-        ...msDisplayEllipsoids(state),
-        ...msDisplayLabels(state),
-        ...msDisplayCScales(state),
-        ...efgDisplayEllipsoids(state),
-        ...efgDisplayLabels(state),
-        ...efgDisplayCScales(state),
         ...dipDisplayLinks(state)
     };
 }

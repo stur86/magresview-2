@@ -22,6 +22,8 @@
  */
 
 import { msEllipsoidListener, efgEllipsoidListener } from './ellipsoids';
+import { msLabelListener, efgLabelListener } from './labels';
+import { msCScaleListener, efgCScaleListener } from './cscales';
 
 const initialListenerState = {
     listen_update: []
@@ -29,7 +31,11 @@ const initialListenerState = {
 
 const listeners = {
     'ms_ellipsoids': msEllipsoidListener,
-    'efg_ellipsoids': efgEllipsoidListener
+    'ms_labels': msLabelListener,
+    'ms_cscales': msCScaleListener,
+    'efg_ellipsoids': efgEllipsoidListener,
+    'efg_labels': efgLabelListener,
+    'efg_cscales': efgCScaleListener
 };
 
 function makeMasterListener(store) {

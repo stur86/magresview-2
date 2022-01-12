@@ -19,12 +19,14 @@ function makeEllipsoidListener(name, color) {
         let app = state.app_viewer;
         let current_view = state[pre_view];
 
+        // Current view holds the LAST one used; we need to update that
         // What would be the "new" view?
         let next_view = getSel(app);
 
         // Aliases for convenience
         const on = state[pre_on];
         let scale = state[pre_scale];
+
 
         if (current_view && (current_view !== next_view || !on)) {
             // Something's changing. Remove old ellipsoids!

@@ -16,6 +16,17 @@ const efgDisplayEllipsoids = makeDisplayEllipsoids('efg', efgColor);
 const efgDisplayLabels = makeDisplayLabels('efg', efgColor, (r) => ([r, -r, 0.0]));
 const efgDisplayCScales = makeDisplayCScales('efg');
 
+// Action creator
+const efgAction = function(data, update='ellipsoids') {
+    return {
+        type: 'update',
+        data: {
+            ...data,
+            listen_update: ['efg_' + update]
+        }
+    };
+}
+
 class EFGInterface extends BaseInterface {
 
     get hasData() {
@@ -28,11 +39,7 @@ class EFGInterface extends BaseInterface {
     }
 
     set hasEllipsoids(v) {
-        this.dispatch({
-            type: 'call',
-            function: efgDisplayEllipsoids,
-            arguments: [{ efg_ellipsoids_on: v }]
-        });
+        this.dispatch(efgAction({ efg_ellipsoids_on: v }));
     }
 
     get ellipsoidScale() {
@@ -40,11 +47,7 @@ class EFGInterface extends BaseInterface {
     }
 
     set ellipsoidScale(v) {
-        this.dispatch({
-            type: 'call',
-            function: efgDisplayEllipsoids,
-            arguments: [{ efg_ellipsoids_scale: v }]
-        });
+        this.dispatch(efgAction({ efg_ellipsoids_scale: v }));
     }
 
     get labelsMode() {
@@ -52,11 +55,11 @@ class EFGInterface extends BaseInterface {
     }
 
     set labelsMode(v) {
-        this.dispatch({
-            type: 'call', 
-            function: efgDisplayLabels,
-            arguments: [{ efg_labels_type: v }]
-        });
+        this.dispatch(efgAction({ efg_labels_type: v }, 'labels'));
+    }
+
+    get cscaleUsable() {
+        return this.state.ms_cscale_type === 'none';
     }
 
     get cscaleMode() {
@@ -64,17 +67,17 @@ class EFGInterface extends BaseInterface {
     }
 
     set cscaleMode(v) {
-        this.dispatch({
-            type: 'call',
-            function: efgDisplayCScales,
-            arguments: [{ efg_cscale_type: v }]
-        });
+
+        if (!this.cscaleUsable)
+            return;
+
+        this.dispatch(efgAction({ efg_cscale_type: v }, 'cscales'));
     }
 
 }
 
 function useEFGInterface() {
-    let state = useSelector(makeSelector('efg', ['app_viewer']), shallowEqual);
+    let state = useSelector(makeSelector('efg', ['app_viewer', 'ms_cscale_type']), shallowEqual);
     let dispatcher = useDispatch();
 
     let intf = new EFGInterface(state, dispatcher);

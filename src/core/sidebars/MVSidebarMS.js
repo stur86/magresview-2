@@ -85,7 +85,7 @@ function MVSidebarMS(props) {
                 <MVRadioButton value='aniso'>Anisotropy (ppm)</MVRadioButton>
                 <MVRadioButton value='asymm'>Asymmetry</MVRadioButton>
              </MVRadioGroup>
-             <MVRadioGroup label='Use color scale' onSelect={(v) => { msint.cscaleMode = v; }} selected={msint.cscaleMode} name='ms_cscale_radio'>
+             <MVRadioGroup label='Use color scale' onSelect={(v) => { msint.cscaleMode = v; }} selected={msint.cscaleMode} disabled={!msint.cscaleUsable} name='ms_cscale_radio'>
                 <MVRadioButton value='none'>None</MVRadioButton>
                 <MVRadioButton value='iso'>Isotropy (ppm)</MVRadioButton>
                 <MVRadioButton value='aniso'>Anisotropy (ppm)</MVRadioButton>

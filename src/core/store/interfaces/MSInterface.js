@@ -49,12 +49,12 @@ function msSetReferences(state, refs=null) {
 }
 
 // Action creator
-const msEllipsoidAction = function(data) {
+const msAction = function(data, update='ellipsoids') {
     return {
         type: 'update',
         data: {
             ...data,
-            listen_update: ['ms_ellipsoids']
+            listen_update: ['ms_' + update]
         }
     };
 }
@@ -71,7 +71,7 @@ class MSInterface extends BaseInterface {
     }
 
     set hasEllipsoids(v) {
-        this.dispatch(msEllipsoidAction({ ms_ellipsoids_on: v }));
+        this.dispatch(msAction({ ms_ellipsoids_on: v }));
     }
 
     get ellipsoidScale() {
@@ -79,7 +79,7 @@ class MSInterface extends BaseInterface {
     }
 
     set ellipsoidScale(v) {
-        this.dispatch(msEllipsoidAction({ ms_ellipsoids_scale: v }));
+        this.dispatch(msAction({ ms_ellipsoids_scale: v }));
     }
 
     get labelsMode() {
@@ -87,11 +87,11 @@ class MSInterface extends BaseInterface {
     }
 
     set labelsMode(v) {
-        this.dispatch({
-            type: 'call', 
-            function: msDisplayLabels,
-            arguments: [{ ms_labels_type: v }]
-        });
+        this.dispatch(msAction({ 'ms_labels_type': v }, 'labels'));
+    }
+
+    get cScaleUsable() {
+        return this.state.efg_cscale_type === 'none';
     }
 
     get cscaleMode() {
@@ -99,11 +99,11 @@ class MSInterface extends BaseInterface {
     }
 
     set cscaleMode(v) {
-        this.dispatch({
-            type: 'call',
-            function: msDisplayCScales,
-            arguments: [{ ms_cscale_type: v }]
-        });
+
+        if (!this.cScaleUsable)
+            return;
+
+        this.dispatch(msAction({ ms_cscale_type: v }, 'cscales'));
     }
 
     get referenceTable() {
@@ -132,7 +132,7 @@ class MSInterface extends BaseInterface {
 }
 
 function useMSInterface() {
-    let state = useSelector(makeSelector('ms', ['app_viewer']), shallowEqual);
+    let state = useSelector(makeSelector('ms', ['app_viewer', 'efg_cscale_type']), shallowEqual);
     let dispatcher = useDispatch();
 
     let intf = new MSInterface(state, dispatcher);
