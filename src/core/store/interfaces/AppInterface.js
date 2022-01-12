@@ -3,10 +3,9 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
 import { makeSelector, BaseInterface } from '../utils';
 import { CallbackMerger } from '../../../utils';
-import { msDisplayEllipsoids, msDisplayLabels, msDisplayCScales, msSetReferences } from './MSInterface';
-import { efgDisplayEllipsoids, efgDisplayLabels, efgDisplayCScales } from './EFGInterface';
-import { selShowLabels } from './SelInterface';
+import { msSetReferences } from './MSInterface';
 import { dipDisplayLinks } from './DipInterface';
+import { Events } from '../listeners';
 
 import CrystVis from 'crystvis-js';
 
@@ -29,14 +28,14 @@ function appDisplayModel(state, m) {
     if (cm) {
         // We turn visualizations off
         data = {
-            ...selShowLabels(state, { sel_show_labels: false }),
-            ...msDisplayEllipsoids(state, { ms_ellipsoids_on: false }),
-            ...msDisplayLabels(state, { ms_labels_type: 'none' }),
-            ...msDisplayCScales(state, { ms_cscale_type: 'none'}),
+            sel_sites_labels_type: 'none',
+            ms_ellipsoids_on: false,
+            ms_labels_type: 'none',
+            ms_cscale_type: 'none',
+            efg_ellipsoids_on: false,
+            efg_labels_type: 'none',
+            efg_cscale_type: 'none',
             ...msSetReferences(state),
-            ...efgDisplayEllipsoids(state, { efg_ellipsoids_on: false }),
-            ...efgDisplayLabels(state, { efg_labels_type: 'none' }),
-            ...efgDisplayCScales(state, { efg_cscale_type: 'none'}),
             ...dipDisplayLinks(state, { dip_links_on: false, dip_central_atom: null })
         };
     }
@@ -46,7 +45,10 @@ function appDisplayModel(state, m) {
     // Return data for dispatch
     return {
         app_default_displayed: app.displayed,
-        ...data
+        ...data,
+        listen_update: [Events.SEL_LABELS, Events.CSCALE,
+                        Events.MS_ELLIPSOIDS, Events.MS_LABELS,
+                        Events.EFG_ELLIPSOIDS, Events.EFG_LABELS]
     };
 }
 

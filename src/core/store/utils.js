@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import { getColorScale, dipolarCoupling, mergeOnly } from '../../utils';
-//import { updateViews } from './updates';
+import { dipolarCoupling, mergeOnly } from '../../utils';
 
 function makeSelector(prefix, extras=[]) {
     // Creates and returns a selector function for a given prefix
@@ -21,71 +20,6 @@ function makeSelector(prefix, extras=[]) {
 
 const addPrefix = (p, n) => p + '_' + n;
 const getSel = (app) => app.selected.length > 0? app.selected : app.displayed;
-
-function makeDisplayEllipsoids(name, color) {
-    // Factory for a function that will be used for both MS and EFG with
-    // minimal differences
-
-    function displayfunc(state, parameters={}) {
-
-        let app = state.app_viewer;
-        let sel_old = state[addPrefix(name, 'view')];
-
-        const defaults = {
-            [addPrefix(name, 'ellipsoids_on')]: false,
-            [addPrefix(name, 'ellipsoids_scale')]: 1.0
-        };
-
-        // Update: first, use the current state values as defaults. Then,
-        // change them with the passed parameters
-        
-        const options_old = mergeOnly(defaults, state);
-        const options_new = mergeOnly(options_old, parameters);
-
-        // What would be the "new" view?
-        let sel = getSel(app);
-
-        // Aliases for convenience
-        const on_old = options_old[addPrefix(name, 'ellipsoids_on')];
-
-        const on = options_new[addPrefix(name, 'ellipsoids_on')];
-        let scale = options_new[addPrefix(name, 'ellipsoids_scale')];
-
-        if (sel_old && (sel_old !== sel || (on_old && !on))) {
-            // Something's changing. Remove old ellipsoids!
-            sel_old.removeEllipsoids(name);
-        }
-
-        // Now for the new view and data
-        if (on) {
-
-            const data = sel.map((a) => a.getArrayValue(name));
-
-            if (scale === 0) {
-                // Auto scale needed
-                let avg = data.map((t) => _.sum(t.eigenvalues.map(Math.abs))/3.0);
-                avg = _.sum(avg)/data.length;
-                scale = 2.0/avg;
-            }
-
-            if (sel_old === sel && on_old) {
-                // Same view, we're just changing some properties
-                sel.ellipsoidProperties(name, 'scalingFactor', scale);
-            }
-            else {
-                // We need to create them from scratch
-                sel.addEllipsoids(data, name, {scalingFactor: scale, color: color, opacity: 0.125});
-            }
-        }
-
-        return {
-            [addPrefix(name, 'view')]: sel,
-            ...options_new
-        };
-    }
-
-    return displayfunc;
-}
 
 function getNMRData(data, datatype, tenstype='ms') {
 
@@ -132,135 +66,6 @@ function getNMRData(data, datatype, tenstype='ms') {
     }
 
     return [units, values];
-}
-
-function makeDisplayLabels(name, color, shiftfunc) {
-
-    // Factory for a function that will be used for both MS and EFG with
-    // minimal differences
-
-    function displayfunc(state, parameters={}) {
-
-        let app = state.app_viewer;
-        let sel_old = state[addPrefix(name, 'view')];
-        let ref_table = state[addPrefix(name, 'references')];
-
-        const defaults = {
-            [addPrefix(name, 'labels_type')]: 'none'
-        };
-
-        // Update: first, use the current state values as defaults. Then,
-        // change them with the passed parameters
-        
-        const options_old = mergeOnly(defaults, state);
-        const options_new = mergeOnly(options_old, parameters);
-
-        let sel = getSel(app);
-
-        // Aliases
-        const mode_old = options_old[addPrefix(name, 'labels_type')];
-        const mode = options_new[addPrefix(name, 'labels_type')];
-        let nmr_mode = mode;
-
-        if (sel_old && (sel_old !== sel || (mode_old !== 'none' && mode === 'none'))) {
-            // Remove old labels
-            sel_old.removeLabels(name);
-        }
-
-        if (mode !== 'none') {
-
-            // We add special instructions just for the case of referenced
-            // chemical shifts. These only matter for MS, not EFG.
-            if (mode === 'cs' && name === 'ms') {
-                nmr_mode = 'iso'; // We then need to reference these
-            }
-
-            const data = sel.map((a) => [a.getArrayValue(name), a.isotopeData]);
-            let [units, values] = getNMRData(data, nmr_mode, name);
-
-            // Second part, here we apply the formula:
-            //     cs = ref - iso
-            if (mode === 'cs' && name === 'ms') {
-                // Referencing
-                values = sel.map((a, i) => {
-                    const ref = ref_table[a.element] || 0.0;
-                    return ref-values[i];
-                });
-            }
-
-            let label_texts = values.map((v) => v.toFixed(2) + ' ' + units);
-            sel.addLabels(label_texts, name, (a, i) => ({ 
-                color: color,  
-                shift: shiftfunc(a.radius),
-                height: 0.02
-            }));
-        }
-
-        return {
-            [addPrefix(name, 'view')]: sel,
-            ...options_new
-        };
-    }    
-
-    return displayfunc;
-}
-
-function makeDisplayCScales(name) {
-
-    // Factory for a function that will be used for both MS and EFG with
-    // minimal differences
-
-    function displayfunc(state, parameters={}) {
-
-        let app = state.app_viewer;
-        let displ_old = state[addPrefix(name, 'cscale_displ')];
-
-        let displ = app.displayed;
-
-        const defaults = {
-            [addPrefix(name, 'cscale_type')]: 'none'
-        };
-
-        // Update: first, use the current state values as defaults. Then,
-        // change them with the passed parameters
-        
-        const options_old = mergeOnly(defaults, state);
-        const options_new = mergeOnly(options_old, parameters);
-
-        let sel = getSel(app);
-
-        const mode = options_new[addPrefix(name, 'cscale_type')];
-
-        // Restore color to the grayed out atoms
-        if (displ_old) {
-            displ_old.setProperty('color', null);
-        }
-
-        if (mode !== 'none') {
-    
-            let notsel = displ.xor(sel);
-
-            const data = sel.map((a) => [a.getArrayValue(name), a.isotopeData]);
-            const nmrdata = getNMRData(data, mode);
-            const values = nmrdata[1];
-
-            let minv = _.min(values);
-            let maxv = _.max(values);
-            let cs = getColorScale(minv, maxv, 'portland');
-            let colors = values.map((v) => cs.getColor(v).toHexString());
-
-            sel.setProperty('color', colors);
-            notsel.setProperty('color', 0x888888);
-        }
-
-        return {
-            [addPrefix(name, 'view')]: sel,
-            [addPrefix(name, 'cscale_displ')]: displ,
-            ...options_new
-        };
-    }    
-
-    return displayfunc;
 }
 
 function _getLinkLabel(a1, a2, linktype) {
@@ -426,9 +231,6 @@ class BaseInterface {
 
 export { 
     makeSelector, 
-    makeDisplayEllipsoids, 
-    makeDisplayLabels, 
-    makeDisplayCScales, 
     makeDisplayLinks,
     makeCalculateLinks,
     addPrefix,

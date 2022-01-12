@@ -34,12 +34,12 @@ function MVSidebarEFG(props) {
                 <MVRadioButton value='asymm'>Asymmetry</MVRadioButton>
                 <MVRadioButton value='Q'>Quadrupole Coupling (kHz)</MVRadioButton>
              </MVRadioGroup>
-             <MVRadioGroup label='Use color scale' onSelect={(v) => { efgint.cscaleMode = v; }} selected={ efgint.cscaleMode} disabled={!efgint.cscaleUsable}
+             <MVRadioGroup label='Use color scale' onSelect={(v) => { efgint.colorScaleType = v; }} selected={ efgint.colorScaleType } disabled={!efgint.colorScaleAvailable}
                            name='efg_cscale_radio' color={'var(--efg-color-2)'}>
                 <MVRadioButton value='none'>None</MVRadioButton>
-                <MVRadioButton value='aniso'>Anisotropy (au)</MVRadioButton>
-                <MVRadioButton value='asymm'>Asymmetry</MVRadioButton>
-                <MVRadioButton value='Q'>Quadrupole Coupling</MVRadioButton>
+                <MVRadioButton value='efg_aniso'>Anisotropy (au)</MVRadioButton>
+                <MVRadioButton value='efg_asymm'>Asymmetry</MVRadioButton>
+                <MVRadioButton value='efg_Q'>Quadrupole Coupling</MVRadioButton>
              </MVRadioGroup>
         </div>
         <div className={chainClasses('mv-warning-noms', has_efg? 'hidden' : '')}>No EFG data found</div>

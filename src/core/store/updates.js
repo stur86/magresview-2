@@ -4,11 +4,9 @@
  *
  */
 
-import { msDisplayLabels, msDisplayCScales } from './interfaces/MSInterface';
-import { efgDisplayLabels, efgDisplayCScales } from './interfaces/EFGInterface';
 import { dipDisplayLinks } from './interfaces/DipInterface';
-import { selShowLabels } from './interfaces/SelInterface';
 import { mergeOnly } from '../../utils';
+import { Events } from './listeners';
 
 // The hierarchy works as follow:
 // 
@@ -65,8 +63,9 @@ function updateViews(state, parameters = {}) {
     return {
         ...state_new,
         ...updateAllVisualizations(state_new),
-        listen_update: ['ms_ellipsoids', 'ms_labels', 'ms_cscales', 
-                        'efg_ellipsoids', 'efg_labels', 'efg_cscales']
+        listen_update: [Events.SEL_LABELS, Events.CSCALE,
+                        Events.MS_ELLIPSOIDS, Events.MS_LABELS, 
+                        Events.EFG_ELLIPSOIDS, Events.EFG_LABELS]
     };
 }
 
@@ -76,7 +75,6 @@ function updateViews(state, parameters = {}) {
  */
 function updateAllVisualizations(state) {
     return {
-        ...selShowLabels(state),
         ...dipDisplayLinks(state)
     };
 }

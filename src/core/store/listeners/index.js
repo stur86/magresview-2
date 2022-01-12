@@ -22,20 +22,30 @@
  */
 
 import { msEllipsoidListener, efgEllipsoidListener } from './ellipsoids';
-import { msLabelListener, efgLabelListener } from './labels';
-import { msCScaleListener, efgCScaleListener } from './cscales';
+import { selLabelListener, msLabelListener, efgLabelListener } from './labels';
+import { colorScaleListener } from './cscales';
+import { Enum } from '../../../utils';
 
 const initialListenerState = {
     listen_update: []
 };
 
+const Events = new Enum([
+    'SEL_LABELS',
+    'CSCALE',
+    'MS_ELLIPSOIDS',
+    'MS_LABELS',
+    'EFG_ELLIPSOIDS',
+    'EFG_LABELS'
+]);
+
 const listeners = {
-    'ms_ellipsoids': msEllipsoidListener,
-    'ms_labels': msLabelListener,
-    'ms_cscales': msCScaleListener,
-    'efg_ellipsoids': efgEllipsoidListener,
-    'efg_labels': efgLabelListener,
-    'efg_cscales': efgCScaleListener
+    [Events.SEL_LABELS]:        selLabelListener,
+    [Events.CSCALE]:            colorScaleListener,
+    [Events.MS_ELLIPSOIDS]:     msEllipsoidListener,
+    [Events.MS_LABELS]:         msLabelListener,
+    [Events.EFG_ELLIPSOIDS]:    efgEllipsoidListener,
+    [Events.EFG_LABELS]:        efgLabelListener
 };
 
 function makeMasterListener(store) {
@@ -77,5 +87,5 @@ function makeMasterListener(store) {
     return listener;
 }
 
-export { initialListenerState };
+export { initialListenerState, Events };
 export default makeMasterListener;

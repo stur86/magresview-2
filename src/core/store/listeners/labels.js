@@ -2,9 +2,8 @@
  * Listeners for the rendering of labels
  */
 
-import _ from 'lodash';
 import { addPrefix, getSel, getNMRData } from '../utils';
-import { msColor, efgColor } from './colors';
+import { selColor, msColor, efgColor } from './colors';
 
 function makeLabelListener(name, color, shiftfunc) {
     // Factory for a function that will be used for both MS and EFG with
@@ -28,11 +27,12 @@ function makeLabelListener(name, color, shiftfunc) {
         const mode = state[pre_type];
         let nmr_mode = mode;
 
-        if (current_view && (current_view !== next_view || mode == 'none')) {
+        if (current_view && (current_view !== next_view || mode === 'none')) {
             // Remove old labels
             current_view.removeLabels(name);
         }
 
+        let label_texts;
         if (mode !== 'none') {
 
             // We add special instructions just for the case of referenced
@@ -41,20 +41,27 @@ function makeLabelListener(name, color, shiftfunc) {
                 nmr_mode = 'iso'; // We then need to reference these
             }
 
-            const data = next_view.map((a) => [a.getArrayValue(name), a.isotopeData]);
-            let [units, values] = getNMRData(data, nmr_mode, name);
+            if (name !== 'sel_sites') {
+                const data = next_view.map((a) => [a.getArrayValue(name), a.isotopeData]);
+                let [units, values] = getNMRData(data, nmr_mode, name);
 
-            // Second part, here we apply the formula:
-            //     cs = ref - iso
-            if (mode === 'cs' && name === 'ms') {
-                // Referencing
-                values = next_view.map((a, i) => {
-                    const ref = ref_table[a.element] || 0.0;
-                    return ref-values[i];
-                });
+                // Second part, here we apply the formula:
+                //     cs = ref - iso
+                if (mode === 'cs' && name === 'ms') {
+                    // Referencing
+                    values = next_view.map((a, i) => {
+                        const ref = ref_table[a.element] || 0.0;
+                        return ref-values[i];
+                    });
+                }
+
+                label_texts = values.map((v) => v.toFixed(2) + ' ' + units);                
+            }
+            else {
+                // Non-NMR labels
+                label_texts = next_view.map((a) => a.crystLabel);
             }
 
-            let label_texts = values.map((v) => v.toFixed(2) + ' ' + units);
             next_view.addLabels(label_texts, name, (a, i) => ({ 
                 color: color,  
                 shift: shiftfunc(a.radius),
@@ -71,7 +78,8 @@ function makeLabelListener(name, color, shiftfunc) {
 }
 
 // Make specific instances of the listener
+const selLabelListener = makeLabelListener('sel_sites', selColor, (r) => ([r, r, 0]));
 const msLabelListener = makeLabelListener('ms', msColor, (r) => ([1.414*r, 0.0, 0.0]));
 const efgLabelListener = makeLabelListener('efg', efgColor, (r) => ([r, -r, 0.0]));
 
-export { msLabelListener, efgLabelListener };
+export { selLabelListener, msLabelListener, efgLabelListener };

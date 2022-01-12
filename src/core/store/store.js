@@ -3,6 +3,7 @@ import { createStore } from 'redux';
 // Initial state, merged from segments
 import { initialAppState } from './interfaces/AppInterface';
 import { initialSelState } from './interfaces/SelInterface';
+import { initialCScaleState } from './interfaces/CScaleInterface';
 import { initialMSState } from './interfaces/MSInterface';
 import { initialEFGState } from './interfaces/EFGInterface';
 import { initialDipState } from './interfaces/DipInterface';
@@ -12,6 +13,7 @@ import makeMasterListener, { initialListenerState } from './listeners';
 const initialState = {
     ...initialAppState,
     ...initialSelState,
+    ...initialCScaleState,
     ...initialMSState,
     ...initialEFGState,
     ...initialDipState,

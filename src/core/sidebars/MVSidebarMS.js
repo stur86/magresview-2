@@ -85,11 +85,11 @@ function MVSidebarMS(props) {
                 <MVRadioButton value='aniso'>Anisotropy (ppm)</MVRadioButton>
                 <MVRadioButton value='asymm'>Asymmetry</MVRadioButton>
              </MVRadioGroup>
-             <MVRadioGroup label='Use color scale' onSelect={(v) => { msint.cscaleMode = v; }} selected={msint.cscaleMode} disabled={!msint.cscaleUsable} name='ms_cscale_radio'>
+             <MVRadioGroup label='Use color scale' onSelect={(v) => { msint.colorScaleType = v; }} selected={msint.colorScaleType} disabled={!msint.colorScaleAvailable} name='ms_cscale_radio'>
                 <MVRadioButton value='none'>None</MVRadioButton>
-                <MVRadioButton value='iso'>Isotropy (ppm)</MVRadioButton>
-                <MVRadioButton value='aniso'>Anisotropy (ppm)</MVRadioButton>
-                <MVRadioButton value='asymm'>Asymmetry</MVRadioButton>
+                <MVRadioButton value='ms_iso'>Isotropy (ppm)</MVRadioButton>
+                <MVRadioButton value='ms_aniso'>Anisotropy (ppm)</MVRadioButton>
+                <MVRadioButton value='ms_asymm'>Asymmetry</MVRadioButton>
              </MVRadioGroup>
              <MVButton onClick={() => { setState({...state, showRefTable: true}) }}>Set References</MVButton>
              <MVReferenceTable display={state.showRefTable} close={() => { setState({...state, showRefTable: false}) }}/>

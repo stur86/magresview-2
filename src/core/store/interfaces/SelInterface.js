@@ -3,7 +3,7 @@ import { makeSelector, BaseInterface } from '../utils';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import CrystVis from 'crystvis-js';
 
-import { efgDisplayLabels, efgDisplayCScales } from './EFGInterface';
+import { Events } from '../listeners';
 import { dipDisplayLinks } from './DipInterface';
 
 import { updateViews } from '../updates';
@@ -21,8 +21,8 @@ const initialSelState = {
     sel_sphere_r: 2.0,
     sel_bond_n: 1,
     sel_hlight: true,
-    sel_labels_view: null,
-    sel_show_labels: false
+    sel_sites_view: null,
+    sel_sites_labels_type: 'none'
 };
 
 function selShowLabels(state, parameters = {}) {
@@ -87,9 +87,8 @@ function selSetIsotope(state, sel, A) {
 
     // Now refresh all relevant visualisations
     const data = {
-        ...efgDisplayLabels(state),
-        ...efgDisplayCScales(state),
-        ...dipDisplayLinks(state)
+        ...dipDisplayLinks(state),
+        listen_update: [Events.EFG_LABELS, Events.CSCALE]
     };
 
     return data;
@@ -162,14 +161,17 @@ class SelInterface extends BaseInterface {
     }
 
     get showCrystLabels() {
-        return this.state.sel_show_labels;
+        return this.state.sel_sites_labels_type === 'labels';
     }
 
     set showCrystLabels(v) {
+        v = v? 'labels' : 'none';
+
+        console.log(v);
+
         this.dispatch({
-            type: 'call',
-            function: selShowLabels,
-            arguments: [{ sel_show_labels: v }]
+            type: 'update',
+            data: { sel_sites_labels_type: v, listen_update: [Events.SEL_LABELS]}
         });
     }
 

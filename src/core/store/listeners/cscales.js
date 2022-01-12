@@ -3,64 +3,54 @@
  */
 
 import _ from 'lodash';
-import { addPrefix, getSel, getNMRData } from '../utils';
+import { getSel, getNMRData } from '../utils';
 import { getColorScale } from '../../../utils';
 
-function makeCScaleListener(name) {
+function colorScaleListener(state) {
 
-    // Factory for a function that will be used for both MS and EFG with
-    // minimal differences
-    
-    const pre_view = addPrefix(name, 'view');
-    const pre_displ = addPrefix(name, 'cscale_displ');
-    const pre_type = addPrefix(name, 'cscale_type');
+    let app = state.app_viewer;
+    let current_view = state.cscale_view;
+    let current_greyed = state.cscale_displ;
+    let displayed = app.displayed;
 
-    function listener(state) {
+    let next_view = getSel(app);
+    let next_greyed = null;
 
-        let app = state.app_viewer;
-        let current_greyed = state[pre_displ];
-        let displayed = app.displayed;
+    const cstype = state.cscale_type;
 
-        let next_view = getSel(app);
-        let next_greyed = null;
+    // Restore color to the grayed out atoms
+    if (current_greyed) {
+        current_greyed.setProperty('color', null);
+    }
 
-        const mode = state[pre_type];
+    if (cstype !== 'none') {
 
-        // Restore color to the grayed out atoms
-        if (current_greyed) {
-            current_greyed.setProperty('color', null);
-        }
+        // Split in prefix and mode
+        const [prefix, mode] = cstype.split('_', 2);
 
-        if (mode !== 'none') {
-    
-            next_greyed = displayed.xor(next_view);
+        next_greyed = displayed.xor(next_view);
 
-            const data = next_view.map((a) => [a.getArrayValue(name), a.isotopeData]);
-            const nmrdata = getNMRData(data, mode);
-            const values = nmrdata[1];
+        const data = next_view.map((a) => [a.getArrayValue(prefix), a.isotopeData]);
+        const nmrdata = getNMRData(data, mode);
+        const values = nmrdata[1];
 
-            let minv = _.min(values);
-            let maxv = _.max(values);
-            let cs = getColorScale(minv, maxv, 'portland');
-            let colors = values.map((v) => cs.getColor(v).toHexString());
+        let minv = _.min(values);
+        let maxv = _.max(values);
+        let cs = getColorScale(minv, maxv, 'portland');
+        let colors = values.map((v) => cs.getColor(v).toHexString());
 
-            next_view.setProperty('color', colors);
-            next_greyed.setProperty('color', 0x888888);
-        }
-        else {
-            displayed.setProperty('color', null);
-        }
+        next_view.setProperty('color', colors);
+        next_greyed.setProperty('color', 0x888888);
+    }
+    else {
+        if (current_view)
+            current_view.setProperty('color', null);
+    }
 
-        return [{
-            [pre_view]: next_view,
-            [pre_displ]: next_greyed
-        }, []];
-    }    
-
-    return listener;
+    return [{
+        cscale_view: next_view,
+        cscale_displ: next_greyed
+    }, []];
 }
 
-const msCScaleListener = makeCScaleListener('ms');
-const efgCScaleListener = makeCScaleListener('efg');
-
-export { msCScaleListener, efgCScaleListener };
+export { colorScaleListener };

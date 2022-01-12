@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
-import { makeSelector, makeDisplayEllipsoids, makeDisplayLabels, makeDisplayCScales, BaseInterface } from '../utils';
+import CScaleInterface, { makeCScaleSelector } from './CScaleInterface';
+import { Events } from '../listeners';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
 const initialMSState = {
@@ -8,16 +9,8 @@ const initialMSState = {
     ms_ellipsoids_on: false,
     ms_ellipsoids_scale: 0.05,
     ms_labels_type: 'none',
-    ms_cscale_type: 'none',
-    ms_cscale_displ: null,
     ms_references: {}
 };
-
-const msColor = 0xff8000;
-
-const msDisplayEllipsoids = makeDisplayEllipsoids('ms', msColor);
-const msDisplayLabels = makeDisplayLabels('ms', msColor, (r) => ([1.414*r, 0.0, 0.0]));
-const msDisplayCScales = makeDisplayCScales('ms');
 
 // Update any new references for chemical shifts
 function msSetReferences(state, refs=null) {
@@ -41,7 +34,7 @@ function msSetReferences(state, refs=null) {
     if (state.ms_labels_type === 'cs') {
         data = {
             ...data,
-            ...msDisplayLabels(state)
+            listen_update: [Events.MS_LABELS]
         };
     }
 
@@ -49,17 +42,17 @@ function msSetReferences(state, refs=null) {
 }
 
 // Action creator
-const msAction = function(data, update='ellipsoids') {
+const msAction = function(data, update=[]) {
     return {
         type: 'update',
         data: {
             ...data,
-            listen_update: ['ms_' + update]
+            listen_update: update
         }
     };
 }
 
-class MSInterface extends BaseInterface {
+class MSInterface extends CScaleInterface {
 
     get hasData() {
         let m = this.state.app_viewer.model;
@@ -71,7 +64,7 @@ class MSInterface extends BaseInterface {
     }
 
     set hasEllipsoids(v) {
-        this.dispatch(msAction({ ms_ellipsoids_on: v }));
+        this.dispatch(msAction({ ms_ellipsoids_on: v }, [Events.MS_ELLIPSOIDS]));
     }
 
     get ellipsoidScale() {
@@ -79,7 +72,7 @@ class MSInterface extends BaseInterface {
     }
 
     set ellipsoidScale(v) {
-        this.dispatch(msAction({ ms_ellipsoids_scale: v }));
+        this.dispatch(msAction({ ms_ellipsoids_scale: v }, [Events.MS_ELLIPSOIDS]));
     }
 
     get labelsMode() {
@@ -87,23 +80,12 @@ class MSInterface extends BaseInterface {
     }
 
     set labelsMode(v) {
-        this.dispatch(msAction({ 'ms_labels_type': v }, 'labels'));
+        this.dispatch(msAction({ 'ms_labels_type': v }, [Events.MS_LABELS]));
     }
 
-    get cScaleUsable() {
-        return this.state.efg_cscale_type === 'none';
-    }
-
-    get cscaleMode() {
-        return this.state.ms_cscale_type;
-    }
-
-    set cscaleMode(v) {
-
-        if (!this.cScaleUsable)
-            return;
-
-        this.dispatch(msAction({ ms_cscale_type: v }, 'cscales'));
+    get colorScaleAvailable() {
+        let pre = this.colorScalePrefix;
+        return (pre === 'none' || pre === 'ms');
     }
 
     get referenceTable() {
@@ -132,7 +114,7 @@ class MSInterface extends BaseInterface {
 }
 
 function useMSInterface() {
-    let state = useSelector(makeSelector('ms', ['app_viewer', 'efg_cscale_type']), shallowEqual);
+    let state = useSelector(makeCScaleSelector('ms', ['app_viewer', 'efg_cscale_type']), shallowEqual);
     let dispatcher = useDispatch();
 
     let intf = new MSInterface(state, dispatcher);
@@ -141,4 +123,4 @@ function useMSInterface() {
 }
 
 export default useMSInterface;
-export { initialMSState, msDisplayEllipsoids, msDisplayLabels, msDisplayCScales, msSetReferences };
+export { initialMSState, msSetReferences };

@@ -1,33 +1,26 @@
-import { makeSelector, makeDisplayEllipsoids, makeDisplayLabels, makeDisplayCScales, BaseInterface } from '../utils';
+import { Events } from '../listeners';
+import CScaleInterface, { makeCScaleSelector } from './CScaleInterface';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
 const initialEFGState = {
     efg_view: null,
     efg_ellipsoids_on: false,
     efg_ellipsoids_scale: 0.1,
-    efg_labels_type: 'none',
-    efg_cscale_type: 'none',
-    efg_cscale_displ: null
+    efg_labels_type: 'none'
 };
 
-const efgColor = 0x0080ff;
-
-const efgDisplayEllipsoids = makeDisplayEllipsoids('efg', efgColor);
-const efgDisplayLabels = makeDisplayLabels('efg', efgColor, (r) => ([r, -r, 0.0]));
-const efgDisplayCScales = makeDisplayCScales('efg');
-
 // Action creator
-const efgAction = function(data, update='ellipsoids') {
+const efgAction = function(data, update=[]) {
     return {
         type: 'update',
         data: {
             ...data,
-            listen_update: ['efg_' + update]
+            listen_update: update
         }
     };
 }
 
-class EFGInterface extends BaseInterface {
+class EFGInterface extends CScaleInterface {
 
     get hasData() {
         let m = this.state.app_viewer.model;
@@ -39,7 +32,7 @@ class EFGInterface extends BaseInterface {
     }
 
     set hasEllipsoids(v) {
-        this.dispatch(efgAction({ efg_ellipsoids_on: v }));
+        this.dispatch(efgAction({ efg_ellipsoids_on: v }, [Events.EFG_ELLIPSOIDS]));
     }
 
     get ellipsoidScale() {
@@ -47,7 +40,7 @@ class EFGInterface extends BaseInterface {
     }
 
     set ellipsoidScale(v) {
-        this.dispatch(efgAction({ efg_ellipsoids_scale: v }));
+        this.dispatch(efgAction({ efg_ellipsoids_scale: v }, [Events.EFG_ELLIPSOIDS]));
     }
 
     get labelsMode() {
@@ -55,29 +48,18 @@ class EFGInterface extends BaseInterface {
     }
 
     set labelsMode(v) {
-        this.dispatch(efgAction({ efg_labels_type: v }, 'labels'));
+        this.dispatch(efgAction({ efg_labels_type: v }, [Events.EFG_LABELS]));
     }
 
-    get cscaleUsable() {
-        return this.state.ms_cscale_type === 'none';
-    }
-
-    get cscaleMode() {
-        return this.state.efg_cscale_type;
-    }
-
-    set cscaleMode(v) {
-
-        if (!this.cscaleUsable)
-            return;
-
-        this.dispatch(efgAction({ efg_cscale_type: v }, 'cscales'));
+    get colorScaleAvailable() {
+        let pre = this.colorScalePrefix;
+        return (pre === 'none' || pre === 'efg');
     }
 
 }
 
 function useEFGInterface() {
-    let state = useSelector(makeSelector('efg', ['app_viewer', 'ms_cscale_type']), shallowEqual);
+    let state = useSelector(makeCScaleSelector('efg', ['app_viewer', 'ms_cscale_type']), shallowEqual);
     let dispatcher = useDispatch();
 
     let intf = new EFGInterface(state, dispatcher);
@@ -86,4 +68,4 @@ function useEFGInterface() {
 }
 
 export default useEFGInterface;
-export { initialEFGState, efgDisplayEllipsoids, efgDisplayLabels, efgDisplayCScales };
+export { initialEFGState };
