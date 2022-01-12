@@ -1,12 +1,8 @@
-import { mergeOnly } from '../../../utils';
 import { makeSelector, BaseInterface } from '../utils';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import CrystVis from 'crystvis-js';
 
 import { Events } from '../listeners';
-import { dipDisplayLinks } from './DipInterface';
-
-import { updateViews } from '../updates';
 
 const LC = CrystVis.LEFT_CLICK;
 const SLC = CrystVis.LEFT_CLICK + CrystVis.SHIFT_BUTTON;
@@ -24,75 +20,6 @@ const initialSelState = {
     sel_sites_view: null,
     sel_sites_labels_type: 'none'
 };
-
-function selShowLabels(state, parameters = {}) {
-
-    let app = state.app_viewer;
-    let sel_old = state.sel_labels_view;
-
-    const defaults = {
-        sel_show_labels: false,
-    };
-
-    let options_old = mergeOnly(defaults, state);
-    let options_new = mergeOnly(options_old, parameters);
-
-    let sel = app.displayed;
-
-    let show_old = options_old.sel_show_labels;
-    let show = options_new.sel_show_labels;
-
-    if (sel_old && (sel_old !== sel || (show_old && !show))) {
-        // Remove old labels
-        sel_old.removeLabels('cryst');
-    }
-
-    if (show) {
-        const label_texts = sel.map((a) => a.crystLabel);
-        sel.addLabels(label_texts, 'cryst', (a, i) => ({ 
-            shift: [a.radius, a.radius, 0],
-            height: 0.02
-        }));
-    }
-
-    return {
-        sel_labels_view: sel,
-        sel_show_labels: show
-    };
-}    
-
-
-function selSetSelection(state, sel, set_mode='selection') {
-
-    let data = {};
-
-    switch (set_mode) {
-        case 'selection':
-            data.sel_selected_view = sel;
-            break;
-        case 'displayed':
-            data.sel_displayed_view = sel;
-            break;
-        default:
-            break;        
-    }
-
-    return updateViews(state, data);
-
-}
-
-function selSetIsotope(state, sel, A) {
-
-    sel.setProperty('isotope', A);
-
-    // Now refresh all relevant visualisations
-    const data = {
-        ...dipDisplayLinks(state),
-        listen_update: [Events.EFG_LABELS, Events.CSCALE]
-    };
-
-    return data;
-}
 
 class SelInterface extends BaseInterface {
 
@@ -113,9 +40,11 @@ class SelInterface extends BaseInterface {
         }
 
         this.dispatch({
-            type: 'call', 
-            function: selSetSelection,
-            arguments: [v]
+            type: 'update', 
+            data: {
+                sel_selected_view: v,
+                listen_update: [Events.VIEWS]
+            }
         });
     }
 
@@ -132,9 +61,11 @@ class SelInterface extends BaseInterface {
             }
         }
         this.dispatch({
-            type: 'call',
-            function: selSetSelection,
-            arguments: [v, 'displayed']
+            type: 'update',
+            data: {
+                sel_displayed_view: v,
+                listen_update: [Events.VIEWS]
+            }
         });
     }
 
@@ -246,10 +177,14 @@ class SelInterface extends BaseInterface {
             return null;
         }
 
+        sel.setProperty('isotope', A);
+
+        // Must update everything that depends on isotope properties
         this.dispatch({
-            type: 'call',
-            function: selSetIsotope,
-            arguments: [sel, A]
+            type: 'update',
+            data: {
+                listen_update: [Events.EFG_LABELS, Events.CSCALE]
+            }
         });
     }
 
@@ -354,4 +289,4 @@ function useSelInterface() {
 
 
 export default useSelInterface;
-export { initialSelState, selShowLabels };
+export { initialSelState };

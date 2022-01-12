@@ -21,25 +21,18 @@
  * at the end of a run through the current queue, (so be wary of creating infinite loops!).
  */
 
+import { viewsListener } from './views';
 import { msEllipsoidListener, efgEllipsoidListener } from './ellipsoids';
 import { selLabelListener, msLabelListener, efgLabelListener } from './labels';
 import { colorScaleListener } from './cscales';
-import { Enum } from '../../../utils';
+import Events from './events';
 
 const initialListenerState = {
     listen_update: []
 };
 
-const Events = new Enum([
-    'SEL_LABELS',
-    'CSCALE',
-    'MS_ELLIPSOIDS',
-    'MS_LABELS',
-    'EFG_ELLIPSOIDS',
-    'EFG_LABELS'
-]);
-
 const listeners = {
+    [Events.VIEWS]:             viewsListener,
     [Events.SEL_LABELS]:        selLabelListener,
     [Events.CSCALE]:            colorScaleListener,
     [Events.MS_ELLIPSOIDS]:     msEllipsoidListener,
