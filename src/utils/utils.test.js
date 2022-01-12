@@ -1,5 +1,5 @@
 import { chainClasses } from './utils-react';
-import { CallbackMerger, getColorScale, mergeOnly } from './utils-generic';
+import { CallbackMerger, getColorScale, mergeOnly, Enum } from './utils-generic';
 import { dipolarCoupling } from './utils-nmr';
 
 test('chains classes', () => {
@@ -57,6 +57,23 @@ test('merges objects with only existing members', () => {
 
     expect(c).toEqual({ x: 3, y: 2});
 
+});
+
+test('creates custom immutable Enums', () => {
+
+    const myEnum = new Enum(['THIS', 'THAT']);
+
+    expect(myEnum.THIS).toEqual(0);
+    expect(myEnum.THAT).toEqual(1);
+
+    // Check immutability
+    expect(() => { myEnum.THIS = 2 }).toThrow();
+
+    // Version with values
+    const valuedEnum = new Enum({THIS: 'one', THAT: 'two'});
+
+    expect(valuedEnum.THIS).toEqual('one');
+    expect(valuedEnum.THAT).toEqual('two');
 });
 
 test('computes dipolar couplings', () => {

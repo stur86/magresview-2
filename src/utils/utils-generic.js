@@ -66,4 +66,23 @@ function mergeOnly(a, b) {
     return c;
 }
 
-export { CallbackMerger, getColorScale, mergeOnly };
+class Enum {
+
+    constructor(values={}) {
+
+        if (Array.isArray(values)) {
+            values = _.fromPairs(values.map((x, i) => [x, i]));
+        }
+
+        for (let key in values) {
+            let v = values[key];
+
+            Object.defineProperty(this, key, {
+                get: () => v
+            });
+        }
+    }
+
+}
+
+export { CallbackMerger, getColorScale, mergeOnly, Enum };
