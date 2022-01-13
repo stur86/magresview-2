@@ -88,13 +88,30 @@ Their rules are:
 * the method `makeSelector` from `src/core/store/utils.js` should be used to create a selector that returns all state variables with a given prefix, plus any extras if necessary;
 * because the selector created by `makeSelector` returns an object rather than a single state value, `shallowEqual` should be used as the `equalityFn` argument of `useSelector` to make sure no re-renders are forced without need (see [the Redux documentation](https://react-redux.js.org/api/hooks#equality-comparisons-and-updates) ).
 
-#### Changing selections and displayed atoms, and the `selSetSelection` method
+#### Changing selections and displayed atoms, and the Listeners system
 
-A special kind of very common problem happens when we deal with visualizations (such as ellipsoids) that ought to refresh whenever either the selected or displayed atoms change. We will here use as an example the problem of MS ellipsoids. Here is how the flow works:
+A special kind of very common problem happens when we deal with visualizations (such as ellipsoids) that ought to refresh whenever either the selected or displayed atoms change. This problem is dealt with by the Listeners system. This system can be found into `src/core/store/listeners`, and the general idea of it is that it works by running certain functions with special side effects when the following conditions are met:
 
-* in `src/core/store/interfaces/MSInterface.js`, the `msDisplayEllipsoids` function is defined and exported. This function takes the state as its first argument, and is used by `MSInterface` by dispatching an action of type `call`;
-* `msDisplayEllipsoids` performs its refresh operations by deleting whatever visualization existed on the previously defined selection, which is stored in the `state`, and then creating a new one on the current visualization, as found by looking up the `app` itself;
-* `msDisplayEllipsoids` then returns a dictionary that can be used to update the state with the new selection and information about the visualization (e.g. if it's on or off);
-* whenever selected or displayed atoms are changed, this happens by a call to `selSetSelection`, a method defined in `src/core/store/interfaces/SelInterface.js`. This method then calls each method of visualizations that need to be refreshed (like `msDisplayEllipsoids`) and uses their returned data to update the state. It is therefore **of absolute importance** that any time a new visualization is added, it exports its method, and it gets imported and added into `selSetSelection`.
+* the state of the Store has updated;
+* the corresponding event has fired (namely, it can be found in the special `listen_update` member of the state).
 
-A similar logic applies to the method `appDisplayModel`, contained in `src/core/store/interfaces/AppInterface.js`. The main difference is that this method is used instead to load a completely new model, and thus its role is just to turn off all visualizations, to avoid confusion later on. However, just like for `selSetSelection`, an appropriate call to all methods creating visualizations must be added to it too.
+Events can be found in an enumerator object in `src/core/store/listeners/events.js`. Other listener functions are defined in other files in the same folder, and then associated with events in `src/core/store/listeners/index.js`, where the master Listener method is defined. Listeners must have the following interface:
+
+
+```
+function someListener(state) {
+
+    // Do something with side effects
+    
+    return [
+        {
+            data_to_update: 'something'
+        },
+        ['new_events_to_fire']
+    ];
+
+}
+
+``` 
+
+Care must be used because listeners could trigger an infinite loop - there is no guard against that. The appropriate events also must be manually queued for now by any dispatch that wishes to trigger an event (for example, look at the events defining the change of selected and displayed atoms in `SelInterface`). This might be improved in the future, but has currently been deemed the most efficient way of handling it, rather than introducing additional checks at every event. After a first round of events has fired, all the events they triggered will fire, and so on until the event queue is empty.
