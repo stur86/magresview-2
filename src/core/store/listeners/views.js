@@ -17,7 +17,7 @@ function viewsListener(state) {
         model.all.hide();
 
     // Deal with ghosts
-    Object.values(state.sel_ghosts_requests).map((s, i) => {
+    Object.values(state.sel_ghosts_requests).forEach((s, i) => {
         // Make each of these visible but translucent
         s.show();
         s.setProperty('opacity', 0.5);

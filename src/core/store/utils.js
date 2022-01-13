@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { dipolarCoupling, mergeOnly } from '../../utils';
+import { dipolarCoupling } from '../../utils';
 
 function makeSelector(prefix, extras=[]) {
     // Creates and returns a selector function for a given prefix
