@@ -25,6 +25,7 @@ import { viewsListener } from './views';
 import { msEllipsoidListener, efgEllipsoidListener } from './ellipsoids';
 import { selLabelListener, msLabelListener, efgLabelListener } from './labels';
 import { colorScaleListener } from './cscales';
+import { dipCalculateLinksListener, dipDisplayLinksListener } from './links';
 import Events from './events';
 
 const initialListenerState = {
@@ -38,7 +39,9 @@ const listeners = {
     [Events.MS_ELLIPSOIDS]:     msEllipsoidListener,
     [Events.MS_LABELS]:         msLabelListener,
     [Events.EFG_ELLIPSOIDS]:    efgEllipsoidListener,
-    [Events.EFG_LABELS]:        efgLabelListener
+    [Events.EFG_LABELS]:        efgLabelListener,
+    [Events.DIP_LINKS]:         dipCalculateLinksListener,
+    [Events.DIP_RENDER]:        dipDisplayLinksListener
 };
 
 function makeMasterListener(store) {

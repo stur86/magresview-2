@@ -4,7 +4,6 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { makeSelector, BaseInterface } from '../utils';
 import { CallbackMerger } from '../../../utils';
 import { msSetReferences } from './MSInterface';
-import { dipDisplayLinks } from './DipInterface';
 import { Events } from '../listeners';
 
 import CrystVis from 'crystvis-js';
@@ -35,8 +34,9 @@ function appDisplayModel(state, m) {
             efg_ellipsoids_on: false,
             efg_labels_type: 'none',
             efg_cscale_type: 'none',
+            dip_links_on: false,
             ...msSetReferences(state),
-            ...dipDisplayLinks(state, { dip_links_on: false, dip_central_atom: null })
+            //...dipDisplayLinks(state, { dip_links_on: false, dip_central_atom: null })
         };
     }
 
@@ -48,7 +48,8 @@ function appDisplayModel(state, m) {
         ...data,
         listen_update: [Events.SEL_LABELS, Events.CSCALE,
                         Events.MS_ELLIPSOIDS, Events.MS_LABELS,
-                        Events.EFG_ELLIPSOIDS, Events.EFG_LABELS]
+                        Events.EFG_ELLIPSOIDS, Events.EFG_LABELS, 
+                        Events.DIP_LINKS]
     };
 }
 

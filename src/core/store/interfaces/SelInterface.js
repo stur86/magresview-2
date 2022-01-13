@@ -11,7 +11,7 @@ const CLC = CrystVis.LEFT_CLICK + CrystVis.CTRL_BUTTON;
 const initialSelState = {
     sel_selected_view: null,
     sel_displayed_view: null,
-    sel_ghosts_view: null,
+    sel_ghosts_requests: {},
     sel_on: false,
     sel_mode: 'atom',
     sel_sphere_r: 2.0,

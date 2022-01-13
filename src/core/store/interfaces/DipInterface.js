@@ -1,4 +1,5 @@
-import { makeSelector, makeDisplayLinks, makeCalculateLinks, BaseInterface } from '../utils';
+import { Events } from '../listeners';
+import { makeSelector, BaseInterface } from '../utils';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
 import CrystVis from 'crystvis-js';
@@ -7,18 +8,13 @@ const LC = CrystVis.LEFT_CLICK;
 
 const initialDipState = {
     dip_view: null,
-    dip_ghosts_view: null,
     dip_link_names: [],
     dip_links_on: false,
     dip_central_atom: null,
-    dip_radius: 1.0,
-    dip_sphere_show: false
+    dip_radius: 5.0,
+    dip_sphere_show: true
 };
 
-const dipColor = 0x00ff80;
-
-const dipCalculateLinks = makeCalculateLinks('dip');
-const dipDisplayLinks = makeDisplayLinks('dip', dipColor);
 
 class DipInterface extends BaseInterface {
 
@@ -27,50 +23,23 @@ class DipInterface extends BaseInterface {
     }
 
     set isOn(v) {
-        let app = this.state.app_viewer;
-        let intf = this;
-        let dispatch = this._dispatcher;
 
-        if (v) {
-            app.onAtomClick((a, e) => { 
-                dispatch({
-                    type: 'call',
-                    function: dipCalculateLinks,
-                    arguments: [{ dip_central_atom: a }]
-                });
-            }, LC);
+        let data = {
+            dip_links_on: v,
+            listen_update: [ Events.DIP_LINKS ]
+        };
 
-            // The display function is ok in this context, as no new ghosts
-            // should need to be shown
-            this.dispatch({
-                type: 'call',
-                function: dipDisplayLinks,
-                arguments: [{ dip_links_on: true }]
-            });
-        }
-        else {
-            // Remove the event
-            app.onAtomClick(() => {}, LC);
-            // And also clean up the existing visualisation
-            this.dispatch({
-                type: 'call',
-                function: dipDisplayLinks,
-                arguments: [{ dip_links_on: false, dip_central_atom: null }]
-            });
-        }
+        if (!v) 
+            data.dip_central_atom = null;
 
+        this.dispatch({
+            type: 'update',
+            data: data
+        });
     }
 
     get centralAtom() {
         return this.state.dip_central_atom;
-    }
-
-    set centralAtom(v) {
-        this.dispatch({
-            type: 'call',
-            function: dipCalculateLinks,
-            arguments: [{ dip_central_atom: v }]
-        });
     }
 
     get radius() {
@@ -79,6 +48,39 @@ class DipInterface extends BaseInterface {
 
     get showSphere() {
         return this.state.dip_sphere_show;
+    }
+
+    bind() {
+        let app = this.state.app_viewer;
+        let dispatch = this._dispatcher;
+
+        if (!app)
+            return;
+
+        app.onAtomClick((a, e) => { 
+                // Avoid working on ghosts
+                if (a.opacity < 1.0) {
+                    return;
+                }
+
+                dispatch({
+                    type: 'update',
+                    data: {
+                        dip_central_atom: a,
+                        listen_update: [ Events.DIP_LINKS ]
+                    }
+                });
+        }, LC);        
+    }
+
+    unbind() {
+        let app = this.state.app_viewer;
+
+        if (!app)
+            return;
+
+        // Remove the event
+        app.onAtomClick(() => {}, LC);
     }
 
 }
@@ -93,4 +95,4 @@ function useDipInterface() {
 }
 
 export default useDipInterface;
-export { initialDipState, dipDisplayLinks };
+export { initialDipState };

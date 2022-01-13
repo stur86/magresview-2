@@ -17,11 +17,16 @@ function MVSidebarDip(props) {
 
     useEffect(() => {
         let dipint = intRef.current;
-        // Reactivate whenever it shows again!
-        if (props.show) {
-            dipint.isOn = dipint.isOn;
+
+        // Only keep events bound when this sidebar is visible!
+        if (props.show && dipint.isOn) {
+            dipint.bind();
         }
-    }, [props.show]);
+        else {
+            dipint.unbind();
+        }
+
+    }, [props.show, dipint.isOn]);
 
     return (<MagresViewSidebar show={props.show} title='Dipolar couplings'>
         <div className='mv-sidebar-block'>
