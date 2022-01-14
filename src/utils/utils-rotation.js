@@ -41,7 +41,7 @@ function eulerZYZ(R) {
 
 
 
-    if (Math.abs(cosb) == 1) {
+    if (Math.abs(cosb) === 1) {
         // Special case, gimbal lock
         c = 0;
         a = Math.atan2(R[0][1], R[0][0]);
