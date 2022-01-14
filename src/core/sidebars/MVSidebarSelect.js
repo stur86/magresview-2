@@ -137,6 +137,14 @@ function MVSidebarSelect(props) {
         <div className='mv-sidebar-block'>
             <MVIsotopeSelection />
         </div>
+        <div className='mv-sidebar-block'>
+            <h3>Selection controls:</h3>
+            <ul>
+                <li><tt>CLICK</tt> to select an atom/element/etc.</li>
+                <li><tt>SHIFT+CLICK</tt> to add to the current selection</li>
+                <li><tt>CTRL+CLICK</tt> to add or remove (XOR) from the current selection</li>
+            </ul>
+        </div>
     </MagresViewSidebar>);
 }
 
