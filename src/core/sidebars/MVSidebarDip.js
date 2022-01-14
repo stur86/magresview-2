@@ -6,12 +6,14 @@ import React, { useEffect, useRef } from 'react';
 
 import MVCheckBox from '../../controls/MVCheckBox';
 import MVRange from '../../controls/MVRange';
-import useDipInterface from '../store/interfaces/DipInterface';
+import { useDipInterface } from '../store';
 
 
 function MVSidebarDip(props) {
 
     const dipint = useDipInterface();
+
+    console.log('[MVSidebarDip rendered]');
 
     const intRef = useRef();
     intRef.current = dipint;

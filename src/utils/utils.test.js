@@ -1,6 +1,7 @@
 import { chainClasses } from './utils-react';
 import { CallbackMerger, getColorScale, mergeOnly, Enum } from './utils-generic';
 import { dipolarCoupling } from './utils-nmr';
+import { rotationBetween, eulerZYZ, rotationMatrixFromZYZ } from './utils-rotation';
 
 test('chains classes', () => {
     let cc = chainClasses('this', 'that');
@@ -116,4 +117,47 @@ test('computes dipolar couplings', () => {
         expect(r1[i]).toBeCloseTo(r1targ[i]);
         expect(r2[i]).toBeCloseTo(r2targ[i]);
     }
+});
+
+test('calculates rotation matrices and Euler angles', () => {
+
+    const c30 = Math.sqrt(3)/2;
+    const c45 = Math.sqrt(2)/2;
+    const c60 = 0.5;
+
+    // Gimbal lock example
+    let axes1 = [
+        [ c30, c60, 0],
+        [-c60, c30, 0],
+        [   0,   0, 1]
+    ];
+
+    let axes2 = [
+        [ c45, c45, 0],
+        [-c45, c45, 0],
+        [   0,   0, 1]
+    ];
+
+    let R = rotationBetween(axes1, axes2);
+    let [a, b, c] = eulerZYZ(R);
+
+    expect(a).toBeCloseTo(Math.PI*15/180);
+    expect(b).toBeCloseTo(0);
+    expect(c).toBeCloseTo(0);
+
+    // General examples
+    axes1 = [[ 0.93869474,  0.33129348, -0.09537721],
+       [ 0.33771007, -0.93925902,  0.06119153],
+       [-0.06931155, -0.08965002, -0.99355865]];
+
+    axes2 = [[-0.52412461,  0.49126909, -0.69566377],
+       [-0.56320663,  0.41277966,  0.71582906],
+       [ 0.63882054,  0.76698607,  0.06033803]];
+
+    R = rotationBetween(axes1, axes2);
+    [a, b, c] = eulerZYZ(R);
+
+    expect(a).toBeCloseTo(-0.5336027024819012);
+    expect(b).toBeCloseTo(1.7446582433680782);
+    expect(c).toBeCloseTo(-2.337729151937854);
 });

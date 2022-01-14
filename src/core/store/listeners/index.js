@@ -26,6 +26,7 @@ import { msEllipsoidListener, efgEllipsoidListener } from './ellipsoids';
 import { selLabelListener, msLabelListener, efgLabelListener } from './labels';
 import { colorScaleListener } from './cscales';
 import { dipCalculateLinksListener, dipDisplayLinksListener } from './links';
+import { eulerAngleListener } from './euler';
 import Events from './events';
 
 const initialListenerState = {
@@ -40,6 +41,7 @@ const listeners = {
     [Events.MS_LABELS]:         msLabelListener,
     [Events.EFG_ELLIPSOIDS]:    efgEllipsoidListener,
     [Events.EFG_LABELS]:        efgLabelListener,
+    [Events.EUL_ANGLES]:        eulerAngleListener,
     [Events.DIP_LINKS]:         dipCalculateLinksListener,
     [Events.DIP_RENDER]:        dipDisplayLinksListener
 };

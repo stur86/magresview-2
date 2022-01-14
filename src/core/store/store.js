@@ -7,6 +7,7 @@ import { initialCScaleState } from './interfaces/CScaleInterface';
 import { initialMSState } from './interfaces/MSInterface';
 import { initialEFGState } from './interfaces/EFGInterface';
 import { initialDipState } from './interfaces/DipInterface';
+import { initialEulerState } from './interfaces/EulerInterface';
 import makeMasterListener, { initialListenerState } from './listeners';
 
 // Merging together
@@ -17,6 +18,7 @@ const initialState = {
     ...initialMSState,
     ...initialEFGState,
     ...initialDipState,
+    ...initialEulerState,
     ...initialListenerState
 };
 

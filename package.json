@@ -13,6 +13,7 @@
     "core-js": "^3.19.1",
     "crystvis-js": "file:.yalc/crystvis-js",
     "immutable": "^4.0.0",
+    "mathjs": "^10.0.2",
     "normalize.css": "^8.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

@@ -1,0 +1,29 @@
+.mv-euler-agrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    width: 80%;
+}
+
+.mv-euler-agrid span {
+    text-align: right;
+}
+
+.mv-euler-agrid .bold {
+    font-weight: bold;
+}
+
+.mv-euler-agrid-switch {
+    grid-column: 1 / span 2;
+
+    font-weight: bold;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.mv-euler-agrid-switch span {
+    padding: 0 10px;
+}
