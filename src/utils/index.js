@@ -1,7 +1,7 @@
 import { chainClasses, useId } from './utils-react';
-import { CallbackMerger, getColorScale, mergeOnly, Enum } from './utils-generic';
+import { CallbackMerger, Enum, getColorScale, mergeOnly, saveImage } from './utils-generic';
 import regularExpressions from './utils-regexp';
 import { dipolarCoupling } from './utils-nmr';
 
-export { chainClasses, useId, CallbackMerger, getColorScale, mergeOnly, Enum,
-        regularExpressions, dipolarCoupling };
+export { chainClasses, useId, CallbackMerger, getColorScale, mergeOnly, saveImage, 
+        Enum, regularExpressions, dipolarCoupling };

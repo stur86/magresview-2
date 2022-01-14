@@ -7,6 +7,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.4.1",
+    "canvas-to-image": "^2.2.0",
     "color-scales": "^3.0.2",
     "colormap": "^2.3.2",
     "core-js": "^3.19.1",

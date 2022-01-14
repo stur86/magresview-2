@@ -29,6 +29,29 @@ class CallbackMerger {
     }
 }
 
+/**
+ * A custom class that acts like an Enum type
+ */
+class Enum {
+
+    constructor(values={}) {
+
+        if (Array.isArray(values)) {
+            values = _.fromPairs(values.map((x, i) => [x, i]));
+        }
+
+        for (let key in values) {
+            let v = values[key];
+
+            Object.defineProperty(this, key, {
+                get: () => v
+            });
+        }
+    }
+
+}
+
+
 function getColorScale(min=0, max=1, scale='jet', shades=10) {
     
     let colors = colormap({
@@ -66,23 +89,20 @@ function mergeOnly(a, b) {
     return c;
 }
 
-class Enum {
+/**
+ * Download a PNG screenshot from data take from a Canvas
+ * 
+ * @param  {String} data     Data URL retrieved with the .toDataURL() method
+ * @param  {[type]} filename Filename to save
+ */
+function saveImage(data, filename='image.png') {
+    data = data.replace('image/png', 'image/octet-stream');
 
-    constructor(values={}) {
-
-        if (Array.isArray(values)) {
-            values = _.fromPairs(values.map((x, i) => [x, i]));
-        }
-
-        for (let key in values) {
-            let v = values[key];
-
-            Object.defineProperty(this, key, {
-                get: () => v
-            });
-        }
-    }
-
+    const download = document.createElement('a');
+    download.setAttribute('download', filename);
+    download.setAttribute('href', data);
+    download.click();
 }
 
-export { CallbackMerger, getColorScale, mergeOnly, Enum };
+
+export { CallbackMerger, Enum, getColorScale, mergeOnly, saveImage };

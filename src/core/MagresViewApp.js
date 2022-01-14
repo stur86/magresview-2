@@ -18,8 +18,10 @@ import './MagresViewApp.css';
 import React, { useEffect, useRef } from 'react';
 
 import { chainClasses } from '../utils';
-import MagresViewHeader from './MagresViewHeader';
 import { useAppInterface } from './store';
+
+import MagresViewHeader from './MagresViewHeader';
+import MagresViewScreenshot from './MagresViewScreenshot';
 
 import MVSidebarLoad from './sidebars/MVSidebarLoad';
 import MVSidebarSelect from './sidebars/MVSidebarSelect';
@@ -45,6 +47,7 @@ function MagresViewPage() {
                 <MVSidebarEFG show={appint.sidebar === 'efg'} />
                 <MVSidebarDip show={appint.sidebar === 'dip'} />
                 <div id='mv-appwindow' className='mv-background'/>
+                <MagresViewScreenshot />
             </div>);
 }
 
