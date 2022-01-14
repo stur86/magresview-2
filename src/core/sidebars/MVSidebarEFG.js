@@ -26,7 +26,7 @@ function MVSidebarEFG(props) {
         <div className={chainClasses('mv-sidebar-block', has_efg? '' : 'hidden')}>
              <MVCheckBox onCheck={(v) => { efgint.hasEllipsoids = v; }} checked={ efgint.hasEllipsoids } color={'var(--efg-color-2)'}>Ellipsoids</MVCheckBox>
              <MVRange min={0.1} max={10.0} step={0.05} value={efgint.ellipsoidScale} color={'var(--efg-color-2)'}
-                      onChange={(s) => { efgint.ellipsoidScale = s; }} disabled={!efgint.hasEllipsoids} noState>Ellipsoid scale</MVRange>
+                      onChange={(s) => { efgint.ellipsoidScale = s; }} disabled={!efgint.hasEllipsoids}>Ellipsoid scale</MVRange>
              <MVButton onClick={() => { efgint.ellipsoidScale = 0; }} disabled={!efgint.hasEllipsoids}>Set auto scale</MVButton>
              <MVRadioGroup label='Show labels' onSelect={(v) => { efgint.labelsMode = v; }} selected={efgint.labelsMode} name='efg_label_radio' color={'var(--efg-color-2)'}>
                 <MVRadioButton value='none'>None</MVRadioButton>

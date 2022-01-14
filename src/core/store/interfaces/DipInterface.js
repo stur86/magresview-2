@@ -11,8 +11,9 @@ const initialDipState = {
     dip_link_names: [],
     dip_links_on: false,
     dip_central_atom: null,
-    dip_radius: 5.0,
-    dip_sphere_show: true
+    dip_radius: 1.0,
+    dip_sphere_show: true,
+    dip_homonuclear: false
 };
 
 
@@ -46,8 +47,41 @@ class DipInterface extends BaseInterface {
         return this.state.dip_radius;
     }
 
+    set radius(v) {
+        this.dispatch({
+            type:'update',
+            data: {
+                dip_radius: v
+            }
+        });
+    }
+
+    get homonuclearOnly() {
+        return this.state.dip_homonuclear;
+    }
+
+    set homonuclearOnly(v) {
+        this.dispatch({
+            type:'update',
+            data: {
+                dip_homonuclear: v,
+                listen_update: [ Events.DIP_LINKS ]
+            }
+        });        
+    }
+
     get showSphere() {
         return this.state.dip_sphere_show;
+    }
+
+    set showSphere(v) {
+        this.dispatch({
+            type:'update',
+            data: {
+                dip_sphere_show: v,
+                listen_update: [ Events.DIP_RENDER ]
+            }
+        });
     }
 
     bind() {

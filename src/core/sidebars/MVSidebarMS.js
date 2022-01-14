@@ -76,7 +76,7 @@ function MVSidebarMS(props) {
         <div className={chainClasses('mv-sidebar-block', has_ms? '' : 'hidden')}>
              <MVCheckBox onCheck={(v) => { msint.hasEllipsoids = v; }} checked={msint.hasEllipsoids}>Ellipsoids</MVCheckBox>
              <MVRange min={0.01} max={0.5} step={0.005} value={msint.ellipsoidScale}
-                      onChange={(s) => { msint.ellipsoidScale = s; }} disabled={!msint.hasEllipsoids} noState>Ellipsoid scale</MVRange>
+                      onChange={(s) => { msint.ellipsoidScale = s; }} disabled={!msint.hasEllipsoids}>Ellipsoid scale</MVRange>
              <MVButton onClick={() => { msint.ellipsoidScale = 0; }} disabled={!msint.hasEllipsoids}>Set auto scale</MVButton>
              <MVRadioGroup label='Show labels' onSelect={(v) => { msint.labelsMode = v; }} selected={msint.labelsMode} name='ms_label_radio'>
                 <MVRadioButton value='none'>None</MVRadioButton>

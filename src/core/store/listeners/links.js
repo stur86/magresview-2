@@ -15,6 +15,7 @@ function makeCalculateLinksListener(name) {
     const pre_on = addPrefix(name, 'links_on');
     const pre_ca = addPrefix(name, 'central_atom');
     const pre_r = addPrefix(name, 'radius');
+    const pre_homo = addPrefix(name, 'homonuclear');
 
     const pre_view = addPrefix(name, 'view');
     
@@ -30,13 +31,24 @@ function makeCalculateLinksListener(name) {
         const on = state[pre_on];
         const catom = state[pre_ca];
         const r = state[pre_r];
+        const hn = state[pre_homo];
 
         let linkview;
 
         if (on && catom) {
-            linkview = model.find({
-                sphere: [catom, r]
-            });
+
+            let query = { sphere: [catom, r] };
+            if (hn) {
+                query = {
+                    '$and': [
+                        query,
+                        { elements: [catom.element] }
+                    ]
+                };
+            }
+
+
+            linkview = model.find(query);
             ghostreqs[name] = linkview;
         }        
         else {
