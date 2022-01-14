@@ -1,0 +1,38 @@
+.mv-switch {
+    position: relative;
+
+    cursor: pointer;
+
+    width: 60px;
+    height: 30px;
+    border-radius: 15px;
+    box-sizing: border-box;
+    padding: 0;
+
+    transition: background-color 0.3s;
+}
+
+.mv-switch-true {
+    background-color: var(--color-true);    
+}
+
+.mv-switch-false {
+    background-color: var(--color-false);    
+}
+
+.mv-switch-thumb {
+    position: absolute;
+    background-color: var(--fwd-color-2);
+
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    padding: 0;
+    box-sizing: border-box;
+
+    transition: transform 0.3s;
+}
+
+.mv-switch-true .mv-switch-thumb {
+    transform: translateX(30px);
+}
