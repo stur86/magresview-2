@@ -1,7 +1,7 @@
 .mv-euler-agrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 20px;
+    grid-gap: 10px;
     width: 80%;
 }
 
@@ -9,8 +9,9 @@
     text-align: right;
 }
 
-.mv-euler-agrid .bold {
+.mv-euler-agrid .header {
     font-weight: bold;
+    text-align: left;
 }
 
 .mv-euler-agrid-switch {

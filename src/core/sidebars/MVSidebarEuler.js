@@ -59,7 +59,7 @@ function MVSidebarEuler(props) {
         <div className='mv-sidebar-block'>
             <h3>Atom A</h3>
             <div className='mv-euler-agrid'>
-                <span className='bold'>Label:</span>
+                <span className='header'>Label:</span>
                 <span>{eulint.atomLabelA}</span>
                 <div className='mv-euler-agrid-switch'>
                     <span>MS</span>
@@ -72,7 +72,7 @@ function MVSidebarEuler(props) {
         <div className='mv-sidebar-block'>
             <h3>Atom B</h3>
             <div className='mv-euler-agrid'>
-                <span className='bold'>Label:</span>
+                <span className='header'>Label:</span>
                 <span>{eulint.atomLabelB}</span>
                 <div className='mv-euler-agrid-switch'>
                     <span>MS</span>
