@@ -12,6 +12,8 @@ const Events = new Enum([
     'EUL_ANGLES',
     'DIP_LINKS',                // Links require two events, one before a VIEWS update, the other after
     'DIP_RENDER',
+    'JC_LINKS',
+    'JC_RENDER'
 ]);
 
 export default Events;

@@ -31,7 +31,8 @@ function viewsListener(state) {
     return  [{}, 
                 [Events.SEL_LABELS, Events.CSCALE,
                  Events.MS_ELLIPSOIDS, Events.MS_LABELS, 
-                 Events.EFG_ELLIPSOIDS, Events.EFG_LABELS, Events.DIP_RENDER]
+                 Events.EFG_ELLIPSOIDS, Events.EFG_LABELS, 
+                 Events.DIP_RENDER, Events.JC_RENDER]
             ];
 }
 

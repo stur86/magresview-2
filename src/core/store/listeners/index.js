@@ -25,7 +25,8 @@ import { viewsListener } from './views';
 import { msEllipsoidListener, efgEllipsoidListener } from './ellipsoids';
 import { selLabelListener, msLabelListener, efgLabelListener } from './labels';
 import { colorScaleListener } from './cscales';
-import { dipCalculateLinksListener, dipDisplayLinksListener } from './links';
+import { dipCalculateLinksListener, dipDisplayLinksListener, 
+         jcCalculateLinksListener,  jcDisplayLinksListener } from './links';
 import { eulerAngleListener } from './euler';
 import Events from './events';
 
@@ -43,7 +44,9 @@ const listeners = {
     [Events.EFG_LABELS]:        efgLabelListener,
     [Events.EUL_ANGLES]:        eulerAngleListener,
     [Events.DIP_LINKS]:         dipCalculateLinksListener,
-    [Events.DIP_RENDER]:        dipDisplayLinksListener
+    [Events.DIP_RENDER]:        dipDisplayLinksListener,
+    [Events.JC_LINKS]:          jcCalculateLinksListener,
+    [Events.JC_RENDER]:         jcDisplayLinksListener
 };
 
 function makeMasterListener(store) {

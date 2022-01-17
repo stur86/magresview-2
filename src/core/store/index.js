@@ -5,6 +5,7 @@ import useMSInterface from './interfaces/MSInterface';
 import useEFGInterface from './interfaces/EFGInterface';
 import useDipInterface from './interfaces/DipInterface';
 import useEulerInterface from './interfaces/EulerInterface';
+import useJCoupInterface from './interfaces/JCoupInterface';
 
 export default magresStore;
 
@@ -14,5 +15,6 @@ export {
     useMSInterface, 
     useEFGInterface,
     useDipInterface,
+    useJCoupInterface,
     useEulerInterface 
 };

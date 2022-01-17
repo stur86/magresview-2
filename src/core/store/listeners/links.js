@@ -1,7 +1,7 @@
 import { addPrefix } from '../utils';
 
 import Events from './events';
-import { dipColor } from './colors';
+import { dipColor, jcColor } from './colors';
 import { getLinkLabel } from '../utils';
 
 
@@ -93,6 +93,7 @@ function makeDisplayLinksListener(name, color) {
 
         const model = app.model;
 
+
         if (!model) {
             // Nothing to do
             return [{}, []];
@@ -144,4 +145,9 @@ function makeDisplayLinksListener(name, color) {
 const dipCalculateLinksListener = makeCalculateLinksListener('dip');
 const dipDisplayLinksListener = makeDisplayLinksListener('dip', dipColor);
 
-export { dipCalculateLinksListener, dipDisplayLinksListener };
+const jcCalculateLinksListener = makeCalculateLinksListener('jc');
+const jcDisplayLinksListener = makeDisplayLinksListener('jc', jcColor);
+
+
+export { dipCalculateLinksListener, dipDisplayLinksListener, 
+         jcCalculateLinksListener, jcDisplayLinksListener };

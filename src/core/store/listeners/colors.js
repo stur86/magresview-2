@@ -9,10 +9,12 @@ const selColor = 0xffffff; // Used for crystallographic labels
 const msColor = 0xff8000;
 const efgColor = 0x0080ff;
 const dipColor = 0x00ff80;
+const jcColor = 0xff0080;
 
 export {
     selColor,
     msColor,
     efgColor,
-    dipColor
+    dipColor,
+    jcColor
 };
