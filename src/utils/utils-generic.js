@@ -90,6 +90,19 @@ function mergeOnly(a, b) {
 }
 
 /**
+ * Download a file
+ * 
+ * @param  {String} data     The data content of the file, must be a valid data URL
+ * @param  {[type]} filename The name of the file to download
+ */
+function saveContents(data, filename) {
+    const download = document.createElement('a');
+    download.setAttribute('download', filename);
+    download.setAttribute('href', data);
+    download.click();
+}
+
+/**
  * Download a PNG screenshot from data take from a Canvas
  * 
  * @param  {String} data     Data URL retrieved with the .toDataURL() method
@@ -97,12 +110,19 @@ function mergeOnly(a, b) {
  */
 function saveImage(data, filename='image.png') {
     data = data.replace('image/png', 'image/octet-stream');
-
-    const download = document.createElement('a');
-    download.setAttribute('download', filename);
-    download.setAttribute('href', data);
-    download.click();
+    saveContents(data, filename);
 }
 
 
-export { CallbackMerger, Enum, getColorScale, mergeOnly, saveImage };
+/**
+ * Copy something to the clipboard
+ * 
+ * @param  {String} data Content to copy
+ */
+function copyContents(data) {
+    navigator.clipboard.writeText(data);
+}
+
+
+export { CallbackMerger, Enum, getColorScale, mergeOnly, saveContents, 
+         saveImage, copyContents };

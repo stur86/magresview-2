@@ -27,3 +27,23 @@
 .mv-euler-agrid-switch span {
     padding: 0 10px;
 }
+
+.mv-eul-results {
+    width: 90%;
+    background-color: var(--bkg-color-1);
+    box-sizing: border-box;
+    table-layout: fixed;
+    z-index: -1;
+}
+
+.mv-eul-results thead {
+    background-color: var(--bkg-color-2);
+}
+
+.mv-eul-results td {
+    padding: 5px;
+}
+
+.mv-eul-results tbody {
+    text-align: right;
+}

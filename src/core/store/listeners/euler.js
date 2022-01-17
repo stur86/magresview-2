@@ -3,6 +3,7 @@
  */
 
 import { msColor, efgColor } from './colors';
+import { eulerBetweenTensors } from '../../../utils';
 
 const ctable = {
     'ms': msColor,
@@ -19,6 +20,8 @@ function eulerAngleListener(state) {
 
     const tA = state.eul_tensor_A;
     const tB = state.eul_tensor_B;
+
+    const conv = state.eul_convention;
 
     let nmrA = null;
     let nmrB = null;
@@ -63,7 +66,8 @@ function eulerAngleListener(state) {
     let results = null;
 
     if (nmrA && nmrB) {
-        results = [];
+        // Get the eigenvectors
+        results = eulerBetweenTensors(nmrA, nmrB, conv);
     }
 
     return [

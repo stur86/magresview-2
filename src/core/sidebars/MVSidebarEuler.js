@@ -4,8 +4,12 @@ import { useRef, useEffect } from 'react';
 
 import MagresViewSidebar from './MagresViewSidebar';
 import { useEulerInterface } from '../store';
+import { saveContents, copyContents } from '../../utils';
 
 import MVSwitch from '../../controls/MVSwitch';
+import MVButton from '../../controls/MVButton';
+import MVCustomSelect, { MVCustomSelectOption } from '../../controls/MVCustomSelect';
+import { FaCopy } from 'react-icons/fa';
 
 function MVSidebarEuler(props) {
 
@@ -33,6 +37,18 @@ function MVSidebarEuler(props) {
         ms: 'efg',
         efg: 'ms'
     };
+
+    // Round values
+    let a = eulint.alpha;
+    let b = eulint.beta;
+    let c = eulint.gamma;
+
+    if (a !== 'N/A') {
+        // It's a number
+        a = a.toFixed(2);
+        b = b.toFixed(2);
+        c = c.toFixed(2);
+    }
 
     return (<MagresViewSidebar show={props.show} title='Euler angles'>
         <p>
@@ -66,6 +82,40 @@ function MVSidebarEuler(props) {
                 </div>
             </div>
         </div>
+        <div className='mv-sidebar-block'>
+            <h3>Convention</h3>
+            <MVCustomSelect selected={eulint.convention} onSelect={(v) => { eulint.convention = v; }}>
+                <MVCustomSelectOption value='zyz'>ZYZ</MVCustomSelectOption>
+                <MVCustomSelectOption value='zxz'>ZXZ</MVCustomSelectOption>
+            </MVCustomSelect>
+        </div>
+        <div className='mv-sidebar-block'>
+            <h3>Angles</h3>
+            <table className='mv-eul-results'>
+                <thead>
+                    <tr>
+                        <td>Alpha</td>
+                        <td>Beta</td>
+                        <td>Gamma</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{a}&deg;</td>
+                        <td>{b}&deg;</td>
+                        <td>{c}&deg;</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <span className='sep-1' />
+        <div className='mv-sidebar-block'>
+            <MVButton onClick={() => { copyContents(eulint.txtReport()); }}><FaCopy />&nbsp;Copy to clipboard</MVButton>            
+        </div>
+        <div className='mv-sidebar-block'>
+            <MVButton onClick={() => { saveContents('data:,' + eulint.txtSelfAngleTable(), 'eulerTable.txt'); }}>Download table of MS-to-EFG angles</MVButton>            
+        </div>
+
     </MagresViewSidebar>);
 }
 

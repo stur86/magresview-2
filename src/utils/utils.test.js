@@ -1,7 +1,7 @@
 import { chainClasses } from './utils-react';
 import { CallbackMerger, getColorScale, mergeOnly, Enum } from './utils-generic';
 import { dipolarCoupling } from './utils-nmr';
-import { rotationBetween, eulerZYZ, rotationMatrixFromZYZ } from './utils-rotation';
+import { rotationBetween, eulerFromRotation, rotationMatrixFromZYZ } from './utils-rotation';
 
 test('chains classes', () => {
     let cc = chainClasses('this', 'that');
@@ -139,7 +139,7 @@ test('calculates rotation matrices and Euler angles', () => {
     ];
 
     let R = rotationBetween(axes1, axes2);
-    let [a, b, c] = eulerZYZ(R);
+    let [a, b, c] = eulerFromRotation(R);
 
     expect(a).toBeCloseTo(Math.PI*15/180);
     expect(b).toBeCloseTo(0);
@@ -147,17 +147,35 @@ test('calculates rotation matrices and Euler angles', () => {
 
     // General examples
     axes1 = [[ 0.93869474,  0.33129348, -0.09537721],
-       [ 0.33771007, -0.93925902,  0.06119153],
-       [-0.06931155, -0.08965002, -0.99355865]];
+             [ 0.33771007, -0.93925902,  0.06119153],
+             [-0.06931155, -0.08965002, -0.99355865]];
 
     axes2 = [[-0.52412461,  0.49126909, -0.69566377],
-       [-0.56320663,  0.41277966,  0.71582906],
-       [ 0.63882054,  0.76698607,  0.06033803]];
+             [-0.56320663,  0.41277966,  0.71582906],
+             [ 0.63882054,  0.76698607,  0.06033803]];
 
     R = rotationBetween(axes1, axes2);
-    [a, b, c] = eulerZYZ(R);
+    [a, b, c] = eulerFromRotation(R);
 
     expect(a).toBeCloseTo(-0.5336027024819012);
     expect(b).toBeCloseTo(1.7446582433680782);
     expect(c).toBeCloseTo(-2.337729151937854);
+
+    // ZXZ test
+
+    axes1 = [[-0.62582956, 0.50160365,-0.59726974],
+             [-0.57465297, 0.22123184, 0.78792794],
+             [ 0.52736261, 0.83633143, 0.1497946 ]];
+
+    axes2 = [[-0.61565571, 0.62168499, 0.48422704],
+             [ 0.64838422, 0.74886978,-0.13708373],
+             [-0.44784589, 0.22956879,-0.86413669]];
+
+    R = rotationBetween(axes1, axes2);
+    [a, b, c] = eulerFromRotation(R, 'zxz');
+
+    expect(a).toBeCloseTo(1.1826406253627681);
+    expect(b).toBeCloseTo(1.7453053098731386);
+    expect(c).toBeCloseTo(0.2753933761154593);
+
 });

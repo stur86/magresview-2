@@ -14,19 +14,38 @@ function rotationBetween(axes1, axes2) {
 }
 
 /**
- * Euler angles (in ZYZ convention) from a rotation matrix R
+ * Euler angles (in ZYZ or ZXZ convention) from a rotation matrix R
  * 
- * @param  {Array} R    Rotation matrix
+ * @param  {Array}  R           Rotation matrix
+ * @param  {String} convention  Convention to use ('zyz' or 'zxz', by default 'zyz')
  * 
  * @return {Array}      Euler angles
  */
-function eulerZYZ(R) {
+function eulerFromRotation(R, convention='zyz') {
 
     /*
-        In this case, the rotation matrix is:
-                                    | cos(a)cos(b)cos(c)-sin(a)sin(c)       sin(a)cos(b)cos(c)+cos(a)sin(c)         -sin(b)cos(c)               |
-                                    | -cos(a)cos(b)sin(c)-sin(a)cos(c)      -sin(a)cos(b)sin(c)+cos(a)cos(c)        sin(b)sin(c)                |
-                                    | cos(a)sin(b)                          sin(a)sin(b)                            cos(b)                      |
+        
+        For the ZYZ convention the rotation matrix is:
+
+        ⎡-sin(α)⋅sin(γ) + cos(α)⋅cos(β)⋅cos(γ)  sin(α)⋅cos(β)⋅cos(γ) + sin(γ)⋅cos(α)   -sin(β)⋅cos(γ)⎤
+        ⎢                                                                                            ⎥
+        ⎢-sin(α)⋅cos(γ) - sin(γ)⋅cos(α)⋅cos(β)  -sin(α)⋅sin(γ)⋅cos(β) + cos(α)⋅cos(γ)  sin(β)⋅sin(γ) ⎥
+        ⎢                                                                                            ⎥
+        ⎣            sin(β)⋅cos(α)                          sin(α)⋅sin(β)                  cos(β)    ⎦
+
+        
+        While for the ZXZ convention it is:
+        
+        ⎡-sin(α)⋅sin(γ)⋅cos(β) + cos(α)⋅cos(γ)  sin(α)⋅cos(γ) + sin(γ)⋅cos(α)⋅cos(β)   sin(β)⋅sin(γ)⎤
+        ⎢                                                                                           ⎥
+        ⎢-sin(α)⋅cos(β)⋅cos(γ) - sin(γ)⋅cos(α)  -sin(α)⋅sin(γ) + cos(α)⋅cos(β)⋅cos(γ)  sin(β)⋅cos(γ)⎥
+        ⎢                                                                                           ⎥
+        ⎣            sin(α)⋅sin(β)                         -sin(β)⋅cos(α)                 cos(β)    ⎦
+
+
+        The math is identical for the beta angle as well as the gimbal lock case. In the general case, 
+        there's some changes in signs.
+
      */
 
 
@@ -38,9 +57,6 @@ function eulerZYZ(R) {
     let b = Math.acos(cosb);
     let c;
 
-
-
-
     if (Math.abs(cosb) === 1) {
         // Special case, gimbal lock
         c = 0;
@@ -48,8 +64,18 @@ function eulerZYZ(R) {
     }
     else {
         // General case
-        a = Math.atan2(R[2][1], R[2][0]);
-        c = Math.atan2(R[1][2], -R[0][2]);
+        switch (convention) {
+            case 'zyz':
+                a = Math.atan2(R[2][1],  R[2][0]);
+                c = Math.atan2(R[1][2], -R[0][2]);
+                break;
+            case 'zxz':
+                a = Math.atan2(R[2][0], -R[2][1]);
+                c = Math.atan2(R[0][2],  R[1][2]);
+                break;
+            default:
+                throw Error('Unrecognised Euler angles convention');
+        }
     }
 
     return [a, b, c];
@@ -81,4 +107,20 @@ function rotationMatrixFromZYZ(alpha, beta, gamma) {
 
 }
 
-export { rotationBetween, eulerZYZ, rotationMatrixFromZYZ };
+/**
+ * Euler angles between the Haeberlen eigenvectors of two NMR tensors
+ * 
+ * @param  {CrystVis.TensorData}    T1          First tensor
+ * @param  {CrystVis.TensorData}    T2          Second tensor
+ * @param  {String}                 convention  Euler angles convention
+ * 
+ * @return {Array}                              Euler angles
+ */
+function eulerBetweenTensors(T1, T2, convention='zyz') {
+    const ax1 = T1.haeberlen_eigenvectors;
+    const ax2 = T2.haeberlen_eigenvectors;
+    return eulerFromRotation(rotationBetween(ax1, ax2), convention);
+}
+
+export { rotationBetween, eulerFromRotation, eulerBetweenTensors, 
+         rotationMatrixFromZYZ };
