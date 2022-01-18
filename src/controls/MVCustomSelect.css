@@ -57,7 +57,7 @@
 }
 
 .mv-cselect-disabled .mv-cselect-opt {
-  color: var(--fwd-color-1);
+  color: var(--mid-color-1);
 }
 
 .mv-cselect-disabled .mv-cselect-opt:hover {
@@ -66,5 +66,5 @@
 
 
 .mv-cselect-disabled .mv-cselect-main-caret {
-  color: var(--fwd-color-1);
+  color: var(--mid-color-1);
 }
