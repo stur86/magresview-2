@@ -166,7 +166,7 @@ class AppInterface extends BaseInterface {
             // Find a valid one to load
             var to_display = null;
             _.map(success, (v, n) => {
-                if (v === 0) {
+                if (v === 0) {                 
                     to_display = n;
                 }
             });
@@ -189,7 +189,7 @@ class AppInterface extends BaseInterface {
             let extension = f.name.split('.').pop();
 
             reader.onload = ((e) => { onLoad(e.target.result, name, extension) });
-            reader.readAsText(f);            
+            reader.readAsText(f);
         }
 
         _.forEach(files, parseOne);
