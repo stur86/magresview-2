@@ -183,7 +183,8 @@ class SelInterface extends BaseInterface {
         this.dispatch({
             type: 'update',
             data: {
-                listen_update: [Events.EFG_LABELS, Events.CSCALE]
+                listen_update: [Events.EFG_LABELS, Events.CSCALE, 
+                                Events.DIP_RENDER, Events.JC_RENDER]
             }
         });
     }

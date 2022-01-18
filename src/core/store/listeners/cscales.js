@@ -47,10 +47,10 @@ function colorScaleListener(state) {
             current_view.setProperty('color', null);
     }
 
-    return [{
+    return {
         cscale_view: next_view,
         cscale_displ: next_greyed
-    }, []];
+    };
 }
 
 export { colorScaleListener };

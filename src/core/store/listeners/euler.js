@@ -70,13 +70,11 @@ function eulerAngleListener(state) {
         results = eulerBetweenTensors(nmrA, nmrB, conv);
     }
 
-    return [
-        {
-            eul_atom_A: a2A,
-            eul_atom_B: a2B,
-            eul_results: results
-        }, []
-    ];
+    return {
+        eul_atom_A: a2A,
+        eul_atom_B: a2B,
+        eul_results: results
+    };
 }
 
 export { eulerAngleListener };

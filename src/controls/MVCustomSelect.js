@@ -41,7 +41,7 @@ function MVCustomSelect(props) {
     return (
         <div style={tstyle} className={chainClasses('mv-control', 'mv-cselect', show? null : 'mv-cselect-closed', 
                                                     props.disabled? 'mv-cselect-disabled' : null )} 
-            onMouseLeave={(e) => { console.log(e); setShow(false); }} title={props.title}>
+            onMouseLeave={(e) => { setShow(false); }} title={props.title}>
             <div className='mv-control mv-cselect-main' onClick={() => { setShow(true && (!props.disabled)); }}>
                 {options[selected]}
                 <span className='mv-cselect-main-caret'><FaCaretDown /></span>

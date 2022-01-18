@@ -1,6 +1,5 @@
 import { addPrefix } from '../utils';
 
-import Events from './events';
 import { dipColor, jcColor } from './colors';
 import { getLinkLabel } from '../utils';
 
@@ -23,6 +22,12 @@ function makeCalculateLinksListener(name) {
 
         let app = state.app_viewer;
         let model = app.model;
+
+        if (!model) {
+            // Can happen if we're running with an empty visualiser.
+            return {};
+        }
+
         let ghostreqs = {
             ...state.sel_ghosts_requests
         };
@@ -57,10 +62,10 @@ function makeCalculateLinksListener(name) {
             delete(ghostreqs[name]);
         }
 
-        return [{
+        return {
             [pre_view]: linkview,
             sel_ghosts_requests: ghostreqs
-        }, [ Events.VIEWS ]];
+        };
     }
 
     return listener;
@@ -78,13 +83,15 @@ function makeDisplayLinksListener(name, color) {
     const pre_sph = addPrefix(name, 'sphere_show');
 
     const pre_view = addPrefix(name, 'view');
-    const pre_lnames = addPrefix(name, 'link_names');
+
+    // These we keep inside this enclosed variable, as a way to keep track for
+    // when we delete them
+    let current_link_names = [];
     
     function listener(state) {
 
         let app = state.app_viewer;
         let linkview = state[pre_view];
-        let lnames = state[pre_lnames];
 
         const catom = state[pre_ca];
         const radius = state[pre_r];
@@ -96,14 +103,14 @@ function makeDisplayLinksListener(name, color) {
 
         if (!model) {
             // Nothing to do
-            return [{}, []];
+            return {};
         }
 
         // First, cleaning up old visualisation
-        lnames.forEach((name) => { model.removeGraphics(name); });
+        current_link_names.forEach((name) => { model.removeGraphics(name); });
 
         // Now creating a new one
-        lnames = [];
+        current_link_names = [];
         if (on && catom && linkview) {
             linkview.atoms.forEach((a2, i) => {
 
@@ -123,7 +130,7 @@ function makeDisplayLinksListener(name, color) {
                     dashed: true,
                     onOverlay: true
                 });
-                lnames.push(lname);
+                current_link_names.push(lname);
             });
         }
 
@@ -139,9 +146,7 @@ function makeDisplayLinksListener(name, color) {
             model.removeGraphics(name + '_sphere');
         }
 
-        return [{
-            [pre_lnames]: lnames
-        }, []];
+        return {};
     }
 
     return listener;

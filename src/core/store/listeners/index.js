@@ -21,6 +21,7 @@
  * at the end of a run through the current queue, (so be wary of creating infinite loops!).
  */
 
+import { displayListener } from './display';
 import { viewsListener } from './views';
 import { msEllipsoidListener, efgEllipsoidListener } from './ellipsoids';
 import { selLabelListener, msLabelListener, efgLabelListener } from './labels';
@@ -28,13 +29,14 @@ import { colorScaleListener } from './cscales';
 import { dipCalculateLinksListener, dipDisplayLinksListener, 
          jcCalculateLinksListener,  jcDisplayLinksListener } from './links';
 import { eulerAngleListener } from './euler';
-import Events from './events';
+import Events, { getPriorityOfEvent, getEventsWithPriority } from './events';
 
 const initialListenerState = {
     listen_update: []
 };
 
 const listeners = {
+    [Events.DISPLAY]:           displayListener,
     [Events.VIEWS]:             viewsListener,
     [Events.SEL_LABELS]:        selLabelListener,
     [Events.CSCALE]:            colorScaleListener,
@@ -59,23 +61,46 @@ function makeMasterListener(store) {
         if (toUpdate && toUpdate.length > 0) {
 
             let data = {};
-            let nextToUpdate = [];
+
+            // Find max priority
+            let maxPriority = toUpdate.reduce((P, e) => {
+                let p = getPriorityOfEvent(e);
+                return p > P? p : P;
+            }, -1);
+
+            toUpdate = toUpdate.filter((e) => {
+                return getPriorityOfEvent(e) === maxPriority;
+            });
+
+            toUpdate = new Set(toUpdate); // Avoid duplicates
 
             toUpdate.forEach((lname) => {
 
                 if (!(lname in listeners))
                     return;
 
-                let [d, n] = listeners[lname](state);
+                try {
+                    let d = listeners[lname](state);
                 
-                data = {
-                    ...data,
-                    ...d
-                };
+                    data = {
+                        ...data,
+                        ...d
+                    };
+                }
+                catch (e) {
+                    // Can happen if the listener e.g. relies on there being
+                    // a model, and we don't have one loaded. Tolerated with a
+                    // warning.
+                    console.warn(e);
+                }
 
-                nextToUpdate = nextToUpdate.concat(n);
             });
 
+            // Next do all the lower priority
+            let nextToUpdate = [];
+            if (maxPriority > 0) {
+                nextToUpdate = [...getEventsWithPriority(maxPriority-1)];
+            }
             data.listen_update = nextToUpdate;
 
             store.dispatch({

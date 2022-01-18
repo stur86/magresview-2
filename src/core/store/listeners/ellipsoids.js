@@ -48,11 +48,10 @@ function makeEllipsoidListener(name, color) {
             next_view.addEllipsoids(data, name, {scalingFactor: scale, color: color, opacity: 0.125});
         }
 
-        return [
-            {
-                [pre_view]: next_view,
-                [pre_scale]: scale
-            }, []];
+        return {
+            [pre_view]: next_view,
+            [pre_scale]: scale
+        };
     }
 
     return listener;

@@ -1,9 +1,11 @@
-import Events from './events';
-
 function viewsListener(state) {
 
     let app = state.app_viewer;
     let model = app.model;
+
+    if (!model) {
+        return {};
+    }
 
     // Aliases
     let sel = state.sel_selected_view;
@@ -28,12 +30,7 @@ function viewsListener(state) {
     displ.setProperty('opacity', 1.0);
 
     // We now update all visualizations that may be changed as a result of this
-    return  [{}, 
-                [Events.SEL_LABELS, Events.CSCALE,
-                 Events.MS_ELLIPSOIDS, Events.MS_LABELS, 
-                 Events.EFG_ELLIPSOIDS, Events.EFG_LABELS, 
-                 Events.DIP_RENDER, Events.JC_RENDER]
-            ];
+    return  {};
 }
 
 export { viewsListener };

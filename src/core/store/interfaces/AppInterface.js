@@ -3,7 +3,15 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
 import { makeSelector, BaseInterface } from '../utils';
 import { CallbackMerger } from '../../../utils';
-import { msSetReferences } from './MSInterface';
+
+import { initialSelState } from './SelInterface';
+import { initialCScaleState } from './CScaleInterface';
+import { initialMSState } from './MSInterface';
+import { initialEFGState } from './EFGInterface';
+import { initialDipState } from './DipInterface';
+import { initialJCoupState } from './JCoupInterface';
+import { initialEulerState } from './EulerInterface';
+
 import { Events } from '../listeners';
 
 import CrystVis from 'crystvis-js';
@@ -13,7 +21,8 @@ const initialAppState = {
     app_viewer: null,
     app_theme: 'dark',
     app_sidebar: 'load',
-    app_default_displayed: null
+    app_default_displayed: null,
+    app_model_queued: null
 };
 
 // Functions meant to operate on the app alone.
@@ -27,29 +36,24 @@ function appDisplayModel(state, m) {
     if (cm) {
         // We turn visualizations off
         data = {
-            sel_sites_labels_type: 'none',
-            ms_ellipsoids_on: false,
-            ms_labels_type: 'none',
-            ms_cscale_type: 'none',
-            efg_ellipsoids_on: false,
-            efg_labels_type: 'none',
-            efg_cscale_type: 'none',
-            dip_links_on: false,
-            ...msSetReferences(state),
-            //...dipDisplayLinks(state, { dip_links_on: false, dip_central_atom: null })
+            ...initialSelState,
+            ...initialCScaleState,
+            ...initialMSState,
+            ...initialEFGState,
+            ...initialDipState,
+            ...initialJCoupState,
+            ...initialEulerState
         };
     }
 
-    app.displayModel(m);
-
     // Return data for dispatch
     return {
-        app_default_displayed: app.displayed,
         ...data,
+        app_model_queued: m,
         listen_update: [Events.SEL_LABELS, Events.CSCALE,
                         Events.MS_ELLIPSOIDS, Events.MS_LABELS,
                         Events.EFG_ELLIPSOIDS, Events.EFG_LABELS, 
-                        Events.DIP_LINKS]
+                        Events.DIP_LINKS, Events.JC_LINKS]
     };
 }
 

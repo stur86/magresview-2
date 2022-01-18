@@ -69,9 +69,9 @@ function makeLabelListener(name, color, shiftfunc) {
             }));
         }
 
-        return [{
+        return {
             [pre_view]: next_view,
-        }, []];
+        };
     }
 
     return listener;

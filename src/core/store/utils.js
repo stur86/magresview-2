@@ -19,7 +19,16 @@ function makeSelector(prefix, extras=[]) {
 }
 
 const addPrefix = (p, n) => p + '_' + n;
-const getSel = (app) => app.selected.length > 0? app.selected : app.displayed;
+
+function getSel(app) {
+    let sel = app.selected;
+    if (sel) {
+        return sel.length > 0? sel : app.displayed;
+    }
+    else {
+        return null;
+    }
+}
 
 function getNMRData(data, datatype, tenstype='ms') {
 
