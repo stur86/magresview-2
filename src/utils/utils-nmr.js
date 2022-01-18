@@ -27,4 +27,36 @@ function dipolarCoupling(a1, a2) {
     return [-MU0_HBAR_E30*g1*g2/(8*Math.PI*Math.PI*Math.pow(R, 3)), rnorm];    
 }
 
-export { dipolarCoupling };
+/**
+ * J coupling constant in Hz between two atoms. Will return
+ * a value only if the ISC tensor data is available
+ * 
+ * @param  {AtomImage} a1   First atom
+ * @param  {AtomImage} a2   Second atom
+ * 
+ * @return {Number}         J-coupling constant in Hz
+ */
+function jCoupling(a1, a2) {
+
+    let T;
+    // Is it present at all?
+    try {
+        T = a1.getArrayValue('isc')[a2.index];
+    }
+    catch (e) {
+        // Not found
+        return null;
+    }
+
+    if (!T)
+        return null;
+
+    // Convert the tensor
+    let g1 = a1.isotopeData.gamma;
+    let g2 = a2.isotopeData.gamma;
+    T = T.iscAtomicToHz(g1, g2);
+
+    return T.isotropy;
+}
+
+export { dipolarCoupling, jCoupling };

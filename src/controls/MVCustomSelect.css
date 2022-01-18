@@ -3,6 +3,8 @@
   --cselect-icon-size: 40px;
 
   max-height: var(--cselect-opt-height);
+
+  z-index: 9999;
 }
 
 .mv-cselect-closed {

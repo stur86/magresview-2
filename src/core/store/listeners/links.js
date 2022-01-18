@@ -112,6 +112,12 @@ function makeDisplayLinksListener(name, color) {
 
                 const lname = name + '_link_' + i;
                 const label = getLinkLabel(catom, a2, name);
+
+                if (label === '') {
+                    // No coupling found
+                    return;
+                }
+
                 model.addLink(catom, a2, lname, label, {
                     color: color,
                     dashed: true,
@@ -124,9 +130,9 @@ function makeDisplayLinksListener(name, color) {
         // Now the sphere
         if (on && catom && sphere) {
             model.addSphere(catom.xyz, radius, name + '_sphere', {
-                opacity: 0.1,
+                opacity: 0,
                 showAxes: false,
-                showCircles: false
+                showCircles: true
             });
         }
         else {
