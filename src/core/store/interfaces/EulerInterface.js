@@ -144,24 +144,24 @@ class EulerInterface extends BaseInterface {
     }
 
     bind() {
-        let app = this.state.app_viewer;
-        let dispatch = this._dispatcher;
+        const dispatch = this._dispatcher;
+        const handler = this.state.app_click_handler;
 
-        if (!app)
+        if (!handler)
             return;
 
-        app.onAtomClick(makeCallback(dispatch, 'A'), LC);
-        app.onAtomClick(makeCallback(dispatch, 'B'), RC);
+        handler.setCallback('eul', LC, makeCallback(dispatch, 'A'));
+        handler.setCallback('eul', RC, makeCallback(dispatch, 'B'));
     }
 
     unbind() {
-        let app = this.state.app_viewer;
+        const handler = this.state.app_click_handler;
 
-        if (!app)
+        if (!handler)
             return;
 
-        app.onAtomClick(() => {}, LC);
-        app.onAtomClick(() => {}, RC);
+        handler.setCallback('eul', LC);
+        handler.setCallback('eul', RC);
 
         this.dispatch(makeEulerAction({
             eul_newatom_A: null,
@@ -216,7 +216,7 @@ class EulerInterface extends BaseInterface {
 }
 
 function useEulerInterface() {
-    let state = useSelector(makeSelector('eul', ['app_viewer']), shallowEqual);
+    let state = useSelector(makeSelector('eul', ['app_viewer', 'app_click_handler']), shallowEqual);
     let dispatcher = useDispatch();
 
     let intf = new EulerInterface(state, dispatcher);

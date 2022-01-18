@@ -254,18 +254,20 @@ class SelInterface extends BaseInterface {
         // We use this to guarantee that the selection still doesn't go out of
         // the default display (e.g. the main cell). Everything else remains
         // hidden or can be used as ghost for other purposes
-        var dd = this.state.app_default_displayed;
-        var intf = this;
+        const dd = this.state.app_default_displayed;
+        const intf = this;
+        const handler = this.state.app_click_handler;
 
         if (selFunc) {
-            app.onAtomClick((a, e) => { intf.selected = dd.and(selFunc(a, e)); }, LC);
-            app.onAtomClick((a, e) => { intf.selected = dd.and(app.selected.or(selFunc(a, e))); }, SLC);
-            app.onAtomClick((a, e) => { intf.selected = dd.and(app.selected.xor(selFunc(a, e))); }, CLC);
+            handler.setCallback('sel', LC, (a, e) => { intf.selected = dd.and(selFunc(a, e)); });
+            handler.setCallback('sel', SLC, (a, e) => { intf.selected = dd.and(app.selected.or(selFunc(a, e))); });
+            handler.setCallback('sel', CLC, (a, e) => { intf.selected = dd.and(app.selected.xor(selFunc(a, e))); });
         }
         else {
-            app.onAtomClick((a, e) => {}, LC);
-            app.onAtomClick((a, e) => {}, SLC);
-            app.onAtomClick((a, e) => {}, CLC);            
+            // Free the events
+            handler.setCallback('sel', LC);
+            handler.setCallback('sel', SLC);
+            handler.setCallback('sel', CLC);
         }
 
         this.dispatch({type: 'update', data: {
@@ -280,7 +282,7 @@ class SelInterface extends BaseInterface {
 
 // Hook for interface
 function useSelInterface() {
-    let state = useSelector(makeSelector('sel', ['app_viewer', 'app_default_displayed']), shallowEqual);
+    let state = useSelector(makeSelector('sel', ['app_viewer', 'app_click_handler', 'app_default_displayed']), shallowEqual);
     let dispatcher = useDispatch();
 
     let intf = new SelInterface(state, dispatcher);

@@ -85,13 +85,13 @@ class JCoupInterface extends BaseInterface {
     }
 
     bind() {
-        let app = this.state.app_viewer;
-        let dispatch = this._dispatcher;
+        const dispatch = this._dispatcher;
+        const handler = this.state.app_click_handler;
 
-        if (!app)
+        if (!handler)
             return;
 
-        app.onAtomClick((a, e) => { 
+        handler.setCallback('jc', LC, (a, e) => { 
                 // Avoid working on ghosts
                 if (a.opacity < 1.0) {
                     return;
@@ -104,23 +104,23 @@ class JCoupInterface extends BaseInterface {
                         listen_update: [ Events.JC_LINKS ]
                     }
                 });
-        }, LC);        
+        });        
     }
 
     unbind() {
-        let app = this.state.app_viewer;
+        const handler = this.state.app_click_handler;
 
-        if (!app)
+        if (!handler)
             return;
 
         // Remove the event
-        app.onAtomClick(() => {}, LC);
+        handler.setCallback('jc', LC); 
     }
 
 }
 
 function useJCoupInterface() {
-    let state = useSelector(makeSelector('jc', ['app_viewer']), shallowEqual);
+    let state = useSelector(makeSelector('jc', ['app_click_handler']), shallowEqual);
     let dispatcher = useDispatch();
 
     let intf = new JCoupInterface(state, dispatcher);

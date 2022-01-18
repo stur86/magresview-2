@@ -103,6 +103,7 @@ function MVSidebarSelect(props) {
     selRef.current = selint;
 
     useEffect(() => {
+        console.log('Binding select clicks');
         let selint = selRef.current;
         selint.selectionOn = props.show;
     }, [props.show, selint.app]); // The dependency on app guarantees this is executed AFTER the app itself is loaded

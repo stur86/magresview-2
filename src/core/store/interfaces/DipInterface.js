@@ -85,13 +85,13 @@ class DipInterface extends BaseInterface {
     }
 
     bind() {
-        let app = this.state.app_viewer;
-        let dispatch = this._dispatcher;
+        const dispatch = this._dispatcher;
+        const handler = this.state.app_click_handler;
 
-        if (!app)
+        if (!handler)
             return;
 
-        app.onAtomClick((a, e) => { 
+        handler.setCallback('dip', LC, (a, e) => { 
                 // Avoid working on ghosts
                 if (a.opacity < 1.0) {
                     return;
@@ -104,23 +104,23 @@ class DipInterface extends BaseInterface {
                         listen_update: [ Events.DIP_LINKS ]
                     }
                 });
-        }, LC);        
+        });        
     }
 
     unbind() {
-        let app = this.state.app_viewer;
+        const handler = this.state.app_click_handler;
 
-        if (!app)
+        if (!handler)
             return;
 
         // Remove the event
-        app.onAtomClick(() => {}, LC);
+        handler.setCallback('dip', LC); 
     }
 
 }
 
 function useDipInterface() {
-    let state = useSelector(makeSelector('dip', ['app_viewer']), shallowEqual);
+    let state = useSelector(makeSelector('dip', ['app_click_handler']), shallowEqual);
     let dispatcher = useDispatch();
 
     let intf = new DipInterface(state, dispatcher);

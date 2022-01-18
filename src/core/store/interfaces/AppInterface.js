@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
 import { makeSelector, BaseInterface } from '../utils';
-import { CallbackMerger } from '../../../utils';
+import { CallbackMerger, ClickHandler } from '../../../utils';
 
 import { initialSelState } from './SelInterface';
 import { initialCScaleState } from './CScaleInterface';
@@ -19,6 +19,7 @@ import CrystVis from 'crystvis-js';
 
 const initialAppState = {
     app_viewer: null,
+    app_click_handler: null,
     app_theme: 'dark',
     app_sidebar: 'load',
     app_default_displayed: null,
@@ -142,11 +143,19 @@ class AppInterface extends BaseInterface {
     initialise(elem) {
         console.log('Initialising CrystVis app on element ' + elem);
         // Initialise app but only if it's not already there
-        var vis = new CrystVis(elem);
+        const vis = new CrystVis(elem);
         vis.highlightSelected = true; // Our default
                 
+        const handler = new ClickHandler(vis);
+
         if (!this.initialised) {
-            this.dispatch({type: 'set', key: 'app_viewer', value: vis});
+            this.dispatch({
+                type: 'update',
+                data: {
+                    app_viewer: vis,
+                    app_click_handler: handler
+                }
+            });
         }
     }
 
