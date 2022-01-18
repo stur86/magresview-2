@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { dipolarCoupling } from '../../utils';
+import { dipolarCoupling, jCoupling } from '../../utils';
 
 function makeSelector(prefix, extras=[]) {
     // Creates and returns a selector function for a given prefix
@@ -74,6 +74,12 @@ function getLinkLabel(a1, a2, linktype) {
         case 'dip':
             const D = dipolarCoupling(a1, a2)[0];
             return (D/1e3).toFixed(2) + ' kHz';
+        case 'jc':
+            const J = jCoupling(a1, a2);
+            if (J === null) {
+                return '';
+            }
+            return J.toFixed(2) + ' Hz';
         default:
             return '';
     }
