@@ -23,7 +23,9 @@ const initialAppState = {
     app_theme: 'dark',
     app_sidebar: 'load',
     app_default_displayed: null,
-    app_model_queued: null
+    app_model_queued: null,
+    app_load_as_mol: false,
+    app_use_nmr_isos: true
 };
 
 // Functions meant to operate on the app alone.
@@ -140,6 +142,30 @@ class AppInterface extends BaseInterface {
         });
     }
 
+    get loadAsMol() {
+        return this.state.app_load_as_mol;
+    }
+
+    set loadAsMol(v) {
+        this.dispatch({
+            type: 'set',
+            key: 'app_load_as_mol',
+            value: v
+        });
+    }
+
+    get useNMRIsotopes() {
+        return this.state.app_use_nmr_isos;
+    }
+
+    set useNMRIsotopes(v) {
+        this.dispatch({
+            type: 'set',
+            key: 'app_use_nmr_isos',
+            value: v
+        });
+    }
+
     initialise(elem) {
         console.log('Initialising CrystVis app on element ' + elem);
         // Initialise app but only if it's not already there
@@ -159,7 +185,7 @@ class AppInterface extends BaseInterface {
         }
     }
 
-    load(files, params={}, cback=null) {
+    load(files, cback=null) {
 
         /* Load from a list of files, running a callback with the aggregate
         dictionary that reports the success for each of them */
@@ -171,6 +197,11 @@ class AppInterface extends BaseInterface {
         let cbm = new CallbackMerger(files.length, cback);
         let app = this.viewer;
         let intf = this;
+        let params = {
+            supercell: [3, 3, 3],
+            molecularCrystal: this.loadAsMol,
+            useNMRActiveIsotopes: this.useNMRIsotopes
+        };
 
         // Callback for each file after the FileReader is done
         function onLoad(contents, name, extension) {

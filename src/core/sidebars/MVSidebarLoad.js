@@ -19,8 +19,6 @@ const file_formats = ['.cif', '.xyz', '.magres', '.cell'];
 function MVSidebarLoad(props) {
 
     const [ state, setState ] = useState({
-        load_as_mol: false,
-        use_nmr_isos: true,
         load_message: '',
         load_message_status: null,
         list_selected: ''
@@ -34,16 +32,10 @@ function MVSidebarLoad(props) {
     // Methods
     function loadModel(f) {
 
-        var params = {
-            molecularCrystal: state.load_as_mol,
-            useNMRActiveIsotopes: state.use_nmr_isos,
-            supercell: [3,3,3]
-        };
-
-        appint.load(f, params, (success) => {
+        appint.load(f, (success) => {
             // Check success
-            var msg = '';
-            var err = false;
+            let msg = '';
+            let err = false;
             _.map(success, (v, n) => {
                 if (v !== 0) {
                     msg += 'Error parsing file ' + n + ': ' + v + '\n';
@@ -64,7 +56,7 @@ function MVSidebarLoad(props) {
 
     function makeModelOption(m, i) {
 
-        var model_icon;        
+        let model_icon;        
         if (m === appint.currentModelName) {
             model_icon = <AiFillEye size={22}/>;
         }
@@ -81,8 +73,8 @@ function MVSidebarLoad(props) {
     return (<MagresViewSidebar show={props.show} title='Load file'>
         <div className='mv-sidebar-block'>
             <MVFile filetypes={file_formats.join(',')} onSelect={loadModel} notext={true} multiple={true}/>
-            <MVCheckBox onCheck={(v) => {setState({...state, load_as_mol: v})}} checked={state.load_as_mol}>Load as molecular crystal</MVCheckBox>
-            <MVCheckBox onCheck={(v) => {setState({...state, use_nmr_isos: v})}} checked={state.use_nmr_isos}>Use only NMR active isotopes</MVCheckBox>
+            <MVCheckBox onCheck={(v) => { appint.loadAsMol = v }} checked={appint.loadAsMol}>Load as molecular crystal</MVCheckBox>
+            <MVCheckBox onCheck={(v) => { appint.useNMRIsotopes = v }} checked={appint.useNMRIsotopes}>Use only NMR active isotopes</MVCheckBox>
         </div>
         <h4>Models:</h4>
         <MVListSelect selected={state.list_selected} onSelect={(v) => { setState({...state, list_selected: v}); }}>

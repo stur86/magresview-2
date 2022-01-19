@@ -15,7 +15,7 @@
 import './themes.css';
 import '../controls/controls.css';
 import './MagresViewApp.css';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { chainClasses } from '../utils';
 import { useAppInterface } from './store';
@@ -33,6 +33,8 @@ import MVSidebarEuler from './sidebars/MVSidebarEuler';
 
 function MagresViewPage() {
 
+    const [hovered, setHovered] = useState(false);
+
     let appint = useAppInterface();
 
     const appRef = useRef(appint);
@@ -41,7 +43,37 @@ function MagresViewPage() {
         appRef.current.initialise('#mv-appwindow');
     }, []);
 
-    return (<div className={chainClasses('mv-main-page', 'theme-' + appint.theme )}>
+
+    // Handling the dragging events
+    function handleDragOver(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    function handleDragEnter(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        setHovered(true);        
+    }
+
+    function handleDragLeave(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        setHovered(false);        
+    }
+
+    function handleDrop(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            appint.load(e.dataTransfer.files)
+            e.dataTransfer.clearData()
+        }        
+        setHovered(false);
+    }
+
+    return (<div className={chainClasses('mv-main-page', 'theme-' + appint.theme, hovered? 'has-drag' : '' )}
+                 onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDragOver={handleDragOver} onDrop={handleDrop}>
                 <MagresViewHeader />
                 <MVSidebarLoad show={appint.sidebar === 'load'} />
                 <MVSidebarSelect show={appint.sidebar === 'select'} />
@@ -52,6 +84,7 @@ function MagresViewPage() {
                 <MVSidebarEuler show={appint.sidebar === 'euler'} />
                 <div id='mv-appwindow' className='mv-background'/>
                 <MagresViewScreenshot />
+                <div className='drag-overlay' />
             </div>);
 }
 
