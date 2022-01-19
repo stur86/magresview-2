@@ -1,8 +1,23 @@
-import { makeSelector, BaseInterface } from '../utils';
-import { shallowEqual, useSelector, useDispatch } from 'react-redux';
-import CrystVis from 'crystvis-js';
+/**
+ * MagresView 2.0
+ *
+ * A web interface to visualize and interact with computed NMR data in the Magres
+ * file format.
+ *
+ * Author: Simone Sturniolo
+ *
+ * Copyright 2022 Science and Technology Facilities Council
+ * This software is distributed under the terms of the MIT License
+ * Please refer to the file LICENSE for the text of the license
+ * 
+ */
 
 import { Events } from '../listeners';
+
+import { makeSelector, BaseInterface } from '../utils';
+import { shallowEqual, useSelector, useDispatch } from 'react-redux';
+
+import CrystVis from 'crystvis-js';
 
 const LC = CrystVis.LEFT_CLICK;
 const SLC = CrystVis.LEFT_CLICK + CrystVis.SHIFT_BUTTON;

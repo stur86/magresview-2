@@ -2,6 +2,13 @@
   "name": "magresview-2",
   "version": "0.1.0",
   "private": false,
+  "license": {
+    "type" : "MIT"
+  },
+  "author": {
+    "name": "Simone Sturniolo",
+    "email": "simonesturniolo@gmail.com"
+  },
   "homepage": ".",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
