@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": false,
   "license": {
-    "type" : "MIT"
+    "type": "MIT"
   },
   "author": {
     "name": "Simone Sturniolo",
@@ -18,7 +18,7 @@
     "color-scales": "^3.0.2",
     "colormap": "^2.3.2",
     "core-js": "^3.19.1",
-    "crystvis-js": "^0.4.3",
+    "crystvis-js": "^0.4.4",
     "immutable": "^4.0.0",
     "mathjs": "^10.0.2",
     "normalize.css": "^8.0.1",
