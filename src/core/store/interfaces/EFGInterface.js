@@ -37,8 +37,8 @@ const efgAction = function(data, update=[]) {
 class EFGInterface extends CScaleInterface {
 
     get hasData() {
-        let m = this.state.app_viewer.model;
-        return (m && (m.hasArray('efg')));
+        let app = this.state.app_viewer;
+        return (app && app.model && (app.model.hasArray('efg')));        
     }
 
     get hasEllipsoids() {

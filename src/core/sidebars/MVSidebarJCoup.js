@@ -21,6 +21,7 @@ import React, { useEffect, useRef } from 'react';
 import MVCheckBox from '../../controls/MVCheckBox';
 import MVRange from '../../controls/MVRange';
 import { useJCoupInterface } from '../store';
+import { chainClasses } from '../../utils';
 
 
 function MVSidebarJCoup(props) {
@@ -45,20 +46,28 @@ function MVSidebarJCoup(props) {
 
     }, [props.show, jcint.isOn]);
 
+    var has_jc = false;
+    if (props.show) {
+        has_jc = jcint.hasData;
+    }
+
     return (<MagresViewSidebar show={props.show} title='J couplings'>
-        <div className='mv-sidebar-block'>
-            <MVCheckBox color='var(--jcoup-color-3)' onCheck={(v) => { jcint.isOn = v; }} checked={ jcint.isOn } >Show J couplings</MVCheckBox>
+        <div className={has_jc? '' : 'hidden'}>
+            <div className='mv-sidebar-block'>
+                <MVCheckBox color='var(--jcoup-color-3)' onCheck={(v) => { jcint.isOn = v; }} checked={ jcint.isOn } >Show J couplings</MVCheckBox>
+            </div>
+            <div className='mv-sidebar-block'>
+                <p>
+                    Click on an atom to show all dipolar couplings in a radius.
+                    (Note: to avoid performance issues, changing the radius of selection has effect only from the next click)
+                </p>
+                 <MVRange min={1.0} max={20.0} step={0.05} value={jcint.radius} color={'var(--jcoup-color-3)'}
+                          onChange={(s) => { jcint.radius = s; }}>Selection radius</MVRange>
+                 <MVCheckBox color='var(--jcoup-color-3)' onCheck={(v) => { jcint.showSphere = v; }} checked={ jcint.showSphere } >Show radius as a sphere</MVCheckBox>                        
+                 <MVCheckBox color='var(--jcoup-color-3)' onCheck={(v) => { jcint.homonuclearOnly = v; }} checked={ jcint.homonuclearOnly } >Show only homonuclear couplings</MVCheckBox>                        
+            </div>
         </div>
-        <div className='mv-sidebar-block'>
-            <p>
-                Click on an atom to show all dipolar couplings in a radius.
-                (Note: to avoid performance issues, changing the radius of selection has effect only from the next click)
-            </p>
-             <MVRange min={1.0} max={20.0} step={0.05} value={jcint.radius} color={'var(--jcoup-color-3)'}
-                      onChange={(s) => { jcint.radius = s; }}>Selection radius</MVRange>
-             <MVCheckBox color='var(--jcoup-color-3)' onCheck={(v) => { jcint.showSphere = v; }} checked={ jcint.showSphere } >Show radius as a sphere</MVCheckBox>                        
-             <MVCheckBox color='var(--jcoup-color-3)' onCheck={(v) => { jcint.homonuclearOnly = v; }} checked={ jcint.homonuclearOnly } >Show only homonuclear couplings</MVCheckBox>                        
-        </div>
+         <div className={chainClasses('mv-warning-noms', has_jc? 'hidden': '')}>No ISC data found</div>
     </MagresViewSidebar>);
 }
 

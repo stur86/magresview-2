@@ -69,8 +69,8 @@ const msAction = function(data, update=[]) {
 class MSInterface extends CScaleInterface {
 
     get hasData() {
-        let m = this.state.app_viewer.model;
-        return (m && (m.hasArray('ms')));
+        let app = this.state.app_viewer;
+        return (app && app.model && (app.model.hasArray('ms')));        
     }
 
     get hasEllipsoids() {

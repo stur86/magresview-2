@@ -33,6 +33,11 @@ const initialJCoupState = {
 
 class JCoupInterface extends BaseInterface {
 
+    get hasData() {
+        let app = this.state.app_viewer;
+        return (app && app.model && (app.model.hasArray('isc')));        
+    }
+
     get isOn() {
         return this.state.jc_links_on;
     }
@@ -134,7 +139,7 @@ class JCoupInterface extends BaseInterface {
 }
 
 function useJCoupInterface() {
-    let state = useSelector(makeSelector('jc', ['app_click_handler']), shallowEqual);
+    let state = useSelector(makeSelector('jc', ['app_click_handler', 'app_viewer']), shallowEqual);
     let dispatcher = useDispatch();
 
     let intf = new JCoupInterface(state, dispatcher);

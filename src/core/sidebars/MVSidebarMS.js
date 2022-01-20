@@ -107,8 +107,8 @@ function MVSidebarMS(props) {
              </MVRadioGroup>
              <MVButton onClick={() => { setState({...state, showRefTable: true}) }}>Set References</MVButton>
              <MVReferenceTable display={state.showRefTable} close={() => { setState({...state, showRefTable: false}) }}/>
-          </div>
-         <div className={chainClasses('mv-warning-noms', has_ms? 'hidden': '')}>No MS data found</div>
+        </div>
+        <div className={chainClasses('mv-warning-noms', has_ms? 'hidden': '')}>No MS data found</div>
     </MagresViewSidebar>);
 }
 
