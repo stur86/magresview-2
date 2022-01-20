@@ -51,7 +51,7 @@ function MVSidebarEFG(props) {
              <MVRadioGroup label='Use color scale' onSelect={(v) => { efgint.colorScaleType = v; }} selected={ efgint.colorScaleType } disabled={!efgint.colorScaleAvailable}
                            name='efg_cscale_radio' color={'var(--efg-color-2)'}>
                 <MVRadioButton value='none'>None</MVRadioButton>
-                <MVRadioButton value='efg_aniso'>Anisotropy (au)</MVRadioButton>
+                <MVRadioButton value='efg_aniso'>Anisotropy</MVRadioButton>
                 <MVRadioButton value='efg_asymm'>Asymmetry</MVRadioButton>
                 <MVRadioButton value='efg_Q'>Quadrupole Coupling</MVRadioButton>
              </MVRadioGroup>

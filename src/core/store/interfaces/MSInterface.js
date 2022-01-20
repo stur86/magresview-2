@@ -29,14 +29,12 @@ const initialMSState = {
 // Update any new references for chemical shifts
 function msSetReferences(state, refs=null) {
 
-    let data = {
-        ms_references: {}
-    };
+    let new_refs = {};
 
     // Default behaviour if refs is null is to clear everything,
     // otherwise we update the existing table.
     if (refs) {
-        data.ms_references = {
+        new_refs = {
             ...state.ms_references,
             ...refs
         };
@@ -44,15 +42,10 @@ function msSetReferences(state, refs=null) {
 
     // We then update the state and refresh the ms labels, in case any changes
     // are needed
-    state.ms_references = data.ms_references;
-    if (state.ms_labels_type === 'cs') {
-        data = {
-            ...data,
-            listen_update: [Events.MS_LABELS]
-        };
-    }
-
-    return data;
+    return {
+        ms_references: new_refs,
+        listen_update: [Events.MS_LABELS, Events.CSCALE]
+    };
 }
 
 // Action creator

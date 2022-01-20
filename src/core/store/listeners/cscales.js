@@ -27,11 +27,11 @@ function colorScaleListener(state) {
 
         // Split in prefix and mode
         const [prefix, mode] = cstype.split('_', 2);
+        const ref_table = state[prefix + '_references'];
 
         next_greyed = displayed.xor(next_view);
 
-        const data = next_view.map((a) => [a.getArrayValue(prefix), a.isotopeData]);
-        const nmrdata = getNMRData(data, mode);
+        const nmrdata = getNMRData(next_view, mode, prefix, ref_table);
         const values = nmrdata[1];
 
         let minv = _.min(values);

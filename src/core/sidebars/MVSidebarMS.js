@@ -101,8 +101,9 @@ function MVSidebarMS(props) {
              </MVRadioGroup>
              <MVRadioGroup label='Use color scale' onSelect={(v) => { msint.colorScaleType = v; }} selected={msint.colorScaleType} disabled={!msint.colorScaleAvailable} name='ms_cscale_radio'>
                 <MVRadioButton value='none'>None</MVRadioButton>
-                <MVRadioButton value='ms_iso'>Isotropy (ppm)</MVRadioButton>
-                <MVRadioButton value='ms_aniso'>Anisotropy (ppm)</MVRadioButton>
+                <MVRadioButton value='ms_iso'>Isotropy</MVRadioButton>
+                <MVRadioButton value='ms_cs'>Chemical Shifts (uses references)</MVRadioButton>
+                <MVRadioButton value='ms_aniso'>Anisotropy</MVRadioButton>
                 <MVRadioButton value='ms_asymm'>Asymmetry</MVRadioButton>
              </MVRadioGroup>
              <MVButton onClick={() => { setState({...state, showRefTable: true}) }}>Set References</MVButton>

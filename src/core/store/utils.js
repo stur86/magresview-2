@@ -30,7 +30,7 @@ function getSel(app) {
     }
 }
 
-function getNMRData(data, datatype, tenstype='ms') {
+function getNMRData(view, datatype, tenstype='ms', reftable=null) {
 
     let units = '';
     let tens_units = {
@@ -38,36 +38,51 @@ function getNMRData(data, datatype, tenstype='ms') {
         efg: 'au'
     }[tenstype];
     let values = null;
+    let tensors = view.map((a) => (a.getArrayValue(tenstype)));
 
     switch(datatype) {
         case 'iso': 
-            values = data.map(([T, iD]) => T.isotropy);
+            values = tensors.map((T) => T.isotropy);
             units = tens_units;
             break;
         case 'aniso':
-            values = data.map(([T, iD]) => T.anisotropy);
+            values = tensors.map((T) => T.anisotropy);
             units = tens_units;
             break;            
         case 'asymm':
-            values = data.map(([T, iD]) => T.asymmetry);
+            values = tensors.map((T) => T.asymmetry);
             break;
         case 'span':
-            values = data.map(([T, iD]) => T.span);
+            values = tensors.map((T) => T.span);
             break;
         case 'skew':
-            values = data.map(([T, iD]) => T.skew);
+            values = tensors.map((T) => T.skew);
+            break;
+        case 'cs':
+            if (!reftable) {
+                throw Error('Can not compute chemical shifts without a reference table');
+            }
+            values = tensors.map((T, i) => {
+                let el = view.atoms[i].element;
+                let ref = reftable[el] || 0.0;
+                return ref-T.isotropy;
+            });
+            units = tens_units;
             break;
         case 'e_x':
-            values = data.map(([T, iD]) => T.haeberlen_eigenvalues[0]);
+            values = tensors.map((T) => T.haeberlen_eigenvalues[0]);
             break;
         case 'e_y':
-            values = data.map(([T, iD]) => T.haeberlen_eigenvalues[1]);
+            values = tensors.map((T) => T.haeberlen_eigenvalues[1]);
             break;
         case 'e_z':
-            values = data.map(([T, iD]) => T.haeberlen_eigenvalues[2]);
+            values = tensors.map((T) => T.haeberlen_eigenvalues[2]);
             break;
         case 'Q':
-            values = data.map(([T, iD]) => T.efgAtomicToHz(iD.Q).haeberlen_eigenvalues[2]/1e3);
+            values = tensors.map((T, i) => {
+                let iD = view.atoms[i].isotopeData;
+                return T.efgAtomicToHz(iD.Q).haeberlen_eigenvalues[2]/1e3;
+            });
             units = 'kHz';
             break;
         default:
