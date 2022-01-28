@@ -175,12 +175,35 @@ function mergeOnly(a, b) {
 }
 
 /**
+ * Make a single row of an ASCII table with a fixed field width
+ * 
+ * @param  {Array}  values      Values to include in the row
+ * @param  {Number} width       Width of each field of the row
+ * @param  {Number} precision   Digits used for numerical values
+ * 
+ * @return {String}        Compiled row
+ */
+function tableRow(values, width=20, precision=5) {
+    return values.reduce((s, v) => {        
+        if (Number.isFinite(v) && !Number.isInteger(v)) {
+            v = v.toFixed(precision);
+        }
+        else {
+            v = v.toString();
+        }
+        const ns = width-v.length;
+        return s + ' '.repeat(ns > 0? ns : 0) + v;
+    }, '') + '\n';
+}
+
+/**
  * Download a file
  * 
  * @param  {String} data     The data content of the file, must be a valid data URL
  * @param  {[type]} filename The name of the file to download
  */
 function saveContents(data, filename) {
+
     const download = document.createElement('a');
     download.setAttribute('download', filename);
     download.setAttribute('href', data);
@@ -211,4 +234,4 @@ function copyContents(data) {
 
 export { CallbackMerger, Enum, ClickHandler, 
          getColorScale, mergeOnly, saveContents, 
-         saveImage, copyContents };
+         saveImage, copyContents, tableRow };

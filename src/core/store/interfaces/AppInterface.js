@@ -282,4 +282,4 @@ function useAppInterface() {
 }
 
 export default useAppInterface;
-export { initialAppState, appDisplayModel, appDeleteModel };
+export { initialAppState };
