@@ -47,6 +47,7 @@
   background-color: var(--fwd-color-3);
   transition: background-color 0.2s;
 
+  cursor: pointer;
   display: grid;
   align-items: center;
   grid-template-columns: 30px auto;
