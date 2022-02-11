@@ -64,6 +64,8 @@ function MVSidebarEuler(props) {
         c = c.toFixed(2);
     }
 
+    const hasSel = (eulint.atomA && eulint.atomB);
+
     return (<MagresViewSidebar show={props.show} title='Euler angles'>
         <p>
             Left (right) click on atoms to pick atom A (B). Choose with the 
@@ -124,10 +126,12 @@ function MVSidebarEuler(props) {
         </div>
         <span className='sep-1' />
         <div className='mv-sidebar-block'>
-            <MVButton onClick={() => { copyContents(eulint.txtReport()); }}><FaCopy />&nbsp;Copy to clipboard</MVButton>            
+            <MVButton onClick={() => { copyContents(eulint.txtReport()); }} disabled={!hasSel}><FaCopy />&nbsp;Copy to clipboard</MVButton>            
         </div>
         <div className='mv-sidebar-block'>
-            <MVButton onClick={() => { saveContents('data:,' + eulint.txtSelfAngleTable(), 'eulerTable.txt'); }}>Download table of MS-to-EFG angles</MVButton>            
+            <MVButton onClick={() => { saveContents('data:,' + eulint.txtSelfAngleTable(), 'eulerTable.txt'); }}  disabled={!(eulint.hasMSData && eulint.hasEFGData)}>
+                Download table of MS-to-EFG angles
+            </MVButton>            
         </div>
 
     </MagresViewSidebar>);

@@ -103,8 +103,16 @@ class EulerInterface extends BaseInterface {
         this.dispatch(makeEulerAction({['eul_tensor_' + ending]: v}));
     }
 
+    get atomA() {
+        return this.state.eul_atom_A;
+    }
+
     get atomLabelA() {
         return this._getAtomLabel('A');
+    }
+
+    get atomB() {
+        return this.state.eul_atom_B;
     }
 
     get atomLabelB() {
