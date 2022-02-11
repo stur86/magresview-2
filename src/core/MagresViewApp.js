@@ -32,6 +32,7 @@ import MVSidebarJCoup from './sidebars/MVSidebarJCoup';
 import MVSidebarEuler from './sidebars/MVSidebarEuler';
 import MVSidebarFiles from './sidebars/MVSidebarFiles';
 
+
 function MagresViewPage() {
 
     const [hovered, setHovered] = useState(false);

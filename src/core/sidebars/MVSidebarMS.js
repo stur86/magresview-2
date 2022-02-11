@@ -51,7 +51,9 @@ function MVReferenceTable(props) {
         setRefTable(_.fromPairs(elements.map((el) => [el, v])));
     }
 
-    return (<MVModal title='References for chemical shifts, by element (ppm)' display={props.display} onClose={props.close} onAccept={() => { msint.updateReferenceTable(refTable); props.close(); }}>
+    return (
+    <MVModal title='References for chemical shifts, by element (ppm)' display={props.display} hasOverlay={true}
+             onClose={props.close} onAccept={() => { msint.updateReferenceTable(refTable); props.close(); }}>
         <div className='mv-msref-table'>
             {elements.map((el, i) => {
                 const ref = refTable[el];
