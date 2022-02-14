@@ -15,6 +15,7 @@
 import './MagresViewHeader.css';
 import logo from '../icons/logo.svg';
 import { FaSun, FaMoon, FaRegFolderOpen, FaMousePointer, FaFile } from 'react-icons/fa';
+import { GiHistogram } from 'react-icons/gi';
 
 import React from 'react';
 import MVCustomSelect, { MVCustomSelectOption } from '../controls/MVCustomSelect';
@@ -58,6 +59,7 @@ function MagresViewHeader() {
                 <MVCustomSelectOption value='dip' icon={<MVIcon icon='dip' color='var(--dip-color-3)'/>}>Dipolar Couplings</MVCustomSelectOption>
                 <MVCustomSelectOption value='jcoup' icon={<MVIcon icon='jcoup' color='var(--jcoup-color-3)'/>}>J Couplings</MVCustomSelectOption>
                 <MVCustomSelectOption value='euler' icon={<MVIcon icon='euler' color='var(--bkg-color-3)'/>}>Euler Angles</MVCustomSelectOption>
+                <MVCustomSelectOption value='plots' icon={<GiHistogram />}>Spectral plots</MVCustomSelectOption>
                 <MVCustomSelectOption value='files' icon={<FaFile />}>Report files</MVCustomSelectOption>
             </MVCustomSelect>            
             <span className='mv-hor-sep-3'></span>

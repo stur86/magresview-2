@@ -30,6 +30,7 @@ import MVSidebarEFG from './sidebars/MVSidebarEFG';
 import MVSidebarDip from './sidebars/MVSidebarDip';
 import MVSidebarJCoup from './sidebars/MVSidebarJCoup';
 import MVSidebarEuler from './sidebars/MVSidebarEuler';
+import MVSidebarPlots from './sidebars/MVSidebarPlots';
 import MVSidebarFiles from './sidebars/MVSidebarFiles';
 
 
@@ -84,6 +85,7 @@ function MagresViewPage() {
                 <MVSidebarDip show={appint.sidebar === 'dip'} />
                 <MVSidebarJCoup show={appint.sidebar === 'jcoup'} />
                 <MVSidebarEuler show={appint.sidebar === 'euler'} />
+                <MVSidebarPlots show={appint.sidebar === 'plots'} />
                 <MVSidebarFiles show={appint.sidebar === 'files'} />
                 <div id='mv-appwindow' className='mv-background'/>
                 <MagresViewScreenshot />
