@@ -95,6 +95,10 @@ function MVModal(props) {
 
     const hasOverlay = props.hasOverlay;
 
+    if (!hasOverlay && !props.display) {
+        modalStyle['display'] = 'none';
+    }
+
     let modal = (<div className={chainClasses('mv-control mv-modal', props.draggable? 'mv-modal-draggable' : '', 
                                               props.resizable? 'mv-modal-resizable' : '')} style={modalStyle}>
         <div className='mv-modal-title' onMouseDown={onTitleMouseDown}>

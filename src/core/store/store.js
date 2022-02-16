@@ -9,6 +9,7 @@ import { initialEFGState } from './interfaces/EFGInterface';
 import { initialDipState } from './interfaces/DipInterface';
 import { initialJCoupState } from './interfaces/JCoupInterface';
 import { initialEulerState } from './interfaces/EulerInterface';
+import { initialPlotsState } from './interfaces/PlotsInterface';
 import { initialFilesState } from './interfaces/FilesInterface';
 import makeMasterListener, { initialListenerState } from './listeners';
 
@@ -23,6 +24,7 @@ const initialState = {
     ...initialJCoupState,
     ...initialEulerState,
     ...initialFilesState,
+    ...initialPlotsState,
     ...initialListenerState
 };
 

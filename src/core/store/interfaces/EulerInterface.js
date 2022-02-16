@@ -13,7 +13,7 @@
  */
 
 import { Events } from '../listeners';
-import { makeSelector, BaseInterface } from '../utils';
+import { makeSelector, DataCheckInterface } from '../utils';
 import { eulerBetweenTensors } from '../../../utils';
 
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
@@ -62,7 +62,7 @@ function makeEulerAction(data) {
     };
 }
 
-class EulerInterface extends BaseInterface {
+class EulerInterface extends DataCheckInterface {
 
     get hasModel() {
         let app = this.state.app_viewer;

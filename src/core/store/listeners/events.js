@@ -14,7 +14,8 @@ const Events = new Enum([
     'DIP_LINKS',                // Links require two events, one before a VIEWS update, the other after
     'DIP_RENDER',
     'JC_LINKS',
-    'JC_RENDER'
+    'JC_RENDER',
+    'PLOTS_RECALC'
 ]);
 
 // Event priority ranking. Events with higher priority fire first, and are
@@ -25,7 +26,7 @@ const eventPriority = {
     1: new Set([Events.SEL_LABELS, Events.CSCALE,               // All events having to do with rendering something that
                 Events.MS_ELLIPSOIDS, Events.MS_LABELS,         // is affected by displayed/selected atoms
                 Events.EFG_ELLIPSOIDS, Events.EFG_LABELS,
-                Events.EUL_ANGLES, 
+                Events.EUL_ANGLES, Events.PLOTS_RECALC,
                 Events.DIP_RENDER, Events.JC_RENDER]),
     2: new Set([Events.VIEWS]),                                 // Changing displayed/selected atoms
     3: new Set([Events.DIP_LINKS, Events.JC_LINKS])             // Computing links and required ghosts (which changes displayed atoms)

@@ -16,11 +16,25 @@ import './MVSidebarPlots.css';
 
 import MagresViewSidebar from './MagresViewSidebar';
 
+import MVButton from '../../controls/MVButton';
+import MVModal from '../../controls/MVModal';
+
+
+import { usePlotsInterface } from '../store';
 
 function MVSidebarPlots(props) {
 
+    const pltint = usePlotsInterface();
+
     return (<MagresViewSidebar show={props.show} title="Spectral plots">
         
+        <div className='mv-sidebar-block'>
+            <MVButton onClick={() => { pltint.show = true; }}>Show 1D plot</MVButton>
+        </div>
+
+        <MVModal title="Spectral 1D plot" display={pltint.show}>
+            Thing
+        </MVModal>        
     </MagresViewSidebar>);
 }
 

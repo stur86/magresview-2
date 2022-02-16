@@ -127,11 +127,36 @@ class BaseInterface {
 
 }
 
+class DataCheckInterface extends BaseInterface {
+
+    get hasModel() {
+        let app = this.state.app_viewer;
+        return (app && this.state.app_viewer.model);
+    }
+
+    get hasMSData() {
+        let app = this.state.app_viewer;
+        return (app && app.model && (app.model.hasArray('ms')));            
+    }
+
+    get hasEFGData() {
+        let app = this.state.app_viewer;
+        return (app && app.model && (app.model.hasArray('efg')));            
+    }
+
+    get hasISCData() {
+        let app = this.state.app_viewer;
+        return (app && app.model && (app.model.hasArray('isc')));            
+    }
+
+}
+
 export { 
     makeSelector, 
     addPrefix,
     getSel,
     getNMRData,
     getLinkLabel,
-    BaseInterface 
+    BaseInterface,
+    DataCheckInterface
 };
