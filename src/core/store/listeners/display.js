@@ -5,7 +5,7 @@ function displayListener(state) {
 
     let data = {};
 
-    if (toDisplay) {
+    if (app && toDisplay) {
         app.displayModel(toDisplay);
         data = {
             app_default_displayed: app.displayed,

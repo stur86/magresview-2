@@ -26,6 +26,7 @@ import { viewsListener } from './views';
 import { msEllipsoidListener, efgEllipsoidListener } from './ellipsoids';
 import { selLabelListener, msLabelListener, efgLabelListener } from './labels';
 import { colorScaleListener } from './cscales';
+import { cellListener } from './cell';
 import { dipCalculateLinksListener, dipDisplayLinksListener, 
          jcCalculateLinksListener,  jcDisplayLinksListener } from './links';
 import { eulerAngleListener } from './euler';
@@ -39,6 +40,7 @@ const listeners = {
     [Events.DISPLAY]:           displayListener,
     [Events.VIEWS]:             viewsListener,
     [Events.SEL_LABELS]:        selLabelListener,
+    [Events.CELL]:              cellListener,
     [Events.CSCALE]:            colorScaleListener,
     [Events.MS_ELLIPSOIDS]:     msEllipsoidListener,
     [Events.MS_LABELS]:         msLabelListener,

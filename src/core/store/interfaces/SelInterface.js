@@ -33,7 +33,8 @@ const initialSelState = {
     sel_bond_n: 1,
     sel_hlight: true,
     sel_sites_view: null,
-    sel_sites_labels_type: 'none'
+    sel_sites_labels_type: 'none',
+    sel_show_cell: true
 };
 
 class SelInterface extends BaseInterface {
@@ -113,11 +114,23 @@ class SelInterface extends BaseInterface {
     set showCrystLabels(v) {
         v = v? 'labels' : 'none';
 
-        console.log(v);
-
         this.dispatch({
             type: 'update',
             data: { sel_sites_labels_type: v, listen_update: [Events.SEL_LABELS]}
+        });
+    }
+
+    get showCell() {
+        return this.state.sel_show_cell;
+    }
+
+    set showCell(v) {
+        this.dispatch({
+            type: 'update',
+            data: {
+                sel_show_cell: v,
+                listen_update: [Events.CELL]
+            }
         });
     }
 

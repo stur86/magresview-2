@@ -126,6 +126,7 @@ function MVSidebarSelect(props) {
         <div className='mv-sidebar-block'>
             <MVCheckBox checked={selint.showCrystLabels} onCheck={(v) => { selint.showCrystLabels = v }}>Show crystallographic labels</MVCheckBox>        
             <MVCheckBox checked={selint.highlightSelected} onCheck={(v) => { selint.highlightSelected = v }}>Highlight selected</MVCheckBox>        
+            <MVCheckBox checked={selint.showCell} onCheck={(v) => { selint.showCell = v }}>Show unit cell</MVCheckBox>        
             <span className='sep-1' />
             <MVRadioGroup label='Selection mode' onSelect={selectMode} selected={selint.selectionMode} name='selec_mode_radio'>
                 <MVRadioButton value='atom'>Atom</MVRadioButton>
