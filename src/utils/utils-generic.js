@@ -69,6 +69,17 @@ function averagePosition(mview) {
 }
 
 
+/**
+ * Center the camera on the displayed atoms (with a custom shift)
+ * 
+ * @param  {CrystVis} app   Reference to the visualizer app
+ */
+function centerDisplayed(app) {
+    const pos = averagePosition(app.displayed);
+    app.centerCamera(pos, [-0.05, 0]);
+}
+
+
 function getColorScale(min=0, max=1, scale='jet', shades=10) {
     
     let colors = colormap({
@@ -164,6 +175,6 @@ function copyContents(data) {
 }
 
 
-export { CallbackMerger, Enum, 
-         getColorScale, mergeOnly, saveContents, averagePosition,
+export { CallbackMerger, Enum, getColorScale, mergeOnly, 
+         saveContents, averagePosition, centerDisplayed,
          saveImage, copyContents, tableRow };

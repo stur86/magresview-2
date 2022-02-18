@@ -1,3 +1,5 @@
+import { centerDisplayed } from '../../../utils';
+
 function displayListener(state) {
 
     const app = state.app_viewer;
@@ -13,6 +15,7 @@ function displayListener(state) {
         };
 
         // Center model
+        centerDisplayed(app);
     }
 
     return data;

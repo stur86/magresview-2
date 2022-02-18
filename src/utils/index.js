@@ -1,5 +1,5 @@
 import { chainClasses, useId } from './utils-react';
-import { CallbackMerger, Enum, getColorScale, mergeOnly, saveImage, 
+import { CallbackMerger, Enum, getColorScale, mergeOnly, saveImage, centerDisplayed,
         averagePosition, saveContents, copyContents, tableRow } from './utils-generic';
 import regularExpressions from './utils-regexp';
 import { dipolarCoupling, jCoupling } from './utils-nmr';
@@ -9,5 +9,5 @@ import { ClickHandler } from './utils-events';
 
 export { chainClasses, useId, CallbackMerger, getColorScale, mergeOnly, saveImage, 
         averagePosition, saveContents, copyContents, tableRow, Enum, ClickHandler, 
-        regularExpressions, dipolarCoupling, jCoupling, rotationBetween, 
+        centerDisplayed, regularExpressions, dipolarCoupling, jCoupling, rotationBetween, 
         eulerFromRotation, eulerBetweenTensors, rotationMatrixFromZYZ };
