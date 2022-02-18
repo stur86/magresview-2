@@ -14,7 +14,7 @@
 
 import './MagresViewHeader.css';
 import logo from '../icons/logo.svg';
-import { FaSun, FaMoon, FaRegFolderOpen, FaMousePointer, FaFile } from 'react-icons/fa';
+import { FaSun, FaMoon, FaRegFolderOpen, FaMousePointer, FaFile, FaBan } from 'react-icons/fa';
 
 import React from 'react';
 import MVCustomSelect, { MVCustomSelectOption } from '../controls/MVCustomSelect';
@@ -59,6 +59,7 @@ function MagresViewHeader() {
                 <MVCustomSelectOption value='jcoup' icon={<MVIcon icon='jcoup' color='var(--jcoup-color-3)'/>}>J Couplings</MVCustomSelectOption>
                 <MVCustomSelectOption value='euler' icon={<MVIcon icon='euler' color='var(--bkg-color-3)'/>}>Euler Angles</MVCustomSelectOption>
                 <MVCustomSelectOption value='files' icon={<FaFile />}>Report files</MVCustomSelectOption>
+                <MVCustomSelectOption value='none' icon={<FaBan />}>No sidebar</MVCustomSelectOption>
             </MVCustomSelect>            
             <span className='mv-hor-sep-3'></span>
             <ThemeSwitcher />
