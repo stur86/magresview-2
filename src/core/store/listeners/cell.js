@@ -8,7 +8,6 @@ function cellListener(state) {
     if (app) { 
         const model = app.model;
         if (model) {
-            console.log(model);
             model.box.visible = state.sel_show_cell;
             model.axes.visible = state.sel_show_cell;
         }

@@ -187,7 +187,7 @@ test('averages properly a list of positions', () => {
         {xyz: [3, 1, 2]}
     ];
 
-    const out = averagePosition(fakeMview);
+    const avg = averagePosition(fakeMview);
 
-    expect(out).toEqual([2, 1.5, 3]);
+    expect(avg).toEqual([2, 1.5, 3]);
 });

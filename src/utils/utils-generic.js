@@ -63,7 +63,7 @@ function averagePosition(mview) {
     const positions = mview.map((a) => a.xyz);
     let average = positions.reduce((x, s) => x.map((v, i) => v+s[i]), 
                                    [0, 0, 0]);
-    average = average.map((x) => x/average.length);
+    average = average.map((x) => x/positions.length);
 
     return average;
 }
