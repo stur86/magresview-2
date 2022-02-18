@@ -1,5 +1,5 @@
 import { chainClasses } from './utils-react';
-import { CallbackMerger, getColorScale, mergeOnly, Enum } from './utils-generic';
+import { CallbackMerger, getColorScale, mergeOnly, Enum, averagePosition } from './utils-generic';
 import { dipolarCoupling } from './utils-nmr';
 import { rotationBetween, eulerFromRotation, rotationMatrixFromZYZ } from './utils-rotation';
 
@@ -178,4 +178,16 @@ test('calculates rotation matrices and Euler angles', () => {
     expect(b).toBeCloseTo(1.7453053098731386);
     expect(c).toBeCloseTo(0.2753933761154593);
 
+});
+
+test('averages properly a list of positions', () => {
+
+    const fakeMview = [
+        {xyz: [1, 2, 4]},
+        {xyz: [3, 1, 2]}
+    ];
+
+    const out = averagePosition(fakeMview);
+
+    expect(out).toEqual([2, 1.5, 3]);
 });

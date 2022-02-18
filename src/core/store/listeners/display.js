@@ -11,6 +11,8 @@ function displayListener(state) {
             app_default_displayed: app.displayed,
             app_model_queued: null
         };
+
+        // Center model
     }
 
     return data;

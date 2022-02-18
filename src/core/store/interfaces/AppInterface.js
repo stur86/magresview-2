@@ -185,8 +185,13 @@ class AppInterface extends BaseInterface {
         // Initialise app but only if it's not already there
         const vis = new CrystVis(elem);
         vis.highlightSelected = true; // Our default
-                
-        const handler = new ClickHandler(vis);
+        
+        const handler = new ClickHandler(vis, [
+            CrystVis.LEFT_CLICK,
+            CrystVis.LEFT_CLICK + CrystVis.SHIFT_BUTTON,
+            CrystVis.LEFT_CLICK + CrystVis.CTRL_BUTTON,
+            CrystVis.RIGHT_CLICK
+        ]);
 
         if (!this.initialised) {
             this.dispatch({
