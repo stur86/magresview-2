@@ -136,7 +136,17 @@ class ClickHandler {
 
 }
 
-
+/**
+ * Return a color scale with a specified map and number of intermediate
+ * shades
+ * 
+ * @param  {Number} min    Smallest value of the range mapping to the color scale
+ * @param  {Number} max    Largest value of the range
+ * @param  {String} scale  Name of the scale (from package colormap; default is 'jet')
+ * @param  {Number} shades Number of shades
+ * 
+ * @return {ColorScale}    Color scale
+ */
 function getColorScale(min=0, max=1, scale='jet', shades=10) {
     
     let colors = colormap({
@@ -221,6 +231,29 @@ function saveImage(data, filename='image.png') {
     saveContents(data, filename);
 }
 
+/**
+ * Load an image from a file, return a promise
+ * 
+ * @param  {File}   file    File with the image to load
+ * 
+ * @return {Promise}        Promise that gets fulfilled once the image is loaded; resolves with an HTMLImageElement containing the image
+ */
+function loadImage(file) {
+
+    let reader = new FileReader();
+
+    return new Promise((resolve, reject) => {
+        reader.onload = ((e) => { 
+            // Make it into a data URL
+            var img = new Image();
+            img.src = e.target.result;
+            img.decode().then(() => {
+                resolve(img);
+            });
+        });
+        reader.readAsDataURL(file);
+    });
+}
 
 /**
  * Copy something to the clipboard
@@ -232,6 +265,7 @@ function copyContents(data) {
 }
 
 
+
 export { CallbackMerger, Enum, ClickHandler, 
          getColorScale, mergeOnly, saveContents, 
-         saveImage, copyContents, tableRow };
+         saveImage, loadImage, copyContents, tableRow };

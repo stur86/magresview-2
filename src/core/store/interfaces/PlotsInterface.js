@@ -14,12 +14,16 @@
 
 import { Events } from '../listeners';
 
+import { loadImage } from '../../../utils';
 import { makeSelector, DataCheckInterface } from '../utils';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
 const initialPlotsState = {
     plots_show: false,
-    plots_q2_shifts: true
+    plots_q2_shifts: true,
+    plots_bkg_img_url: null,
+    plots_bkg_img_w: 0,
+    plots_bkg_img_h: 0
 };
 
 class PlotsInterface extends DataCheckInterface {
@@ -44,9 +48,51 @@ class PlotsInterface extends DataCheckInterface {
 
     set useQ2Shift(v) {
         this.dispatch({
-
+            type: 'update',
+            data: {
+                plots_q2_shifts: v,
+                listen_update: [Events.PLOTS_RECALC]
+            }
         });
     }
+
+    get bkgImage() {
+        if (this.state.plots_bkg_img_url) {
+            return {
+                url: this.state.plots_bkg_img_url,
+                width: this.state.plots_bkg_img_w,
+                height: this.state.plots_bkg_img_h
+            };
+        }
+
+        return null;
+    }
+
+    loadBkgImage(files) {
+        const dispatch = this._dispatcher;
+        loadImage(files[0]).then((img) => {
+            dispatch({
+                type: 'update',
+                data: {
+                    plots_bkg_img_url: img.src,
+                    plots_bkg_img_w: img.naturalWidth,
+                    plots_bkg_img_h: img.naturalHeight
+                }
+            });
+        });
+    }
+
+    clearBkgImage() {
+        this.dispatch({
+            type: 'update',
+            data: {
+                plots_bkg_img_url: null,
+                plots_bkg_img_w: 0,
+                plots_bkg_img_h: 0
+            }
+        });
+    }
+
 }
 
 // Hook for interface

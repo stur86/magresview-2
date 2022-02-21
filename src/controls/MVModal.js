@@ -110,10 +110,12 @@ function MVModal(props) {
         <div className='mv-modal-content'>
             {props.children}                
         </div>
-        <div className='mv-modal-footer'>
-            <MVButton onClick={onAccept}>OK</MVButton>
-            <MVButton onClick={onClose}>Cancel</MVButton>
-        </div>
+        {props.noFooter? <></> :
+            <div className='mv-modal-footer'>
+                <MVButton onClick={onAccept}>OK</MVButton>
+                <MVButton onClick={onClose}>Cancel</MVButton>
+            </div>
+        }
     </div>);
 
     if (hasOverlay) {

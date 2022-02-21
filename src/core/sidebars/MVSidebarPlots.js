@@ -16,25 +16,28 @@ import './MVSidebarPlots.css';
 
 import MagresViewSidebar from './MagresViewSidebar';
 
+import MVFile from '../../controls/MVFile';
 import MVButton from '../../controls/MVButton';
-import MVModal from '../../controls/MVModal';
-
 
 import { usePlotsInterface } from '../store';
+
+import { MVPlot1D } from '../plot';
 
 function MVSidebarPlots(props) {
 
     const pltint = usePlotsInterface();
+    const formats = '.png,.jpg,.jpeg';
 
     return (<MagresViewSidebar show={props.show} title="Spectral plots">
         
         <div className='mv-sidebar-block'>
             <MVButton onClick={() => { pltint.show = true; }}>Show 1D plot</MVButton>
+
+            Background spectrum image
+            <MVFile filetypes={formats} onSelect={(f) => { pltint.loadBkgImage(f); }} notext={false} multiple={false}/>
         </div>
 
-        <MVModal title="Spectral 1D plot" display={pltint.show}>
-            Thing
-        </MVModal>        
+        <MVPlot1D display={pltint.show} />
     </MagresViewSidebar>);
 }
 
