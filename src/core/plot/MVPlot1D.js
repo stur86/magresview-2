@@ -21,24 +21,6 @@ function MVPlot1D(props) {
 
     const pltint = usePlotsInterface();
 
-    const data = [{
-        id: 'Test',
-        data: [
-            {
-                x: 1,
-                y: 1
-            },
-            {
-                x: 2,
-                y: 4
-            },
-            {
-                x: 3,
-                y: 2
-            }
-        ]
-    }];
-
     const image = pltint.bkgImage;
 
     let width = 400;
@@ -79,20 +61,21 @@ function MVPlot1D(props) {
         <div style={{backgroundColor: 'white', color: 'black'}}>
         {pltint.show?
             <Line
-            pointSize={15}
+            enablePoints={false}
             width={width}
             height={height} 
-            data={data}
+            data={pltint.data}
             margin={state}
             xScale={{
                 type: 'linear',
-                min: 1
+                min: pltint.floatRangeX[0],
+                max: pltint.floatRangeX[1]
             }}
             yScale={{
                 type: 'linear',
-                max: 6
+                min: pltint.floatRangeY[0],
+                max: pltint.floatRangeY[1]
             }}
-            pointLabelYOffset={12}
             layers={layers}
             />           
         : null }

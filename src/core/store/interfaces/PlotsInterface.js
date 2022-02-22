@@ -25,7 +25,14 @@ const initialPlotsState = {
     plots_show_grid: true,
     plots_bkg_img_url: null,
     plots_bkg_img_w: 0,
-    plots_bkg_img_h: 0
+    plots_bkg_img_h: 0,
+    plots_min_x: 0,
+    plots_max_x: 100.0,
+    plots_min_y: 0,
+    plots_max_y: 1.0,
+    plots_x_steps: 100,
+    plots_x_axis: null,
+    plots_data: null
 };
 
 class PlotsInterface extends DataCheckInterface {
@@ -82,6 +89,58 @@ class PlotsInterface extends DataCheckInterface {
                 plots_show_grid: v
             }
         });
+    }
+
+    get rangeX() {
+        return [this.state.plots_min_x, this.state.plots_max_x];
+    }
+
+    get floatRangeX() {
+        let xmin = parseFloat(this.state.plots_min_x);
+        let xmax = parseFloat(this.state.plots_max_x);
+
+        xmin = isNaN(xmin)? 0.0 : xmin;
+        xmax = isNaN(xmax)? xmin+100.0 : xmax;
+
+        return [xmin, xmax];
+    }
+
+    get rangeY() {
+        return [this.state.plots_min_y, this.state.plots_max_y];        
+    }
+
+    get floatRangeY() {
+        let ymin = parseFloat(this.state.plots_min_y);
+        let ymax = parseFloat(this.state.plots_max_y);
+
+        ymin = isNaN(ymin)? 0.0 : ymin;
+        ymax = isNaN(ymax)? ymin+100.0 : ymax;
+
+        return [ymin, ymax];
+    }
+
+    setRange(vmin=null, vmax=null, axis='x') {
+
+        if ('xy'.indexOf(axis) < 0) {
+            // Invalid axis
+            return;
+        }
+
+        vmin = (vmin === null? this.state['plots_min_' + axis] : vmin);
+        vmax = (vmax === null? this.state['plots_max_' + axis] : vmax);
+
+        this.dispatch({
+            type: 'update',
+            data: {
+                ['plots_min_' + axis]: vmin,
+                ['plots_max_' + axis]: vmax,
+                listen_update: [Events.PLOTS_RECALC]
+            }
+        });
+    }
+
+    get data() {
+        return this.state.plots_data;
     }
 
     get bkgImage() {
