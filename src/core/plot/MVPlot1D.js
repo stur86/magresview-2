@@ -1,10 +1,23 @@
+import _ from 'lodash';
+
 import { Line } from '@nivo/line'
+
+import { useState } from 'react';
 
 import MVModal from '../../controls/MVModal';
 import { usePlotsInterface } from '../store';
 
+import ImageLayer from './ImageLayer';
 
 function MVPlot1D(props) {
+
+    // State used for margins
+    const [state, setState] = useState({
+        top: 20,
+        left: 50,
+        right: 20,
+        bottom: 50
+    });
 
     const pltint = usePlotsInterface();
 
@@ -26,10 +39,6 @@ function MVPlot1D(props) {
         ]
     }];
 
-
-    const msmall = 20;
-    const mlarge = 50;
-
     const image = pltint.bkgImage;
 
     let width = 400;
@@ -40,32 +49,41 @@ function MVPlot1D(props) {
         height = image.height;
     }
 
+    function setMargins(data={}) {
+        setState({
+            ...state,
+            ...data
+        });
+    }
+
     function imgLayer() {
 
         if (image) {
-            return (<g transform={'translate(-' + mlarge + ',-' + msmall + ')'}>
-                <image href={image.url} />
-            </g>);
+            return <ImageLayer image={image} margins={state} setMargins={setMargins} />
         }
 
         return null;
     }
 
-    return (<MVModal title="Spectral 1D plot" display={props.display}
+    let layers = [imgLayer, 'grid', 'markers', 'axes', 'areas', 'crosshair', 
+                  'lines', 'points', 'slices', 'mesh', 'legends'];
+
+    if (!pltint.showGrid)
+        layers = _.without(layers, 'grid');
+ 
+    if (!pltint.showAxes)
+        layers = _.without(layers, 'axes');
+
+    return (<MVModal title="Spectral 1D plot" display={pltint.show}
         noFooter={true} resizable={true} draggable={true} onClose={() => { pltint.show = false; }}>
         <div style={{backgroundColor: 'white', color: 'black'}}>
-        {props.display?
+        {pltint.show?
             <Line
             pointSize={15}
             width={width}
             height={height} 
             data={data}
-            margin={{
-                top: msmall,
-                bottom: mlarge,
-                right: msmall,
-                left: mlarge
-            }}
+            margin={state}
             xScale={{
                 type: 'linear',
                 min: 1
@@ -74,11 +92,8 @@ function MVPlot1D(props) {
                 type: 'linear',
                 max: 6
             }}
-            isInteractive={true}
-            onMouseMove={(e) => {console.log(e)}}
             pointLabelYOffset={12}
-            layers={[imgLayer, 'grid', 'markers', 'axes', 'areas', 'crosshair', 
-            'lines', 'points', 'slices', 'mesh', 'legends']}
+            layers={layers}
             />           
         : null }
         </div>

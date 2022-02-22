@@ -18,10 +18,9 @@ import MagresViewSidebar from './MagresViewSidebar';
 
 import MVFile from '../../controls/MVFile';
 import MVButton from '../../controls/MVButton';
+import MVCheckBox from '../../controls/MVCheckBox';
 
 import { usePlotsInterface } from '../store';
-
-import { MVPlot1D } from '../plot';
 
 function MVSidebarPlots(props) {
 
@@ -35,9 +34,12 @@ function MVSidebarPlots(props) {
 
             Background spectrum image
             <MVFile filetypes={formats} onSelect={(f) => { pltint.loadBkgImage(f); }} notext={false} multiple={false}/>
+            <MVButton onClick={() => { pltint.clearBkgImage(); }}>Clear image</MVButton>
         </div>
-
-        <MVPlot1D display={pltint.show} />
+        <div className='mv-sidebar-block'>
+            <MVCheckBox checked={pltint.showAxes} onCheck={(v) => { pltint.showAxes = v; }}>Show axes</MVCheckBox>
+            <MVCheckBox checked={pltint.showGrid} onCheck={(v) => { pltint.showGrid = v; }}>Show grid</MVCheckBox>
+        </div>
     </MagresViewSidebar>);
 }
 

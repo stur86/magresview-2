@@ -21,6 +21,8 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 const initialPlotsState = {
     plots_show: false,
     plots_q2_shifts: true,
+    plots_show_axes: true,
+    plots_show_grid: true,
     plots_bkg_img_url: null,
     plots_bkg_img_w: 0,
     plots_bkg_img_h: 0
@@ -52,6 +54,32 @@ class PlotsInterface extends DataCheckInterface {
             data: {
                 plots_q2_shifts: v,
                 listen_update: [Events.PLOTS_RECALC]
+            }
+        });
+    }
+
+    get showAxes() {
+        return this.state.plots_show_axes;
+    }
+
+    set showAxes(v) {
+        this.dispatch({
+            type: 'update',
+            data: {
+                plots_show_axes: v
+            }
+        });
+    }
+
+    get showGrid() {
+        return this.state.plots_show_grid;
+    }
+
+    set showGrid(v) {
+        this.dispatch({
+            type: 'update',
+            data: {
+                plots_show_grid: v
             }
         });
     }

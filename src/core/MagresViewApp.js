@@ -33,6 +33,7 @@ import MVSidebarEuler from './sidebars/MVSidebarEuler';
 import MVSidebarPlots from './sidebars/MVSidebarPlots';
 import MVSidebarFiles from './sidebars/MVSidebarFiles';
 
+import MVPlot1D from './plot/MVPlot1D';
 
 function MagresViewPage() {
 
@@ -90,6 +91,8 @@ function MagresViewPage() {
                 <div id='mv-appwindow' className='mv-background'/>
                 <MagresViewScreenshot />
                 <div className='drag-overlay' />
+            { /* Modals */ }
+                <MVPlot1D />
             </div>);
 }
 

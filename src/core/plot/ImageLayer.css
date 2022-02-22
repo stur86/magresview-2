@@ -1,0 +1,8 @@
+.img-layer-margins rect {
+    fill: #ee5500;
+}
+
+.img-layer-margins .selected rect {
+    stroke-width: 2px;
+    stroke: #00ccee;
+}
