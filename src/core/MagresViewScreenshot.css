@@ -1,4 +1,6 @@
 .mv-sshot {
+    color: var(--light-color-2);
+
     position: fixed;
     bottom: 20px;
     left: 20px;
