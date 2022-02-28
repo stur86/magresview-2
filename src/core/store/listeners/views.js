@@ -1,3 +1,5 @@
+import { centerDisplayed } from '../../../utils';
+
 function viewsListener(state) {
 
     let app = state.app_viewer;
@@ -28,6 +30,9 @@ function viewsListener(state) {
     // Doing this after the ghosts means any overlap will be fixed here
     app.displayed = displ;
     displ.setProperty('opacity', 1.0);
+
+    // Center model
+    centerDisplayed(app);
 
     // We now update all visualizations that may be changed as a result of this
     return  {};

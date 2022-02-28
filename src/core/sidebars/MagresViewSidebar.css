@@ -21,12 +21,27 @@
   right: 0;
 }
 
-.mv-sidebar h2 {
+.mv-sidebar .mv-sidebar-title {
   margin-top: 0;
   margin-right: 1rem;
-  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
   padding-bottom: 0.3rem;
   border-bottom: 1px solid var(--mid-color-1);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mv-sidebar-title h2 {
+  font-size: 1.2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.mv-sidebar-hide {
+  cursor: pointer;
 }
 
 .mv-sidebar p {

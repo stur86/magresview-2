@@ -14,7 +14,7 @@
 
 import './MagresViewHeader.css';
 import logo from '../icons/logo.svg';
-import { FaSun, FaMoon, FaRegFolderOpen, FaMousePointer, FaFile } from 'react-icons/fa';
+import { FaSun, FaMoon, FaRegFolderOpen, FaMousePointer, FaFile, FaBan } from 'react-icons/fa';
 import { GiHistogram } from 'react-icons/gi';
 
 import React from 'react';
@@ -61,6 +61,7 @@ function MagresViewHeader() {
                 <MVCustomSelectOption value='euler' icon={<MVIcon icon='euler' color='var(--bkg-color-3)'/>}>Euler Angles</MVCustomSelectOption>
                 <MVCustomSelectOption value='plots' icon={<GiHistogram />}>Spectral plots</MVCustomSelectOption>
                 <MVCustomSelectOption value='files' icon={<FaFile />}>Report files</MVCustomSelectOption>
+                <MVCustomSelectOption value='none' icon={<FaBan />}>No sidebar</MVCustomSelectOption>
             </MVCustomSelect>            
             <span className='mv-hor-sep-3'></span>
             <ThemeSwitcher />

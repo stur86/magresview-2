@@ -5,6 +5,7 @@ const Events = new Enum([
     'DISPLAY',
     'VIEWS',
     'SEL_LABELS',
+    'CELL',
     'CSCALE',
     'MS_ELLIPSOIDS',
     'MS_LABELS',
@@ -23,8 +24,9 @@ const Events = new Enum([
 // (priority 1) inevitably triggers all events of priority 0.
 const eventPriority = {
     0: new Set([Events.DISPLAY]),                               // Called last. If we need to change displayed model
-    1: new Set([Events.SEL_LABELS, Events.CSCALE,               // All events having to do with rendering something that
-                Events.MS_ELLIPSOIDS, Events.MS_LABELS,         // is affected by displayed/selected atoms
+    1: new Set([Events.SEL_LABELS, Events.CELL,                 // All events having to do with rendering something that
+                Events.CSCALE,                                  // is affected by displayed/selected atoms
+                Events.MS_ELLIPSOIDS, Events.MS_LABELS,         
                 Events.EFG_ELLIPSOIDS, Events.EFG_LABELS,
                 Events.EUL_ANGLES, Events.PLOTS_RECALC,
                 Events.DIP_RENDER, Events.JC_RENDER]),

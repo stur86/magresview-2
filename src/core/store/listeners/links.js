@@ -137,7 +137,7 @@ function makeDisplayLinksListener(name, color) {
         // Now the sphere
         if (on && catom && sphere) {
             model.addSphere(catom.xyz, radius, name + '_sphere', {
-                opacity: 0,
+                opacity: 0.25,
                 showAxes: false,
                 showCircles: true
             });
