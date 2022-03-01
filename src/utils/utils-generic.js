@@ -209,5 +209,5 @@ function copyContents(data) {
 
 
 export { CallbackMerger, Enum, getColorScale, mergeOnly, 
-         saveContents, averagePosition, centerDisplayed,
+         averagePosition, centerDisplayed,
          saveImage, loadImage, saveContents, copyContents, tableRow };

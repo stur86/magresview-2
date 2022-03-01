@@ -30,8 +30,8 @@ const initialPlotsState = {
     plots_max_x: 100.0,
     plots_min_y: 0,
     plots_max_y: 1.0,
+    plots_peak_width: 2.0,
     plots_x_steps: 100,
-    plots_x_axis: null,
     plots_data: null
 };
 
@@ -87,6 +87,20 @@ class PlotsInterface extends DataCheckInterface {
             type: 'update',
             data: {
                 plots_show_grid: v
+            }
+        });
+    }
+
+    get peakW() {
+        return this.state.plots_peak_width;
+    }
+
+    set peakW(v) {
+        this.dispatch({
+            type: 'update',
+            data: {
+                plots_peak_width: v,
+                listen_update: [Events.PLOTS_RECALC]
             }
         });
     }

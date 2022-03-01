@@ -69,6 +69,11 @@ function MVSidebarPlots(props) {
             <MVText size='5' value={pltint.rangeY[0]} onChange={setMinY} filter='[\-]*[0-9]*(?:\.[0-9]*)?' /> &nbsp; to &nbsp; 
             <MVText size='5' value={pltint.rangeY[1]} onChange={setMaxY} filter='[\-]*[0-9]*(?:\.[0-9]*)?' />
         </div>
+        <span className='sep-1' />
+        <div className='mv-sidebar-row' style={{alignItems: 'center'}}>
+        Peak width: &nbsp;
+            <MVText size='5' value={pltint.peakW} onChange={(v) => { pltint.peakW = v; }} filter='[\-]*[0-9]*(?:\.[0-9]*)?' /> ppm
+        </div>
     </MagresViewSidebar>);
 }
 
