@@ -20,6 +20,7 @@ import MVFile from '../../controls/MVFile';
 import MVButton from '../../controls/MVButton';
 import MVCheckBox from '../../controls/MVCheckBox';
 import MVText from '../../controls/MVText';
+import MVRadioButton, { MVRadioGroup } from '../../controls/MVRadioButton';
 
 import { usePlotsInterface } from '../store';
 
@@ -47,8 +48,13 @@ function MVSidebarPlots(props) {
     return (<MagresViewSidebar show={props.show} title="Spectral plots">
         
         <div className='mv-sidebar-block'>
-            <MVButton onClick={() => { pltint.show = true; }}>Show 1D plot</MVButton>
-
+            <MVRadioGroup label='Plot mode' selected={pltint.mode} onSelect={(v) => {pltint.mode = v}}>
+                <MVRadioButton value='none'>None</MVRadioButton>
+                <MVRadioButton value='bars-1d'>1D, bars</MVRadioButton>
+                <MVRadioButton value='line-1d'>1D, Lorentzian broadening</MVRadioButton>
+            </MVRadioGroup>
+        </div>
+        <div className='mv-sidebar-block'>
             Background spectrum image
             <MVFile filetypes={formats} onSelect={(f) => { pltint.loadBkgImage(f); }} notext={false} multiple={false}/>
             <MVButton onClick={() => { pltint.clearBkgImage(); }}>Clear image</MVButton>

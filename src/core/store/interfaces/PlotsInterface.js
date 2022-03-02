@@ -19,7 +19,7 @@ import { makeSelector, DataCheckInterface } from '../utils';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
 const initialPlotsState = {
-    plots_show: false,
+    plots_mode: 'none',
     plots_q2_shifts: true,
     plots_show_axes: true,
     plots_show_grid: true,
@@ -37,15 +37,15 @@ const initialPlotsState = {
 
 class PlotsInterface extends DataCheckInterface {
 
-    get show() {
-        return this.state.plots_show;
+    get mode() {
+        return this.state.plots_mode;
     }
 
-    set show(v) {
+    set mode(v) {
         this.dispatch({
             type: 'update',
             data: {
-                plots_show: v,
+                plots_mode: v,
                 listen_update: [Events.PLOTS_RECALC]
             }
         });

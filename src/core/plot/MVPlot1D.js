@@ -23,8 +23,8 @@ function MVPlot1D(props) {
 
     const image = pltint.bkgImage;
 
-    let width = 400;
-    let height = 300;
+    let width = 640;
+    let height = 480;
 
     if (image) {
         width = image.width;
@@ -56,14 +56,39 @@ function MVPlot1D(props) {
     if (!pltint.showAxes)
         layers = _.without(layers, 'axes');
 
-    return (<MVModal title="Spectral 1D plot" display={pltint.show}
-        noFooter={true} resizable={true} draggable={true} onClose={() => { pltint.show = false; }}>
+    const show = (pltint.mode !== 'none');
+
+    let lineprops = {};
+    // Custom mode-dependent properties
+    switch (pltint.mode) {
+        case 'line-1d':
+            lineprops = {
+                enablePoints: false                
+            }
+            break;
+        case 'bars-1d':
+            lineprops = {
+                pointSymbol: ((p) => {
+                    return (<rect width={p.size} height={height-(state.top+state.bottom)} color={p.borderColor} 
+                                  fill={p.color} strokeWidth={p.borderWidth}></rect>);
+                }),
+                pointLabelYOffset: 0,
+                lineWidth: 0
+            };
+            break;
+        default: 
+            break;
+    }
+
+    return (<MVModal title="Spectral 1D plot" display={show}
+        noFooter={true} resizable={true} draggable={true} onClose={() => { pltint.mode = 'none'; }}>
         <div style={{backgroundColor: 'white', color: 'black'}}>
-        {pltint.show?
+        {show?
             <Line
-            enablePoints={false}
+            {...lineprops}
             width={width}
             height={height} 
+            colors={{ scheme: 'category10' }}
             data={pltint.data}
             margin={state}
             xScale={{

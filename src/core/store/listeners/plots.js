@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { getSel } from '../utils';
+import { getSel, getNMRData } from '../utils';
 
 function plotsListener(state) {
 
@@ -12,47 +12,57 @@ function plotsListener(state) {
     // Get target atom view
     const app = state.app_viewer;
     const view = getSel(app);
+    const ref_table = state.ms_references;
 
-    if (!view) {
+    // Is there even anything to plot?
+    let noplot = !view;
+    noplot = noplot || (isNaN(minx) || isNaN(maxx) || isNaN(miny) || isNaN(maxy));
+    noplot = noplot || (state.plots_mode === 'none');
+
+    if (noplot) {
         return {
-            plots_data: [{
-                id: 'Test',
-                data: [
-                    {x: minx, y: 0},
-                    {x: 48, y: 0},
-                    {x: 50, y: 1},
-                    {x: 52, y: 0},
-                    {x: maxx, y: 0},
-                ]
-            }]
+            plots_data: []
         };
     }
 
-    // If any is NaN, ignore
-    if (isNaN(minx) || isNaN(maxx) || isNaN(miny) || isNaN(maxy)) {
-        return {};
-    }
+    let xaxis = [];
+    let yaxis = [];
 
-    // Get out MS data
-    const ms = view.map((a) => (a.getArrayValue('ms')));
     const w = state.plots_peak_width;
-    let peaks = ms.map((T) => (T.isotropy));
+    const n = state.plots_x_steps;
+    const peaks = getNMRData(view, 'iso', 'ms', ref_table)[1];         
+    const rangepeaks = peaks.filter((x) => (x+w >= minx && x-w <= maxx));
 
-    // Find the relevant peaks
-    peaks = peaks.filter((x) => (x+w >= minx && x-w <= maxx));
+    switch(state.plots_mode) {
+        case 'bars-1d':
 
-    function peak(x, x0) {
-        return 0.5/Math.PI*w/(Math.pow(x-x0, 2)+0.25*w*w);  // Lorentzian peak
+            xaxis = rangepeaks;
+            yaxis = xaxis.map(() => (maxy));
+
+            break;
+        case 'line-1d':
+
+            function lorentzian(x, x0, w) {
+                return 0.5/Math.PI*w/(Math.pow(x-x0, 2)+0.25*w*w);  // Lorentzian peak
+            }
+
+            xaxis = _.range(n).map((i) => (minx + (maxx-minx)*i/(n-1)));
+            yaxis = xaxis.map((x) => {
+                return rangepeaks.reduce((s, x0) => (s + lorentzian(x, x0, w)), 0);
+            });
+
+            break;
+        default:
+            break;
     }
+
 
     // Build x range
-    const n = state.plots_x_steps;
-    const xrange = _.range(n).map((i) => (minx + (maxx-minx)*i/(n-1)));    
     const data = [{
         id: 'Curve',
-        data: xrange.map((x) => ({
+        data: xaxis.map((x, i) => ({
             x: x,
-            y: peaks.reduce((s, x0) => (s + peak(x, x0)), 0)
+            y: yaxis[i]
         }))
     }];
 
