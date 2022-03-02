@@ -20,6 +20,7 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
 const initialPlotsState = {
     plots_mode: 'none',
+    plots_use_refs: false,
     plots_q2_shifts: true,
     plots_show_axes: true,
     plots_show_grid: true,
@@ -35,6 +36,16 @@ const initialPlotsState = {
     plots_data: null
 };
 
+function makePlotAction(data) {
+    return {
+        type: 'update',
+        data: {
+            ...data,
+            listen_update: [Events.PLOTS_RECALC]
+        }
+    };
+}
+
 class PlotsInterface extends DataCheckInterface {
 
     get mode() {
@@ -42,13 +53,7 @@ class PlotsInterface extends DataCheckInterface {
     }
 
     set mode(v) {
-        this.dispatch({
-            type: 'update',
-            data: {
-                plots_mode: v,
-                listen_update: [Events.PLOTS_RECALC]
-            }
-        });
+        this.dispatch(makePlotAction({ plots_mode: v }));
     }
 
     get useQ2Shift() {
@@ -56,14 +61,16 @@ class PlotsInterface extends DataCheckInterface {
     }
 
     set useQ2Shift(v) {
-        this.dispatch({
-            type: 'update',
-            data: {
-                plots_q2_shifts: v,
-                listen_update: [Events.PLOTS_RECALC]
-            }
-        });
+        this.dispatch(makePlotAction({ plots_q2_shifts: v }));
     }
+
+    get useRefTable() {
+        return this.state.plots_use_refs;
+    }
+
+    set useRefTable(v) {
+        this.dispatch(makePlotAction({ plots_use_refs: v }));
+    }   
 
     get showAxes() {
         return this.state.plots_show_axes;
@@ -96,13 +103,7 @@ class PlotsInterface extends DataCheckInterface {
     }
 
     set peakW(v) {
-        this.dispatch({
-            type: 'update',
-            data: {
-                plots_peak_width: v,
-                listen_update: [Events.PLOTS_RECALC]
-            }
-        });
+        this.dispatch(makePlotAction({ plots_peak_width: v }));
     }
 
     get rangeX() {

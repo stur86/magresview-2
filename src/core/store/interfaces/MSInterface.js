@@ -44,7 +44,7 @@ function msSetReferences(state, refs=null) {
     // are needed
     return {
         ms_references: new_refs,
-        listen_update: [Events.MS_LABELS, Events.CSCALE]
+        listen_update: [Events.MS_LABELS, Events.CSCALE, Events.PLOTS_RECALC]
     };
 }
 

@@ -13,6 +13,8 @@ function plotsListener(state) {
     const app = state.app_viewer;
     const view = getSel(app);
     const ref_table = state.ms_references;
+    const use_refs = state.plots_use_refs;
+    const nmr_mode = use_refs? 'cs' : 'iso';
 
     // Is there even anything to plot?
     let noplot = !view;
@@ -30,7 +32,7 @@ function plotsListener(state) {
 
     const w = state.plots_peak_width;
     const n = state.plots_x_steps;
-    const peaks = getNMRData(view, 'iso', 'ms', ref_table)[1];         
+    const peaks = getNMRData(view, nmr_mode, 'ms', ref_table)[1];         
     const rangepeaks = peaks.filter((x) => (x+w >= minx && x-w <= maxx));
 
     switch(state.plots_mode) {

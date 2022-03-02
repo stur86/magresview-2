@@ -55,6 +55,9 @@ function MVSidebarPlots(props) {
             </MVRadioGroup>
         </div>
         <div className='mv-sidebar-block'>
+            <MVCheckBox checked={pltint.useRefTable} onCheck={(v) => { pltint.useRefTable = v; }}>Show chemical shifts (use references)</MVCheckBox>
+        </div>
+        <div className='mv-sidebar-block'>
             Background spectrum image
             <MVFile filetypes={formats} onSelect={(f) => { pltint.loadBkgImage(f); }} notext={false} multiple={false}/>
             <MVButton onClick={() => { pltint.clearBkgImage(); }}>Clear image</MVButton>
@@ -78,7 +81,7 @@ function MVSidebarPlots(props) {
         <span className='sep-1' />
         <div className='mv-sidebar-row' style={{alignItems: 'center'}}>
         Peak width: &nbsp;
-            <MVText size='5' value={pltint.peakW} onChange={(v) => { pltint.peakW = v; }} filter='[\-]*[0-9]*(?:\.[0-9]*)?' /> ppm
+            <MVText size='3' value={pltint.peakW} onChange={(v) => { pltint.peakW = v; }} filter='[\-]*[0-9]*(?:\.[0-9]*)?' /> &nbsp; ppm
         </div>
     </MagresViewSidebar>);
 }
