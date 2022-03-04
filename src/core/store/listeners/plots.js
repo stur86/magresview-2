@@ -30,8 +30,8 @@ function plotsListener(state) {
     let xaxis = [];
     let yaxis = [];
 
-    const w = state.plots_peak_width;
-    const n = state.plots_x_steps;
+    const w = parseFloat(state.plots_peak_width);
+    const n = parseInt(state.plots_x_steps);
     const peaks = getNMRData(view, nmr_mode, 'ms', ref_table)[1];         
     const rangepeaks = peaks.filter((x) => (x+w >= minx && x-w <= maxx));
 
